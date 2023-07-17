@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "trainingonline-d1364": {
+      "hosting": {
+        "Training": [
+          "trainingonline-d1364"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "trainingonline-d1364"
+  }
+}
