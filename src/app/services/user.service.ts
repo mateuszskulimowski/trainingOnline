@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, Subject, from } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { UserModel } from '../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -11,10 +12,10 @@ export class UserService {
 
   constructor(private _angularFirestore: AngularFirestore) {}
 
-  addUser(authId: string): Observable<void> {
-    return from(
-      this._angularFirestore.collection('users').add({ authId: authId })
-    ).pipe(map(() => void 0));
+  addUser(user: UserModel): Observable<void> {
+    return from(this._angularFirestore.collection('users').add(user)).pipe(
+      map(() => void 0)
+    );
   }
 
   //   getOneUser(authId: string): Observable<any> {
