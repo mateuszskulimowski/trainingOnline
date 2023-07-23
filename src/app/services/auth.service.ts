@@ -63,7 +63,7 @@ export class AuthService {
           email: user.email,
           isVerified: user.emailVerified,
         };
-        console.log(context);
+
         return void 0;
       })
     );
