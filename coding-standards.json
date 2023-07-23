@@ -6,15 +6,35 @@
       "router": ["CONSTRUCTOR"],
       "activatedRoute": ["CONSTRUCTOR"]
     },
+    "page": {
+      "model": ["PROPERTY"],
+      "service": ["CONSTRUCTOR"],
+      "router": ["CONSTRUCTOR"],
+      "activatedRoute": ["CONSTRUCTOR"]
+    },
+    "directive": {
+      "service": ["CONSTRUCTOR"],
+      "router": ["CONSTRUCTOR"]
+    },
     "service": {
       "httpClient": ["CONSTRUCTOR"],
-      "model": ["PARAMETER", "RETURN"]
+      "AngularFirestore": ["CONSTRUCTOR"],
+      "AngularFireAuth": ["CONSTRUCTOR"],
+      "model": ["PARAMETER", "RETURN", "PROPERTY"]
     }
   },
   "external": {
     "httpClient": {
       "type": "HttpClient",
       "module": "@angular/common/http"
+    },
+    "AngularFirestore": {
+      "type": "AngularFirestore",
+      "module": "@angular/fire/compat/firestore"
+    },
+    "AngularFireAuth": {
+      "type": "AngularFireAuth",
+      "module": "@angular/fire/compat/auth"
     },
     "router": {
       "type": "Router",
@@ -36,11 +56,36 @@
         "changeDetectionStrategy": "OnPush"
       }
     },
-    "model": {
+    "page": {
+      "type": "ANGULAR_COMPONENT",
+      "folder": "pages/$name$",
+      "config": {
+        "stylesExtension": "none",
+        "viewEncapsulation": "None",
+        "selector": "generated",
+        "changeDetectionStrategy": "OnPush"
+      }
+    },
+    "directive": {
+      "type": "ANGULAR_DIRECTIVE",
+      "folder": "directives/$name$",
+      "id": "directive",
+      "suffix": "Directive"
+    },
+    "queryModel": {
       "type": "DATA_STRUCTURE"
     },
     "service": {
       "type": "ANGULAR_SERVICE"
+    },
+    "guard": {
+      "type": "ANGULAR_GUARD"
+    },
+    "pipe": {
+      "type": "ANGULAR_PIPE"
+    },
+    "model": {
+      "type": "DATA_STRUCTURE"
     }
   }
 }
