@@ -1,0 +1,101 @@
+<form [formGroup]="planForm">
+  <div>
+    <mat-form-field appearance="fill"
+      ><mat-label>Exercise</mat-label
+      ><input
+        matInput
+        type="text"
+        placeholder="Exercise"
+        formControlName="exercise"
+        required
+      /><mat-error *ngIf="planForm.get('exercise')!.invalid"
+        >exercise is invalid</mat-error
+      ></mat-form-field
+    >
+  </div>
+  <div>
+    <mat-form-field appearance="fill"
+      ><mat-label>Comment</mat-label
+      ><input
+        matInput
+        type="text"
+        placeholder="Comment"
+        formControlName="comment"
+        required
+      /><mat-error *ngIf="planForm.get('comment')!.invalid"
+        >comment is invalid</mat-error
+      ></mat-form-field
+    >
+  </div>
+  <div><button (click)="addQuantity()">add quantity</button></div>
+
+  <ng-container formArrayName="quantityExercise">
+    <ng-container
+      *ngFor="let quantity of quantityExercise.controls; let i = index"
+    >
+      <div [formGroupName]="i">
+        <mat-form-field appearance="fill"
+          ><mat-label>Rep</mat-label
+          ><input
+            matInput
+            type="text"
+            placeholder="Rep"
+            formControlName="rep"
+            required
+          />
+          <!-- <mat-error *ngIf="planForm.get('rep')?.invalid"
+            >rep is invalid</mat-error
+          > -->
+        </mat-form-field>
+        <mat-form-field appearance="fill"
+          ><mat-label>Set</mat-label
+          ><input
+            matInput
+            type="text"
+            placeholder="Set"
+            formControlName="set"
+            required
+          />
+          <mat-error *ngIf="planForm.get('set')?.invalid"
+            >set is invalid</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="fill"
+          ><mat-label>Value</mat-label
+          ><input
+            matInput
+            type="text"
+            placeholder="Value"
+            formControlName="value"
+            required
+          />
+          <mat-error *ngIf="planForm.get('value')?.valid"
+            >value is invalid</mat-error
+          >
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+  <div>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      (click)="onPlanFormSubmitted(planForm)"
+    >
+      Submit
+    </button>
+  </div>
+</form>
+<!-- {{ planForm.get("quantityExercise")?.value | json }} -->
+<mat-card
+  ><mat-card-title></mat-card-title
+  ><mat-card-content
+    ><div class="container">
+      <div class="row">
+        <div class="col"><input /></div>
+        <div class="col">d</div>
+      </div>
+    </div></mat-card-content
+  ></mat-card
+>
