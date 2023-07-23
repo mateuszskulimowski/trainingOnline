@@ -29,13 +29,22 @@ export class RegistrationComponent {
   ) {}
 
   onRegisterFormSubmitted(registerForm: FormGroup): void {
+    if (registerForm.invalid) {
+      return;
+    }
     this._authService
       .register({
         email: registerForm.get('email')?.value,
         password: registerForm.get('email')?.value,
       })
       .subscribe((response) => {
-        this._userService.addUser(response.user.multiFactor.user.uid);
+        this._userService.addUser({
+          name: registerForm.get('name')?.value,
+          lastName: registerForm.get('lastName')?.value,
+          email: registerForm.get('email')?.value,
+          role: 'user',
+          authId: response.user.multiFactor.user.uid,
+        });
       });
   }
   load() {
