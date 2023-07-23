@@ -10,7 +10,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { QuantityExerciseModel } from 'src/app/models/quantity-exercise.model';
+import { Observable } from 'rxjs';
+import { TrainingElementModel } from '../../models/training-element.model';
+import { TrainingService } from '../../services/training.service';
 
 @Component({
   selector: 'app-create-plan',
@@ -24,7 +26,13 @@ export class CreatePlanComponent {
     comment: new FormControl(),
     quantityExercise: new FormArray([]),
   });
-  constructor(private _fb: FormBuilder) {}
+  readonly trainingExercises$: Observable<TrainingElementModel[]> =
+    this._trainingService.traning$;
+
+  constructor(
+    private _fb: FormBuilder,
+    private _trainingService: TrainingService
+  ) {}
   onPlanFormSubmitted(planForm: FormGroup): void {
     console.log(planForm.value);
   }
@@ -33,11 +41,21 @@ export class CreatePlanComponent {
   }
   addQuantity(): void {
     const quantityForm = this._fb.group({
-      set: ['', Validators.required],
-      rep: ['', Validators.required],
-      value: ['', Validators.required],
+      set: [],
+      rep: [],
+      value: [],
     });
     this.quantityExercise.push(quantityForm);
+  }
+
+  addTrainingToContext(planForm: FormGroup) {
+    this._trainingService
+      .addTrainingToContext({
+        exercise: planForm.get('exercise')?.value,
+        comment: planForm.get('comment')?.value,
+        quantity: planForm.get('quantityExercise')?.value,
+      })
+      .subscribe();
   }
 
   // private _getQuantityExercise(quantity: QuantityExerciseModel): void {
