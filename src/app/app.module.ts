@@ -11,6 +11,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getDatabase, provideDatabase } from '@angular/fire/database';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { NavigationComponentModule } from './components/navigation/navigation.component-module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,9 +25,10 @@ import { AngularFireModule } from '@angular/fire/compat';
     provideDatabase(() => getDatabase()),
     provideFirestore(() => getFirestore()),
     AngularFireModule.initializeApp(environment.firebase),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NavigationComponentModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
