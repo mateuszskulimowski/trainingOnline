@@ -14,14 +14,18 @@ export class TrainingService {
     this._traningSubject.asObservable();
 
   constructor(private _client: AngularFirestore) {}
-  addTraining(plan: {
-    exercise: string;
-    comment: string;
-    quantityExercise: QuantityExerciseModel[];
-  }): Observable<void> {
-    return from(this._client.collection('plans').add(plan)).pipe(
-      map(() => void 0)
-    );
+  addTraining(): Observable<void> {
+    return from(
+      this._client
+        .collection('plans')
+        .add({
+          trainingElement: this._traningSubject.value,
+          userId: '',
+          weekId: '',
+          monthId: '',
+          yearId: '',
+        })
+    ).pipe(map(() => void 0));
   }
 
   addTrainingToContext(
@@ -29,5 +33,10 @@ export class TrainingService {
   ): Observable<void> {
     this._traningSubject.next([...this._traningSubject.value, trainingElement]);
     return of(void 0);
+  }
+  getAllPlans(): Observable<TrainingModel[]> {
+    return this._client
+      .collection<TrainingModel>('plans')
+      .valueChanges({ idField: 'id' });
   }
 }
