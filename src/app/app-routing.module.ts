@@ -10,7 +10,18 @@ import { LoginComponentModule } from './components/login/login.component-module'
 import { TrainingComponentModule } from './components/training/training.component-module';
 
 @NgModule({
-  imports: [RouterModule.forRoot([{ path: 'create-plan', component: CreatePlanComponent }, { path: 'register', component: RegistrationComponent }, { path: 'login', component: LoginComponent }, { path: 'plans', component: TrainingComponent }]), CreatePlanComponentModule, RegistrationComponentModule, LoginComponentModule, TrainingComponentModule],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot([
+      { path: 'create-plan', component: CreatePlanComponent },
+      { path: 'register', component: RegistrationComponent },
+      { path: 'login', component: LoginComponent },
+      { path: 'plans', component: TrainingComponent },
+    ]),
+    CreatePlanComponentModule,
+    RegistrationComponentModule,
+    LoginComponentModule,
+    TrainingComponentModule,
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
