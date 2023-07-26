@@ -51,3 +51,10 @@ body {
 .font-family {
   font-family: "Poppins", sans-serif !important;
 }
+.mat-column-index {
+  width: 40px;
+}
+.mat-mdc-table tr.mat-mdc-row:hover {
+  background-color: #fffafa;
+  cursor: pointer;
+}

@@ -1,13 +1,9 @@
 <form [formGroup]="planForm">
   <div>
-    <mat-form-field appearance="fill"
-      ><mat-label>Exercise</mat-label
-      ><input
-        matInput
-        type="text"
-        placeholder="Exercise"
-        formControlName="exercise"
-      /><mat-error *ngIf="planForm.get('exercise')!.invalid"
+    <mat-form-field appearance="fill" [style.width.px]="50">
+      <!-- <mat-label>Exercise</mat-label> -->
+      <input matInput type="text" formControlName="exercise" /><mat-error
+        *ngIf="planForm.get('exercise')!.invalid"
         >exercise is invalid</mat-error
       ></mat-form-field
     >

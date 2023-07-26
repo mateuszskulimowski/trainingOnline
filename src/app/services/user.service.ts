@@ -17,7 +17,11 @@ export class UserService {
       map(() => void 0)
     );
   }
-
+  getAllUsers(): Observable<UserModel[]> {
+    return this._angularFirestore
+      .collection<UserModel>('users')
+      .valueChanges({ idField: 'id' });
+  }
   //   getOneUser(authId: string): Observable<any> {
   //     // console.log(authId);
   //     return this._angularFirestore

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatListModule } from '@angular/material/list';
-import { TrainingComponent } from './training.component';
+import { UserPlansComponent } from './user-plans.component';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   imports: [MatListModule, CommonModule, MatTabsModule],
-  declarations: [TrainingComponent],
+  declarations: [UserPlansComponent],
   providers: [],
-  exports: [TrainingComponent],
+  exports: [UserPlansComponent],
 })
-export class TrainingComponentModule {}
+export class UserPlansComponentModule {}
