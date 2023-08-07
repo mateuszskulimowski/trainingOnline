@@ -11,4 +11,5 @@ export interface TrainingModel {
   readonly weekId: string;
   readonly monthId: string;
   readonly yearId: string;
+  readonly trainerId: string;
 }

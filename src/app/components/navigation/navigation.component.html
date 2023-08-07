@@ -6,12 +6,18 @@
   </div>
 
   <div>
-    <button class="mx-2" mat-button [routerLink]="'/plans'">Treningi</button
-    ><button class="mx-2" mat-button [routerLink]="'/create-plan'">
-      Stwórz plan
+    <button class="mx-2" mat-button [routerLink]="'/training-plans'">
+      Treningi
     </button>
+    <!-- <button class="mx-2" mat-button [routerLink]="'/create-plan'">
+      Stwórz plan
+    </button> -->
     <button class="mx-2" mat-button [routerLink]="'/users-list'">
       Podopieczni
     </button>
   </div></mat-toolbar
-><ng-content></ng-content>
+>
+
+<mat-sidenav-container>
+  <mat-sidenav-content> <ng-content></ng-content></mat-sidenav-content
+></mat-sidenav-container>

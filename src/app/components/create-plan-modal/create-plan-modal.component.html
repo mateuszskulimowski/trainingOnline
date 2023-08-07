@@ -1,0 +1,214 @@
+<form [formGroup]="planForm">
+  <div class="container text-center p-5">
+    <div class="row">
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Rok</mat-label>
+          <mat-select formControlName="year">
+            <mat-option
+              *ngFor="let year of years$ | async"
+              value="{{ year.id }}"
+              >{{ year.value }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Miesiac</mat-label>
+          <mat-select formControlName="month">
+            <mat-option
+              *ngFor="let month of months$ | async"
+              [value]="month.id"
+              >{{ month.value }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <mat-form-field>
+          <mat-label>Tydzień</mat-label>
+          <mat-select formControlName="week">
+            <mat-option
+              *ngFor="let week of weeks$ | async"
+              value="{{ week.id }}"
+              >{{ week.value }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="w-100 pb-2"
+          ><mat-label>Exercise</mat-label
+          ><input
+            matInput
+            type="text"
+            placeholder="Exercise"
+            formControlName="exercise"
+            required
+          /><mat-error *ngIf="planForm.get('exercise')!.invalid"
+            >exercise is invalid</mat-error
+          ></mat-form-field
+        >
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill" class="w-100 pb-2"
+          ><mat-label>Comment</mat-label
+          ><input
+            matInput
+            type="text"
+            placeholder="Comment"
+            formControlName="comment"
+            required
+          /><mat-error *ngIf="planForm.get('comment')!.invalid"
+            >comment is invalid</mat-error
+          ></mat-form-field
+        >
+      </div>
+    </div>
+
+    <ng-container formArrayName="quantityExercise"
+      ><ng-container
+        *ngFor="
+          let quantityExercise of quantityExercise.controls;
+          let i = index
+        "
+      >
+        <div [formGroupName]="i" class="row pb-2">
+          <div class="col">
+            <mat-form-field appearance="fill"
+              ><mat-label>Rep</mat-label
+              ><input
+                matInput
+                type="text"
+                placeholder="Rep"
+                formControlName="rep"
+                required
+              />
+              <!-- <mat-error *ngIf="planForm.get('rep')!.invalid"
+                  >rep is invalid</mat-error
+                > -->
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill"
+              ><mat-label>Set</mat-label
+              ><input
+                matInput
+                type="text"
+                placeholder="Set"
+                formControlName="set"
+                required
+              />
+              <!-- <mat-error *ngIf="planForm.get('set')!.invalid"
+                  >set is invalid</mat-error
+                > -->
+            </mat-form-field>
+          </div>
+          <div class="col">
+            <mat-form-field appearance="fill"
+              ><mat-label>Value</mat-label
+              ><input
+                matInput
+                type="text"
+                placeholder="Value"
+                formControlName="value"
+              />
+              <!-- <mat-error *ngIf="planForm.get('value')!.invalid"
+                  >value is invalid</mat-error
+                > -->
+            </mat-form-field>
+          </div>
+        </div>
+      </ng-container></ng-container
+    >
+
+    <!-- <div class="col py-2">
+        <button type="submit" mat-raised-button color="primary">Submit</button>
+      </div> -->
+
+    <div class="row justify-content-center pb-2">
+      <div class="col-4">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="addQuantity()"
+        >
+          Add quantity
+        </button>
+      </div>
+    </div>
+    <div class="row justify-content-center pb-2">
+      <div class="col-4">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="addTrainingExercise(planForm)"
+        >
+          Add exercise
+        </button>
+      </div>
+    </div>
+    <div class="row justify-content-center pb-2">
+      <div class="col-4">
+        <button
+          type="button"
+          mat-raised-button
+          color="primary"
+          (click)="onPlanFormSubmitted(planForm)"
+        >
+          Add training
+        </button>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- {{ trainingExercises$ | async | json }} -->
+<mat-accordion>
+  <mat-expansion-panel hideToggle class="m-0">
+    <mat-expansion-panel-header>
+      <!-- <mat-panel-title> This is the expansion title </mat-panel-title> -->
+      <mat-panel-description class="justify-content-center">
+        TRAINING
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <div class="container" *ngFor="let training of trainingExercises$ | async">
+      <div class="row">
+        <div class="col-1">{{ training.index }}</div>
+        <div class="col-6 text-start">
+          <div class="row">
+            <span class="my-2"><b>Exercise</b></span>
+            {{ training.exercise }}
+          </div>
+
+          <div class="row">
+            <span class="my-2"><b>Comment</b></span>
+            {{ training.comment }}
+          </div>
+        </div>
+        <div class="col text-center" *ngFor="let quantity of training.quantity">
+          <div class="row justify-content-center">
+            <div class="col-1 fs-5 d-flex align-items-center">
+              <p>{{ quantity.set }}</p>
+            </div>
+            <div class="col-2">
+              <div class="row">
+                <p>{{ quantity.value }}</p>
+              </div>
+              <div class="row">
+                <p>{{ quantity.rep }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="px-3"><mat-divider></mat-divider></span>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

@@ -1,0 +1,23 @@
+<ng-container *ngIf="user$ | async as user">
+  <mat-card class="height-100"
+    ><mat-card-title class="text-center"
+      >{{ user.name }} {{ user.lastName }}</mat-card-title
+    ><mat-card-content
+      ><div class="contarier">
+        <div class="row">
+          <div
+            class="col d-flex justify-content-center"
+            *ngIf="userId$ | async as userId"
+          >
+            <button mat-raised-button [routerLink]="'/create-plan/' + userId">
+              Dodaj trening
+            </button>
+          </div>
+          <div class="col d-flex justify-content-center">
+            <button mat-raised-button>Treningi</button>
+          </div>
+        </div>
+      </div></mat-card-content
+    ></mat-card
+  >
+</ng-container>

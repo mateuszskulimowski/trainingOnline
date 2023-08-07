@@ -31,8 +31,6 @@ export class LoginComponent {
         email: loginForm.get('email')?.value,
         password: loginForm.get('password')?.value,
       })
-      .subscribe(() => {
-        this._authService.load().subscribe();
-      });
+      .subscribe();
   }
 }

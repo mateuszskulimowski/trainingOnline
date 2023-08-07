@@ -4,9 +4,11 @@ import {
   Input,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UserModel } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-user-list',
@@ -20,5 +22,8 @@ export class UserListComponent {
     .getAllUsers()
     .pipe(map((users) => users.map((user, i) => ({ ...user, index: i + 1 }))));
 
-  constructor(private _userService: UserService) {}
+  constructor(
+    private _userService: UserService,
+    private _authService: AuthService
+  ) {}
 }

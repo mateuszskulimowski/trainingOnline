@@ -44,6 +44,7 @@ export class RegistrationComponent {
           email: registerForm.get('email')?.value,
           role: 'user',
           authId: response.user.multiFactor.user.uid,
+          trainerId: '',
         });
       });
   }

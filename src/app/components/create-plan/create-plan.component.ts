@@ -35,7 +35,7 @@ export class CreatePlanComponent {
   ) {}
   onPlanFormSubmitted(planForm: FormGroup): void {
     console.log(planForm.value);
-    this._trainingService.addTraining().subscribe();
+    // this._trainingService.addTraining().subscribe();
   }
   get quantityExercise(): FormArray {
     return this.planForm.controls['quantityExercise'] as FormArray;

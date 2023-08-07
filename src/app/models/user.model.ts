@@ -4,4 +4,6 @@ export interface UserModel {
   readonly email: string;
   readonly role: string;
   readonly authId: string;
+  readonly trainerId: string;
+  readonly id: string;
 }

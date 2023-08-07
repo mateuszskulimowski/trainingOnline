@@ -13,9 +13,16 @@ export class AuthService {
     new Subject<ResponseModel>();
   public response$: Observable<ResponseModel> =
     this._responseSubject.asObservable();
-  private _userContextSubject: Subject<string> = new Subject<string>();
-  public userContext$: Observable<string> =
-    this._userContextSubject.asObservable();
+  private _userContextSubject: Subject<{
+    id: string;
+    email: string;
+    isVerified: boolean;
+  }> = new Subject<{ id: string; email: string; isVerified: boolean }>();
+  public userContext$: Observable<{
+    id: string;
+    email: string;
+    isVerified: boolean;
+  }> = this._userContextSubject.asObservable();
 
   constructor(private _client: AngularFireAuth) {}
 
@@ -50,7 +57,9 @@ export class AuthService {
   getOne(): Observable<User | null> {
     return this._client.authState;
   }
-  load(): Observable<any> {
+  load(): Observable<
+    { id: string; email: string; isVerified: boolean } | undefined
+  > {
     return this.getOne().pipe(
       take(1),
       map((user) => {
@@ -63,8 +72,11 @@ export class AuthService {
           email: user.email,
           isVerified: user.emailVerified,
         };
-
-        return void 0;
+        console.log(context);
+        this._userContextSubject.next(
+          context as { id: string; email: string; isVerified: boolean }
+        );
+        return context as { id: string; email: string; isVerified: boolean };
       })
     );
   }
