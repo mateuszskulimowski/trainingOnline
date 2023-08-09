@@ -51,7 +51,9 @@ export class TrainingService {
   }
   getAllPlans(): Observable<TrainingModel[]> {
     return this._client
-      .collection<TrainingModel>('plans')
+      .collection<TrainingModel>('plans', (ref) =>
+        ref.orderBy('createAt', 'desc')
+      )
       .valueChanges({ idField: 'id' });
   }
 
