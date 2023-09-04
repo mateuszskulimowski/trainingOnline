@@ -4,17 +4,19 @@
       >{{ user.name }} {{ user.lastName }}</mat-card-title
     ><mat-card-content
       ><div class="contarier">
-        <div class="row">
-          <div
-            class="col d-flex justify-content-center"
-            *ngIf="userId$ | async as userId"
-          >
+        <div class="row" *ngIf="userId$ | async as userId">
+          <div class="col d-flex justify-content-center">
             <button mat-raised-button [routerLink]="'/create-plan/' + userId">
               Dodaj trening
             </button>
           </div>
           <div class="col d-flex justify-content-center">
-            <button mat-raised-button>Treningi</button>
+            <button
+              mat-raised-button
+              [routerLink]="'/training-plans/' + userId"
+            >
+              Treningi
+            </button>
           </div>
         </div>
       </div></mat-card-content

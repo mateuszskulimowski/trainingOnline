@@ -1,16 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
+  OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { ChoiseDateModel } from '../../models/choise-data.model';
 import { TrainingElementModel } from '../../models/training-element.model';
-import { YearModel } from '../../models/year.model';
-import { MonthModel } from '../../models/month.model';
-import { WeekModel } from '../../models/week.model';
 import { TrainingService } from '../../services/training.service';
 
 @Component({
@@ -19,47 +19,46 @@ import { TrainingService } from '../../services/training.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlanModalComponent {
+export class CreatePlanModalComponent implements OnDestroy {
+  @Input() date!: ChoiseDateModel;
+
   readonly planForm: FormGroup = new FormGroup({
-    exercise: new FormControl(
-      'Rwanie z pomostu bez rozrzutu stop+na proste od kolan'
-    ),
-    comment: new FormControl('Pamietaj by prowadzic bliskoo siebie'),
-    quantityExercise: new FormArray([]),
-    year: new FormControl(),
-    month: new FormControl(),
-    week: new FormControl(),
+    exercise: new FormControl(''),
+    comment: new FormControl(''),
+    quantityExercise: new FormArray([
+      new FormGroup({
+        set: new FormControl(''),
+        rep: new FormControl(''),
+        value: new FormControl(''),
+      }),
+    ]),
   });
+
   readonly trainingExercises$: Observable<TrainingElementModel[]> =
     this._trainingService.traning$;
-  readonly years$: Observable<YearModel[]> = this._trainingService.getYears();
+  readonly isEditForm$: Observable<{ isEdit: boolean; index: number }> =
+    this._trainingService.isEdit$;
 
-  readonly months$: Observable<MonthModel[]> =
-    this._trainingService.getMonths();
-
-  readonly weeks$: Observable<WeekModel[]> = this._trainingService.getWeeks();
+  private _editFieldSubject: BehaviorSubject<string> =
+    new BehaviorSubject<string>('comment');
+  public editField$: Observable<string> = this._editFieldSubject.asObservable();
 
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
     private _activatedRoute: ActivatedRoute
   ) {}
-  onPlanFormSubmitted(planForm: FormGroup): void {
+  ngOnDestroy(): void {
+    sessionStorage.removeItem('test');
+  }
+  onPlanFormSubmitted(): void {
     this._activatedRoute.params
       .pipe(
         switchMap((params) =>
-          this._trainingService.addTraining(
-            planForm.get('month')?.value,
-            planForm.get('year')?.value,
-            planForm.get('week')?.value,
-            params['userId']
-          )
+          this._trainingService.addTraining(this.date, params['userId'])
         )
       )
       .subscribe();
-
-    // console.log(planForm.value);
-    // this._trainingService.addTraining({month}).subscribe();
   }
 
   get quantityExercise(): FormArray {
@@ -73,7 +72,7 @@ export class CreatePlanModalComponent {
 
   addTrainingExercise(planForm: FormGroup): void {
     this._trainingService
-      .addTrainingToContext({
+      .addTrainingElementToContext({
         exercise: planForm.get('exercise')?.value,
         comment: planForm.get('comment')?.value,
         quantity: planForm.get('quantityExercise')?.value,
@@ -83,11 +82,18 @@ export class CreatePlanModalComponent {
         planForm.get('comment')?.reset();
 
         this.quantityExercise.clear();
+        const quantityForm = this._fb.group({ set: [], rep: [], value: [] });
+        this.quantityExercise.push(quantityForm);
       });
   }
-  // sortData(values: any, order: string) {
-  //   return values.sort((a: number, b: number) => {
-  //     return order === 'asc' ? a;
-  //   });
-  // }
+
+  onEditForms(index: number, exercise: TrainingElementModel): void {
+    // this._editFieldSubject.next(editField);
+    this.planForm.patchValue(exercise);
+    this._trainingService.editForm(true, index).subscribe();
+  }
+
+  editSubject(planForm: FormGroup, index: number) {
+    this._trainingService.editSubject(index, planForm.value).subscribe();
+  }
 }

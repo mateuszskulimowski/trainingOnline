@@ -64,7 +64,7 @@ body {
 .mat-column-email {
   width: 80px;
 }
-.mat-mdc-table tr.mat-mdc-row:hover {
+.mat-mdc-table tr.mat-mdc-row:hover .hover:hover {
   background-color: #fffafa;
   cursor: pointer;
 }
@@ -79,4 +79,8 @@ body {
 }
 .mat-sidenav-container {
   background: none;
+}
+.hover:hover {
+  background-color: #fffafa;
+  cursor: pointer;
 }

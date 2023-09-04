@@ -1,43 +1,14 @@
-<form [formGroup]="filterForm">
-  <div class="container">
-    <div class="row">
-      <div class="col">
-        <mat-form-field appearance="fill">
-          <mat-label>Choose an option</mat-label>
-          <mat-select formControlName="year">
-            <mat-option *ngFor="let item of years$ | async" [value]="item.id">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field appearance="fill">
-          <mat-label>Choose an option</mat-label>
-          <mat-select formControlName="month">
-            <mat-option *ngFor="let item of months$ | async" [value]="item.id">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col">
-        <mat-form-field appearance="fill">
-          <mat-label>Choose an option</mat-label>
-          <mat-select formControlName="week">
-            <mat-option *ngFor="let item of weeks$ | async" [value]="item.id">
-              {{ item.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-    </div>
-  </div>
-</form>
 <mat-accordion>
   <mat-expansion-panel *ngFor="let training of trainingPlans$ | async">
     <mat-expansion-panel-header>
-      <mat-panel-title> TRENING</mat-panel-title>
+      <button
+        type="button"
+        class="btn btn-block bg-cadetblue text-ghostwhite"
+        (click)="editTraining(training); $event.stopPropagation()"
+      >
+        Edytuj trening
+      </button>
+      <mat-panel-title> I Tydzien </mat-panel-title>
       <mat-panel-description> {{ training.id }} </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="container" *ngFor="let training of training.trainingElement">

@@ -4,9 +4,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +18,7 @@ export class LoginComponent {
     password: new FormControl(),
   });
 
-  constructor(
-    private _authService: AuthService,
-    private _userService: UserService
-  ) {}
+  constructor(private _authService: AuthService) {}
 
   onLoginFormSubmitted(loginForm: FormGroup): void {
     this._authService

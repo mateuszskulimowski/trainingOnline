@@ -4,11 +4,11 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { CreatePlanModalComponent } from './create-plan-modal.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
-import { SortPipeModule } from 'src/app/pipes/sort.pipe-module';
+import { MatIconModule } from '@angular/material/icon';
+import { CreatePlanModalComponent } from './create-plan-modal.component';
 
 @NgModule({
   imports: [
@@ -20,10 +20,10 @@ import { SortPipeModule } from 'src/app/pipes/sort.pipe-module';
     MatExpansionModule,
     MatDividerModule,
     MatSelectModule,
-    SortPipeModule,
+    MatIconModule
   ],
   declarations: [CreatePlanModalComponent],
   providers: [],
   exports: [CreatePlanModalComponent],
 })
-export class CreatePlanModalComponentModule {}
+export class CreatePlanModalComponentModule { }

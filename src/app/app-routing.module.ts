@@ -22,15 +22,16 @@ import { TrainingPlansPageModule } from './pages/user-plans/training-plans.page-
       { path: 'users-list', component: UserListPage },
       { path: 'user/:userId', component: UserDetailsPage },
       { path: 'create-plan/:userId', component: CreatePlanUsersPage },
-      { path: 'training-plans', component: TrainingPlansPage }
+      { path: 'training-plans', component: TrainingPlansPage },
+      { path: 'training-plans/:userId', component: TrainingPlansPage },
     ]),
     CreatePlanUsersPageModule,
     RegisterPageModule,
     LoginPageModule,
     UserListPageModule,
     UserDetailsPageModule,
-    TrainingPlansPageModule
+    TrainingPlansPageModule,
   ],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,1 +1,5 @@
-<app-create-plan-modal></app-create-plan-modal>
+<app-choise-date (date)="changeChoiseDate($event)"></app-choise-date>
+<app-create-plan-modal
+  *ngIf="date$ | async as date"
+  [date]="date"
+></app-create-plan-modal>

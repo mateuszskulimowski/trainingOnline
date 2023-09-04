@@ -34,6 +34,5 @@ export class UserDetailsComponent implements OnInit {
     this._activatedRoute.params.subscribe((params) =>
       this._userIdSubject.next(params['userId'])
     );
-    // console.log()
   }
 }

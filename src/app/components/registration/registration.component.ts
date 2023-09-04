@@ -4,9 +4,9 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-registration',
@@ -24,7 +24,6 @@ export class RegistrationComponent {
 
   constructor(
     private _authService: AuthService,
-    private _router: Router,
     private _userService: UserService
   ) {}
 
@@ -32,20 +31,14 @@ export class RegistrationComponent {
     if (registerForm.invalid) {
       return;
     }
+    console.log(registerForm.get('email')?.value);
     this._authService
       .register({
         email: registerForm.get('email')?.value,
-        password: registerForm.get('email')?.value,
+        password: registerForm.get('password')?.value,
       })
-      .subscribe((response) => {
-        this._userService.addUser({
-          name: registerForm.get('name')?.value,
-          lastName: registerForm.get('lastName')?.value,
-          email: registerForm.get('email')?.value,
-          role: 'user',
-          authId: response.user.multiFactor.user.uid,
-          trainerId: '',
-        });
+      .subscribe((userId) => {
+        this.addUserData(registerForm, userId);
       });
   }
   load() {
@@ -53,5 +46,18 @@ export class RegistrationComponent {
   }
   logout() {
     this._authService.logOut().subscribe();
+  }
+  private addUserData(
+    registerForm: FormGroup,
+    userId: string | undefined
+  ): Observable<void> {
+    return this._userService.addUser({
+      name: registerForm.get('name')?.value,
+      lastName: registerForm.get('lastName')?.value,
+      email: registerForm.get('email')?.value,
+      role: 'user',
+      authId: userId,
+      trainerId: '',
+    });
   }
 }

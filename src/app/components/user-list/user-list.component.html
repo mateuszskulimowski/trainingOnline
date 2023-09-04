@@ -9,7 +9,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [routerLink]="function | routerForUsersList : element.authId"
+      [routerLink]="'/user/' + element.authId"
     >
       {{ element.index }}
     </td>
@@ -19,7 +19,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [routerLink]="function | routerForUsersList : element.authId"
+      [routerLink]="'/user/' + element.authId"
     >
       {{ element.name }}
     </td>
@@ -29,7 +29,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [routerLink]="function | routerForUsersList : element.authId"
+      [routerLink]="'/user/' + element.authId"
     >
       {{ element.lastName }}
     </td>
@@ -39,7 +39,7 @@
     <td
       mat-cell
       *matCellDef="let element"
-      [routerLink]="function | routerForUsersList : element.authId"
+      [routerLink]="'/user/' + element.authId"
     >
       {{ element.lastName }}
     </td>

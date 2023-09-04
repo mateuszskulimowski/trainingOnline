@@ -2,17 +2,13 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject, from } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { ResponseModel } from '../models/response.model';
 import { CredentialModel } from '../models/credential.model';
 import firebase from 'firebase/compat';
 import User = firebase.User;
+import { ContextModel } from '../models/context.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _responseSubject: Subject<ResponseModel> =
-    new Subject<ResponseModel>();
-  public response$: Observable<ResponseModel> =
-    this._responseSubject.asObservable();
   private _userContextSubject: Subject<{
     id: string;
     email: string;
@@ -26,21 +22,16 @@ export class AuthService {
 
   constructor(private _client: AngularFireAuth) {}
 
-  login(credential: CredentialModel): Observable<any> {
+  login(credential: CredentialModel): Observable<void> {
     return from(
       this._client.signInWithEmailAndPassword(
         credential.email,
         credential.password
       )
-    ).pipe(
-      map((response) => {
-        console.log(response.user?.multiFactor);
-        return response.user?.multiFactor;
-      })
-    );
+    ).pipe(map(() => void 0));
   }
 
-  register(credential: CredentialModel): Observable<any> {
+  register(credential: CredentialModel): Observable<string | undefined> {
     return from(
       this._client.createUserWithEmailAndPassword(
         credential.email,
@@ -49,17 +40,14 @@ export class AuthService {
     ).pipe(
       take(1),
       map((response) => {
-        console.log('registerResponse', response);
-        return response;
+        return response.user?.uid;
       })
     );
   }
   getOne(): Observable<User | null> {
     return this._client.authState;
   }
-  load(): Observable<
-    { id: string; email: string; isVerified: boolean } | undefined
-  > {
+  load(): Observable<ContextModel | undefined> {
     return this.getOne().pipe(
       take(1),
       map((user) => {
@@ -72,11 +60,9 @@ export class AuthService {
           email: user.email,
           isVerified: user.emailVerified,
         };
-        console.log(context);
-        this._userContextSubject.next(
-          context as { id: string; email: string; isVerified: boolean }
-        );
-        return context as { id: string; email: string; isVerified: boolean };
+
+        this._userContextSubject.next(context as ContextModel);
+        return context as ContextModel;
       })
     );
   }
