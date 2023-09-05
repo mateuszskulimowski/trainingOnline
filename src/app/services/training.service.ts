@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { BehaviorSubject, Observable, from, of } from 'rxjs';
+import { BehaviorSubject, Observable, from, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TrainingElementModel } from '../models/training-element.model';
 import { TrainingModel } from '../models/training.model';
 import { ChoiseDateModel } from '../models/choise-data.model';
 import { DateModel } from '../models/date.model';
+import { QuantityExerciseModel } from '../models/quantity-exercise.model';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {
@@ -89,28 +90,37 @@ export class TrainingService {
     return of(void 0);
   }
 
-  editSubject(index: number, training: TrainingElementModel): Observable<void> {
+  editSubmit(
+    index: number,
+    training: TrainingElementModel,
+    quantity: QuantityExerciseModel[]
+  ): Observable<void> {
+    // console.log(training.quantity);
     const currentValue = this._traningSubject.value;
-    currentValue[index] = training;
-    // this._traningSubject.next[...currentValue]
-    this._traningSubject.next([...currentValue]);
+
+    // console.log(currentValue[index]);
     // this._traningSubject.next([
-    //   (this._traningSubject.value[index] = training),
-    //   ...this._traningSubject.value,
+    //   ...
+    //   {
+    //     ...currentValue[index],
+    //     comment: training.exercise,
+    //     exercise: training.comment,
+    //     quantity: training.quantity,
+    //   },
     // ]);
-    console.log(currentValue[index]);
-    console.log(index);
+
+    const editedTraining = { ...currentValue[index] }; // Kopia elementu do edycji
+    console.log(training.quantity);
+    editedTraining.comment = training.comment;
+    editedTraining.exercise = training.exercise;
+    editedTraining.quantity = quantity;
+
     this._isEdit.next({ isEdit: false, index: 0 });
-    // console.log(currentValue[0]['quantity'][0]);
-    // this._traningSubject.next([
-    //   ...this._traningSubject.value,
-    //   (this._traningSubject.value[2] = {
-    //     exercise: 'dupa',
-    //     comment: 'jasia',
-    //     quantity: [{ rep: '1', set: '2', value: '100' }],
-    //     index: 2,
-    //   }),
-    // ]);
+
+    currentValue[index] = editedTraining; // Zaktualizowanie tablicy z edytowanym elementem
+    // console.log(editedTraining.quantity);
+    this._traningSubject.next(currentValue);
+    // console.log(this._traningSubject.value);
     return of(void 0);
   }
 }
