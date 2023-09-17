@@ -18,23 +18,13 @@
     },
     "service": {
       "httpClient": ["CONSTRUCTOR"],
-      "AngularFirestore": ["CONSTRUCTOR"],
-      "AngularFireAuth": ["CONSTRUCTOR"],
-      "model": ["PARAMETER", "RETURN", "PROPERTY"]
+      "model": ["PARAMETER", "RETURN"]
     }
   },
   "external": {
     "httpClient": {
       "type": "HttpClient",
       "module": "@angular/common/http"
-    },
-    "AngularFirestore": {
-      "type": "AngularFirestore",
-      "module": "@angular/fire/compat/firestore"
-    },
-    "AngularFireAuth": {
-      "type": "AngularFireAuth",
-      "module": "@angular/fire/compat/auth"
     },
     "router": {
       "type": "Router",

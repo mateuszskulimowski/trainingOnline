@@ -4,8 +4,7 @@ export interface TrainingModel {
   readonly id: string;
   readonly trainingElement: TrainingElementModel[];
   readonly userId: string;
-  readonly weekId: string;
-  readonly monthId: string;
-  readonly yearId: string;
+  readonly week: string;
+  readonly createAt: string;
   readonly trainerId: string;
 }

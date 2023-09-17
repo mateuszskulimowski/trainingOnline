@@ -6,41 +6,25 @@
 <table mat-table *ngIf="users$ | async as users" [dataSource]="users" class="">
   <ng-container matColumnDef="index">
     <th mat-header-cell *matHeaderCellDef><b>l.p.</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.authId"
-    >
+    <td mat-cell *matCellDef="let element" [routerLink]="'/user/' + element.id">
       {{ element.index }}
     </td>
   </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef><b>Imię</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.authId"
-    >
+    <td mat-cell *matCellDef="let element" [routerLink]="'/user/' + element.id">
       {{ element.name }}
     </td>
   </ng-container>
   <ng-container matColumnDef="lastName">
     <th mat-header-cell *matHeaderCellDef><b>Nazwisko</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.authId"
-    >
+    <td mat-cell *matCellDef="let element" [routerLink]="'/user/' + element.id">
       {{ element.lastName }}
     </td>
   </ng-container>
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef><b>Email</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.authId"
-    >
+    <td mat-cell *matCellDef="let element" [routerLink]="'/user/' + element.id">
       {{ element.lastName }}
     </td>
   </ng-container>

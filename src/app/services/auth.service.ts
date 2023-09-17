@@ -47,24 +47,24 @@ export class AuthService {
   getOne(): Observable<User | null> {
     return this._client.authState;
   }
-  load(): Observable<ContextModel | undefined> {
+  load(): Observable<ContextModel> {
     return this.getOne().pipe(
       take(1),
       map((user) => {
-        if (user === null) {
+        if (user === null && user == undefined) {
           return void 0;
         }
         console.log(user);
-        const context = {
+        const context: ContextModel = {
           id: user.uid,
           email: user.email,
           isVerified: user.emailVerified,
-        };
+        } as ContextModel;
 
-        this._userContextSubject.next(context as ContextModel);
-        return context as ContextModel;
+        this._userContextSubject.next(context);
+        return context;
       })
-    );
+    ) as Observable<ContextModel>;
   }
 
   logOut(): Observable<void> {

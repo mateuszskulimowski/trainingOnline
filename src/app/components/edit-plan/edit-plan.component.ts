@@ -1,32 +1,25 @@
+import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
-  OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { ChoiseDateModel } from '../../models/choise-data.model';
-import { TrainingElementModel } from '../../models/training-element.model';
-import { TrainingModel } from '../../models/training.model';
-import { TrainingService } from '../../services/training.service';
-import { QuantityExerciseModel } from '../../models/quantity-exercise.model';
-import { Location } from '@angular/common';
-import { UserService } from 'src/app/services/user.service';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { QuantityExerciseModel } from 'src/app/models/quantity-exercise.model';
+import { TrainingElementModel } from 'src/app/models/training-element.model';
 import { UserModel } from 'src/app/models/user.model';
+import { TrainingService } from 'src/app/services/training.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-create-plan-modal',
-  templateUrl: './create-plan-modal.component.html',
+  selector: 'app-edit-plan',
+  templateUrl: './edit-plan.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlanModalComponent implements OnDestroy {
-  @Input() date!: ChoiseDateModel;
-
+export class EditPlanComponent {
   readonly planForm: FormGroup = new FormGroup({
     trainingWeek: new FormControl(''),
     exercise: new FormControl(''),
@@ -75,18 +68,15 @@ export class CreatePlanModalComponent implements OnDestroy {
   ngOnDestroy(): void {
     sessionStorage.removeItem('test');
   }
-  onPlanFormSubmitted(): void {
+  onPlanFormSubmitted(user: UserModel): void {
     this._activatedRoute.params
       .pipe(
         switchMap((params) => {
-          return this._trainingService.addTraining(
-            this.planForm.get('trainingWeek')?.value,
-            params['userId']
-          );
+          return this._trainingService.setTraining(params['trainingId']);
         })
       )
       .subscribe({
-        next: () => {},
+        next: () => this._router.navigate([`training-plans/${user.authId}`]),
       });
   }
 

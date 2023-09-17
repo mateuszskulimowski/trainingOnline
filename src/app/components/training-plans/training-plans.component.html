@@ -8,8 +8,11 @@
       >
         Edytuj trening
       </button>
-      <mat-panel-title> I Tydzien </mat-panel-title>
-      <mat-panel-description> {{ training.id }} </mat-panel-description>
+
+      <mat-panel-title> Trening </mat-panel-title>
+      <mat-panel-description>
+        Data utworzenia: {{ training.createAt | date }}
+      </mat-panel-description>
     </mat-expansion-panel-header>
     <div class="container" *ngFor="let training of training.trainingElement">
       <div class="row">

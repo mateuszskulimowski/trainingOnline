@@ -28,10 +28,10 @@ export class TrainingService {
     this._isEdit.asObservable();
 
   constructor(private _client: AngularFirestore) {}
-  addTraining(choiseDate: ChoiseDateModel, userId: string): Observable<void> {
+  addTraining(trainingWeek: string, userId: string): Observable<void> {
     return from(
       this._client.collection('plans').add({
-        ...choiseDate,
+        trainingWeek: trainingWeek,
         userId: userId,
         trainingElement: this._traningSubject.value,
         createAt: new Date().getTime(),
@@ -42,6 +42,14 @@ export class TrainingService {
         return void 0;
       })
     );
+  }
+
+  setTraining(trainingId: string): Observable<void> {
+    return from(
+      this._client
+        .doc('plans/' + trainingId)
+        .update({ trainingElement: this._traningSubject.value })
+    ).pipe(map(() => void 0));
   }
 
   addTrainingElementToContext(
@@ -95,19 +103,7 @@ export class TrainingService {
     training: TrainingElementModel,
     quantity: QuantityExerciseModel[]
   ): Observable<void> {
-    // console.log(training.quantity);
     const currentValue = this._traningSubject.value;
-
-    // console.log(currentValue[index]);
-    // this._traningSubject.next([
-    //   ...
-    //   {
-    //     ...currentValue[index],
-    //     comment: training.exercise,
-    //     exercise: training.comment,
-    //     quantity: training.quantity,
-    //   },
-    // ]);
 
     const editedTraining = { ...currentValue[index] }; // Kopia elementu do edycji
     console.log(training.quantity);
@@ -118,9 +114,7 @@ export class TrainingService {
     this._isEdit.next({ isEdit: false, index: 0 });
 
     currentValue[index] = editedTraining; // Zaktualizowanie tablicy z edytowanym elementem
-    // console.log(editedTraining.quantity);
     this._traningSubject.next(currentValue);
-    // console.log(this._traningSubject.value);
     return of(void 0);
   }
 }

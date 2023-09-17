@@ -4,22 +4,67 @@
       >{{ user.name }} {{ user.lastName }}</mat-card-title
     ><mat-card-content
       ><div class="contarier">
-        <div class="row" *ngIf="userId$ | async as userId">
-          <div class="col d-flex justify-content-center">
-            <button mat-raised-button [routerLink]="'/create-plan/' + userId">
-              Dodaj trening
-            </button>
+        <div class="row">
+          <div class="col text-center">
+            <div class="container">
+              <div class="row mb-2">
+                <button
+                  class="btn btn-block bg-cadetblue text-ghostwhite"
+                  [routerLink]="'/create-plan/' + user.authId"
+                >
+                  Dodaj trening
+                </button>
+              </div>
+              <div class="row">
+                <button
+                  class="btn btn-block bg-cadetblue text-ghostwhite"
+                  [routerLink]="'/training-plans/' + user.authId"
+                >
+                  Treningi
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="col d-flex justify-content-center">
-            <button
-              mat-raised-button
-              [routerLink]="'/training-plans/' + userId"
-            >
-              Treningi
-            </button>
+          <div class="col-4 text-center">
+            <form [formGroup]="userDetailsForm">
+              <input
+                type="number"
+                class="form-control"
+                id="paid"
+                placeholder="Ilość tygodni"
+                formControlName="paidTraining"
+              />
+              <button
+                type="button"
+                class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
+                (click)="addPaidTraining(user, userDetailsForm)"
+              >
+                powieksz pakiet
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="container mt-5">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Status Tygodni</h2>
+            <p>
+              Ilość wykupionych tygodni:
+              <span id="wynikIloscWykupionychTygodni">{{
+                user.paidTraining
+              }}</span>
+            </p>
+            <p>
+              Ilość wykonanych tygodni:
+              <span id="wynikIloscWykonanychTygodni">{{
+                user.trainingWeeks.length
+              }}</span>
+            </p>
           </div>
         </div>
       </div></mat-card-content
     ></mat-card
   >
 </ng-container>
+<div class="col-md-3"></div>
