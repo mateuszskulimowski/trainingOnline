@@ -7,6 +7,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { TrainingPlansComponent } from './training-plans.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
@@ -16,6 +17,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatOptionModule,
     MatListModule,
     MatExpansionModule,
+    RouterModule,
   ],
   declarations: [TrainingPlansComponent],
   providers: [],

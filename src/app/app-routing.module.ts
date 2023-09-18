@@ -14,6 +14,8 @@ import { UserDetailsPageModule } from './pages/user-details/user-details.page-mo
 import { TrainingPlansPageModule } from './pages/user-plans/training-plans.page-module';
 import { EditPlanPage } from './pages/edit-plan/edit-plan.page';
 import { EditPlanPageModule } from './pages/edit-plan/edit-plan.page-module';
+import { TrainingDetailsPage } from './pages/training-details/training-details.page';
+import { TrainingDetailsPageModule } from './pages/training-details/training-details.page-module';
 
 @NgModule({
   imports: [
@@ -27,6 +29,7 @@ import { EditPlanPageModule } from './pages/edit-plan/edit-plan.page-module';
       { path: 'training-plans', component: TrainingPlansPage },
       { path: 'training-plans/:userId', component: TrainingPlansPage },
       { path: 'edit-plan/:userId/:trainingId', component: EditPlanPage },
+      { path: 'training/:trainingId', component: TrainingDetailsPage },
     ]),
     CreatePlanUsersPageModule,
     RegisterPageModule,
@@ -35,6 +38,7 @@ import { EditPlanPageModule } from './pages/edit-plan/edit-plan.page-module';
     UserDetailsPageModule,
     TrainingPlansPageModule,
     EditPlanPageModule,
+    TrainingDetailsPageModule,
   ],
   exports: [RouterModule],
 })

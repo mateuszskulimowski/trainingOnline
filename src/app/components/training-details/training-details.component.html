@@ -1,0 +1,56 @@
+<mat-card
+  ><mat-card-content
+    ><ng-container *ngIf="trainingDetails$ | async as trainingDetails"
+      ><div
+        class="container"
+        *ngFor="let training of trainingDetails.trainingElement; let i = index"
+      >
+        <ng-container>
+          <div class="row">
+            <div class="col-1">{{ training.index }}</div>
+            <div class="col-5 text-start">
+              <div class="row">
+                <span class="my-2"><b>Exercise</b></span>
+
+                {{ training.exercise }}
+              </div>
+
+              <div class="row">
+                <span class="my-2"><b>Comment</b></span>
+
+                {{ training.comment }}
+              </div>
+            </div>
+            <div class="col text-start">
+              <div
+                *ngFor="let quantity of training.quantity"
+                class="mb-3 row justify-content-start"
+              >
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <span><b>Serie: </b></span>
+                  </div>
+                  <div class="col">{{ quantity.set }}</div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <span> <b>Powtórzenia: </b></span>
+                  </div>
+                  <div class="col">
+                    {{ quantity.rep }}
+                  </div>
+                </div>
+                <div class="row mb-1">
+                  <div class="col-4">
+                    <span><b>Cięzar: </b></span>
+                  </div>
+                  <div class="col">{{ quantity.value }}</div>
+                </div>
+              </div>
+            </div>
+          </div></ng-container
+        >
+
+        <span class="px-3"><mat-divider></mat-divider></span>
+      </div> </ng-container></mat-card-content
+></mat-card>

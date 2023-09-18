@@ -13,7 +13,7 @@ export class UserService {
     return from(
       this._angularFirestore
         .collection('users')
-        .add({ ...user, paidTraining: 0 })
+        .add({ ...user, paidTraining: 0, trainingWeeks: [] })
     ).pipe(map(() => void 0));
   }
   getAllUsers(): Observable<UserModel[]> {

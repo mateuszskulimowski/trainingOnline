@@ -20,8 +20,11 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <select class="form-control mb-3" formControlName="trainingWeek">
-          <option *ngFor="let trainings of user.trainingWeeks">
-            Tydzień {{ trainings }}
+          <option
+            *ngFor="let trainingWeek of user.trainingWeeks"
+            [value]="trainingWeek"
+          >
+            Tydzień {{ trainingWeek }}
           </option>
         </select>
         <!-- {{ user.training }} -->

@@ -13,6 +13,7 @@ import { TrainingModel } from '../../models/training.model';
 import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training.service';
 import { UserService } from '../../services/user.service';
+import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
 
 @Component({
   selector: 'app-training-plans',
@@ -21,15 +22,13 @@ import { UserService } from '../../services/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingPlansComponent implements AfterContentInit {
-  private _choiseDateSubject: BehaviorSubject<ChoiseDateModel> =
-    new BehaviorSubject<ChoiseDateModel>({ year: '', month: '', week: '' });
-  public choiseDate$: Observable<ChoiseDateModel> =
-    this._choiseDateSubject.asObservable();
+  // private _roleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+  //   ''
+  // );
+  // public role$: Observable<string> = this._roleSubject.asObservable();
 
-  @Input() set date(value: ChoiseDateModel) {
-    this._choiseDateSubject.next(value);
-  }
-  readonly user$: Observable<any> = this._authService.userContext$.pipe(
+  @Input() set date(value: ChoiseDateModel) {}
+  readonly userContext$: Observable<any> = this._authService.userContext$.pipe(
     map((context) => {
       return {
         id: context.id,
@@ -39,26 +38,49 @@ export class TrainingPlansComponent implements AfterContentInit {
     })
   );
 
-  readonly trainingPlans$: Observable<TrainingModel[]> = combineLatest([
+  readonly trainingPlansQuery$: Observable<
+    TrainingListWithUsersWeekQueryModel[]
+  > = combineLatest([
     this._trainingService.getAllPlans(),
-    this.choiseDate$,
-    this.user$,
+
+    this.userContext$,
     this._activatedRoute.params,
   ]).pipe(
-    map(([trainingPlans, date, user, params]) => {
+    map(([trainingPlans, userContext, params]) => {
       if (params['userId']) {
         const training = trainingPlans.filter(
           (training) =>
             training.userId && training.userId.includes(params['userId'])
         );
-        return training;
+        // return training;
+        return { training: training, authId: userContext.authId };
       } else {
         const training = trainingPlans.filter(
-          (training) => training.userId && training.userId.includes(user.id)
+          (training) =>
+            training.userId && training.userId.includes(userContext.id)
         );
-        return trainingPlans;
+        // return training;
+        return { training: training, authId: userContext.id };
       }
-    })
+    }),
+    switchMap((trainingData) =>
+      this._userService.getOneUserByAuth(trainingData.authId).pipe(
+        map((user) =>
+          user.trainingWeeks.map((week) => {
+            console.log(trainingData.training);
+            const weekTraining: TrainingModel[] = trainingData.training.filter(
+              (training) => week == training.trainingWeek
+            );
+            console.log(weekTraining);
+            return new TrainingListWithUsersWeekQueryModel(
+              week,
+              weekTraining,
+              user.role
+            );
+          })
+        )
+      )
+    )
   );
 
   constructor(
@@ -69,7 +91,19 @@ export class TrainingPlansComponent implements AfterContentInit {
     private _userService: UserService
   ) {}
   ngAfterContentInit(): void {
-    this._authService.load().subscribe();
+    this._authService
+      .load()
+      .subscribe
+      // (userContext) =>
+      // this._userService
+      //   .getOneUserByAuth(userContext.id)
+      //   .pipe(
+      //     tap((user) => {
+      //       this._roleSubject.next(user.role);
+      //     })
+      //   )
+      //   .subscribe()
+      ();
   }
   editTraining(training: TrainingModel): void {
     this._trainingService
@@ -89,5 +123,9 @@ export class TrainingPlansComponent implements AfterContentInit {
         )
       )
       .subscribe(() => {});
+  }
+
+  openTrainingDetails(trainingId: string): void {
+    this._router.navigate([`training/${trainingId}`]);
   }
 }

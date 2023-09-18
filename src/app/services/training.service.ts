@@ -4,7 +4,6 @@ import { BehaviorSubject, Observable, from, of, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TrainingElementModel } from '../models/training-element.model';
 import { TrainingModel } from '../models/training.model';
-import { ChoiseDateModel } from '../models/choise-data.model';
 import { DateModel } from '../models/date.model';
 import { QuantityExerciseModel } from '../models/quantity-exercise.model';
 
@@ -28,7 +27,7 @@ export class TrainingService {
     this._isEdit.asObservable();
 
   constructor(private _client: AngularFirestore) {}
-  addTraining(trainingWeek: string, userId: string): Observable<void> {
+  addTraining(trainingWeek: number, userId: string): Observable<void> {
     return from(
       this._client.collection('plans').add({
         trainingWeek: trainingWeek,
@@ -42,6 +41,20 @@ export class TrainingService {
         return void 0;
       })
     );
+  }
+
+  getOneTraining(trainingId: string): Observable<TrainingModel> {
+    return this._client
+      .collection<TrainingModel>('plans')
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        map(
+          (trainings) =>
+            trainings
+              .filter((training) => training.id === trainingId)
+              .shift() as TrainingModel
+        )
+      );
   }
 
   setTraining(trainingId: string): Observable<void> {

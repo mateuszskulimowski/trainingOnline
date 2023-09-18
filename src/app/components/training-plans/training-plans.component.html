@@ -1,13 +1,15 @@
-<mat-accordion>
+<!-- <mat-accordion>
   <mat-expansion-panel *ngFor="let training of trainingPlans$ | async">
     <mat-expansion-panel-header>
-      <button
-        type="button"
-        class="btn btn-block bg-cadetblue text-ghostwhite"
-        (click)="editTraining(training); $event.stopPropagation()"
+      <ng-container>
+        <button
+          type="button"
+          class="btn btn-block bg-cadetblue text-ghostwhite"
+          (click)="editTraining(training); $event.stopPropagation()"
+        >
+          Edytuj trening
+        </button></ng-container
       >
-        Edytuj trening
-      </button>
 
       <mat-panel-title> Trening </mat-panel-title>
       <mat-panel-description>
@@ -45,6 +47,35 @@
         </div>
       </div>
       <span class="px-3"><mat-divider></mat-divider></span>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion> -->
+<!-- <pre>{{ trainingPlans$ | async | json }}</pre> -->
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let trainingData of trainingPlansQuery$ | async">
+    <mat-expansion-panel-header>
+      <mat-panel-title> Tydzień {{ trainingData.week }} </mat-panel-title>
+      <mat-panel-description> </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <div class="container mt-5">
+      <div class="row d-flex justify-content-center">
+        <div
+          class="col-md-4"
+          *ngFor="let training of trainingData.training; let i = index"
+        >
+          <div class="card pointer" (click)="openTrainingDetails(training.id)">
+            <div class="card-body">
+              <h3 class="card-title">Trening {{ i + 1 }}</h3>
+              <ol>
+                <li *ngFor="let trainingElement of training.trainingElement">
+                  {{ trainingElement.exercise }}
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </mat-expansion-panel>
 </mat-accordion>

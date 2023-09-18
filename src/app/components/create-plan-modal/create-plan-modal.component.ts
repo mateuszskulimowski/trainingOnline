@@ -80,7 +80,7 @@ export class CreatePlanModalComponent implements OnDestroy {
       .pipe(
         switchMap((params) => {
           return this._trainingService.addTraining(
-            this.planForm.get('trainingWeek')?.value,
+            parseInt(this.planForm.get('trainingWeek')?.value),
             params['userId']
           );
         })
@@ -167,7 +167,8 @@ export class CreatePlanModalComponent implements OnDestroy {
   }
 
   addWeeksToConception(userDetails: UserModel, trainingOrder: number) {
-    if (!userDetails.trainingWeeks) {
+    // console.log(!!!userDetails.trainingWeeks.length);
+    if (!!!userDetails.trainingWeeks.length) {
       const newElements = Array.from(
         { length: trainingOrder },
         (_, index) => index + 1
