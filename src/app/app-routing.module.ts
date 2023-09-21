@@ -16,6 +16,8 @@ import { EditPlanPage } from './pages/edit-plan/edit-plan.page';
 import { EditPlanPageModule } from './pages/edit-plan/edit-plan.page-module';
 import { TrainingDetailsPage } from './pages/training-details/training-details.page';
 import { TrainingDetailsPageModule } from './pages/training-details/training-details.page-module';
+import { TrainingPlansForTrainierPage } from './pages/training-plans-for-trainier/training-plans-for-trainier.page';
+import { TrainingPlansForTrainierPageModule } from './pages/training-plans-for-trainier/training-plans-for-trainier.page-module';
 
 @NgModule({
   imports: [
@@ -27,7 +29,10 @@ import { TrainingDetailsPageModule } from './pages/training-details/training-det
       { path: 'user/:userId', component: UserDetailsPage },
       { path: 'create-plan/:userId', component: CreatePlanUsersPage },
       { path: 'training-plans', component: TrainingPlansPage },
-      { path: 'training-plans/:userId', component: TrainingPlansPage },
+      {
+        path: 'training-plans/:userId',
+        component: TrainingPlansForTrainierPage,
+      },
       { path: 'edit-plan/:userId/:trainingId', component: EditPlanPage },
       { path: 'training/:trainingId', component: TrainingDetailsPage },
     ]),
@@ -39,6 +44,7 @@ import { TrainingDetailsPageModule } from './pages/training-details/training-det
     TrainingPlansPageModule,
     EditPlanPageModule,
     TrainingDetailsPageModule,
+    TrainingPlansForTrainierPageModule,
   ],
   exports: [RouterModule],
 })

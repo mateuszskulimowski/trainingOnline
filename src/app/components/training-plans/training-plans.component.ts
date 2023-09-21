@@ -14,6 +14,8 @@ import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training.service';
 import { UserService } from '../../services/user.service';
 import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
+import { MatDialog } from '@angular/material/dialog';
+import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 
 @Component({
   selector: 'app-training-plans',
@@ -22,11 +24,6 @@ import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/traini
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingPlansComponent implements AfterContentInit {
-  // private _roleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
-  //   ''
-  // );
-  // public role$: Observable<string> = this._roleSubject.asObservable();
-
   @Input() set date(value: ChoiseDateModel) {}
   readonly userContext$: Observable<any> = this._authService.userContext$.pipe(
     map((context) => {
@@ -44,30 +41,19 @@ export class TrainingPlansComponent implements AfterContentInit {
     this._trainingService.getAllPlans(),
 
     this.userContext$,
-    this._activatedRoute.params,
   ]).pipe(
-    map(([trainingPlans, userContext, params]) => {
-      if (params['userId']) {
-        const training = trainingPlans.filter(
-          (training) =>
-            training.userId && training.userId.includes(params['userId'])
-        );
-        // return training;
-        return { training: training, authId: userContext.authId };
-      } else {
-        const training = trainingPlans.filter(
-          (training) =>
-            training.userId && training.userId.includes(userContext.id)
-        );
-        // return training;
-        return { training: training, authId: userContext.id };
-      }
+    map(([trainingPlans, userContext]) => {
+      const training = trainingPlans.filter(
+        (training) =>
+          training.userId && training.userId.includes(userContext.id)
+      );
+      // return training;
+      return { training: training, authId: userContext.id };
     }),
     switchMap((trainingData) =>
       this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
           user.trainingWeeks.map((week) => {
-            console.log(trainingData.training);
             const weekTraining: TrainingModel[] = trainingData.training.filter(
               (training) => week == training.trainingWeek
             );
@@ -87,45 +73,21 @@ export class TrainingPlansComponent implements AfterContentInit {
     private _authService: AuthService,
     private _trainingService: TrainingService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
     private _userService: UserService
   ) {}
   ngAfterContentInit(): void {
-    this._authService
-      .load()
-      .subscribe
-      // (userContext) =>
-      // this._userService
-      //   .getOneUserByAuth(userContext.id)
-      //   .pipe(
-      //     tap((user) => {
-      //       this._roleSubject.next(user.role);
-      //     })
-      //   )
-      //   .subscribe()
-      ();
-  }
-  editTraining(training: TrainingModel): void {
-    this._trainingService
-      .addTrainingElementsToContext(training.trainingElement)
-      .pipe(
-        switchMap(() =>
-          this._activatedRoute.params.pipe(
-            tap((params) => {
-              // console.log(params);
-              // console.log(`create-plan/${params['userId']}`);
-
-              this._router.navigate([
-                `edit-plan/${params['userId']}/${training.id}`,
-              ]);
-            })
-          )
-        )
-      )
-      .subscribe(() => {});
+    this._authService.load().subscribe();
   }
 
   openTrainingDetails(trainingId: string): void {
     this._router.navigate([`training/${trainingId}`]);
+  }
+  openRaitingWeekModal() {
+    let dialogRef = this.dialog.open(RatingModalComponent, {
+      height: '180px',
+      width: '340px',
+      data: 'dupa',
+    });
   }
 }

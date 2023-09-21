@@ -8,6 +8,8 @@ import { MatListModule } from '@angular/material/list';
 import { TrainingPlansComponent } from './training-plans.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RatingModalComponentModule } from '../rating-modal/rating-modal.component-module';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,8 @@ import { RouterModule } from '@angular/router';
     MatListModule,
     MatExpansionModule,
     RouterModule,
+    MatDialogModule,
+    RatingModalComponentModule,
   ],
   declarations: [TrainingPlansComponent],
   providers: [],

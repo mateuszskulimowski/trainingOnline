@@ -66,8 +66,18 @@
         >
           <div class="card pointer" (click)="openTrainingDetails(training.id)">
             <div class="card-body">
-              <h3 class="card-title">Trening {{ i + 1 }}</h3>
-              <ol>
+              <div class="row align-items-center">
+                <div class="col">
+                  <h3 class="mb-0">Trening {{ i + 1 }}</h3>
+                </div>
+                <div class="col"></div>
+              </div>
+              <button
+                (click)="openRaitingWeekModal(); $event.stopPropagation()"
+              >
+                openModal
+              </button>
+              <ol class="mt-2">
                 <li *ngFor="let trainingElement of training.trainingElement">
                   {{ trainingElement.exercise }}
                 </li>

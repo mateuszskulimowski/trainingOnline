@@ -28,7 +28,7 @@ export class CreatePlanModalComponent implements OnDestroy {
   @Input() date!: ChoiseDateModel;
 
   readonly planForm: FormGroup = new FormGroup({
-    trainingWeek: new FormControl(''),
+    trainingWeek: new FormControl(),
     exercise: new FormControl(''),
     comment: new FormControl(''),
     quantityExercise: new FormArray([
@@ -59,6 +59,8 @@ export class CreatePlanModalComponent implements OnDestroy {
   readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
     switchMap((params) => this._userService.getOneUserByAuth(params['userId'])),
     map((user) => {
+      this.planForm.get('trainingWeek')?.patchValue(user.trainingWeeks.length);
+
       return { ...user, training: user.trainingWeeks.reverse() };
     })
   );

@@ -1,6 +1,7 @@
-<mat-card
-  ><mat-card-content
-    ><ng-container *ngIf="trainingDetails$ | async as trainingDetails"
+<ng-container *ngIf="trainingDetails$ | async as trainingDetails"
+  ><mat-card>
+    <mat-card-title class="text-center my-2">Trening </mat-card-title>
+    <mat-card-content
       ><div
         class="container"
         *ngFor="let training of trainingDetails.trainingElement; let i = index"
@@ -52,5 +53,5 @@
         >
 
         <span class="px-3"><mat-divider></mat-divider></span>
-      </div> </ng-container></mat-card-content
-></mat-card>
+      </div> </mat-card-content></mat-card
+></ng-container>
