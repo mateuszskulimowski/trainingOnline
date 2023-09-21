@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, combineLatest, map, switchMap, tap } from 'rxjs';
 import { TrainingModel } from 'src/app/models/training.model';
 import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
-import { AuthService } from 'src/app/services/auth.service';
 import { TrainingService } from 'src/app/services/training.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -53,7 +52,6 @@ export class TrainingPlansForTrainerComponent {
   );
 
   constructor(
-    private _authService: AuthService,
     private _trainingService: TrainingService,
     private _router: Router,
     private _activatedRoute: ActivatedRoute,
