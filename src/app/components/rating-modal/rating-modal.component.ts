@@ -18,7 +18,7 @@ export class RatingModalComponent {
     new BehaviorSubject<number[]>([1, 2, 3, 4, 5]);
   public dificultValue$: Observable<number[]> =
     this._dificultValueSubject.asObservable();
-  // public dificultValue: number[] = [1, 2, 3, 4, 5];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>
