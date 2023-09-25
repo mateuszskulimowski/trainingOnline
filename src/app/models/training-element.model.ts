@@ -5,4 +5,6 @@ export interface TrainingElementModel {
   readonly comment: string;
   readonly quantity: QuantityExerciseModel[];
   readonly index: number;
+  raitingCommentExercise: string;
+  raitingValueExercise: number;
 }

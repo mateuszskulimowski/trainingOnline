@@ -35,17 +35,20 @@ export class TrainingPlansForTrainerComponent {
     switchMap((trainingData) =>
       this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
-          user.trainingWeeks.map((week) => {
-            const weekTraining: TrainingModel[] = trainingData.training.filter(
-              (training) => week == training.trainingWeek
-            );
-            console.log(weekTraining);
-            return new TrainingListWithUsersWeekQueryModel(
-              week,
-              weekTraining,
-              user.role
-            );
-          })
+          user.trainingWeeks
+            .map((week) => {
+              const weekTraining: TrainingModel[] =
+                trainingData.training.filter(
+                  (training) => week == training.trainingWeek
+                );
+              console.log(weekTraining);
+              return new TrainingListWithUsersWeekQueryModel(
+                week,
+                weekTraining,
+                user.role
+              );
+            })
+            .reverse()
         )
       )
     )

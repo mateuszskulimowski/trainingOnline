@@ -1,6 +1,21 @@
 <ng-container *ngIf="trainingDetails$ | async as trainingDetails"
   ><mat-card>
-    <mat-card-title class="text-center my-2">Trening </mat-card-title>
+    <mat-card-title class="text-end m-3"
+      ><button
+        class="btn btn-block bg-cadetblue text-ghostwhite"
+        (click)="
+          openRaitingModal(
+            'training',
+            1000,
+            trainingDetails.id,
+            trainingDetails.raitingCommentTraining,
+            trainingDetails.raitingValueTraining
+          )
+        "
+      >
+        Podsumuj trening
+      </button>
+    </mat-card-title>
     <mat-card-content
       ><div
         class="container"
@@ -48,6 +63,22 @@
                   <div class="col">{{ quantity.value }}</div>
                 </div>
               </div>
+            </div>
+            <div class="col">
+              <button
+                class="btn btn-block bg-cadetblue text-ghostwhite"
+                (click)="
+                  openRaitingModal(
+                    'exercise',
+                    training.index,
+                    trainingDetails.id,
+                    training.raitingCommentExercise,
+                    training.raitingValueExercise
+                  )
+                "
+              >
+                Podsumuj ćwiczenie
+              </button>
             </div>
           </div></ng-container
         >

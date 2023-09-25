@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, from, of, throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { TrainingElementModel } from '../models/training-element.model';
 import { TrainingModel } from '../models/training.model';
 import { DateModel } from '../models/date.model';
@@ -34,6 +34,8 @@ export class TrainingService {
         userId: userId,
         trainingElement: this._traningSubject.value,
         createAt: new Date().getTime(),
+        raitingCommentTraining: '',
+        raitingValueTraining: 0,
       })
     ).pipe(
       map(() => {
@@ -70,7 +72,10 @@ export class TrainingService {
   ): Observable<void> {
     this._traningSubject.next([
       ...this._traningSubject.value,
-      { ...trainingElement, index: this._traningSubject.value.length + 1 },
+      {
+        ...trainingElement,
+        index: this._traningSubject.value.length + 1,
+      },
     ]);
     return of(void 0);
   }
@@ -85,24 +90,6 @@ export class TrainingService {
       .collection<TrainingModel>('plans', (ref) =>
         ref.orderBy('createAt', 'desc')
       )
-      .valueChanges({ idField: 'id' });
-  }
-
-  getMonths(): Observable<DateModel[]> {
-    return this._client
-      .collection<DateModel>('months', (ref) => ref.orderBy('index', 'asc'))
-      .valueChanges({ idField: 'id' });
-  }
-
-  getWeeks(): Observable<DateModel[]> {
-    return this._client
-      .collection<DateModel>('weeks', (ref) => ref.orderBy('index', 'asc'))
-      .valueChanges({ idField: 'id' });
-  }
-
-  getYears(): Observable<DateModel[]> {
-    return this._client
-      .collection<DateModel>('years', (ref) => ref.orderBy('index', 'asc'))
       .valueChanges({ idField: 'id' });
   }
 
@@ -128,6 +115,67 @@ export class TrainingService {
 
     currentValue[index] = editedTraining; // Zaktualizowanie tablicy z edytowanym elementem
     this._traningSubject.next(currentValue);
+    return of(void 0);
+  }
+  // setRaiting(trainingId: string): Observable<void> {
+  //   return from(this._client.doc('/plans' + trainingId).update({
+  // something to edit
+  //   }));
+  // }
+  setRaiting(
+    trainingId: string,
+    indexToUpdate: number,
+    raitingComment: string,
+    raitingValue: number,
+    raitingType: string
+  ): Observable<void> {
+    if (raitingType === 'training') {
+      return from(
+        this._client
+          .doc('plans/' + trainingId)
+          .update({
+            raitingCommentTraining: raitingComment,
+            raitingValueTraining: raitingValue,
+          })
+      );
+    } else if (raitingType === 'exercise') {
+      // Skonstruuj ścieżkę do dokumentu w kolekcji plans
+      const docRef = this._client.collection('plans').doc(trainingId);
+
+      // Pobierz aktualny stan dokumentu
+      return docRef.get().pipe(
+        switchMap((doc) => {
+          if (doc.exists) {
+            // Pobierz dane dokumentu
+            const data = doc.data() as {
+              trainingElement: TrainingElementModel[];
+            };
+
+            // console.log(data.trainingElement[indexToUpdate].raitingCommentExercise=raitingCommentExercise);
+            // Znajdź odpowiedni element do aktualizacji
+            if (
+              data.trainingElement &&
+              data.trainingElement.length > indexToUpdate
+            ) {
+              data.trainingElement[indexToUpdate].raitingCommentExercise =
+                raitingComment;
+              data.trainingElement[indexToUpdate].raitingValueExercise =
+                raitingValue;
+
+              return from(
+                docRef.update({ trainingElement: data.trainingElement })
+              );
+            } else {
+              throw new Error(
+                `Element o indeksie ${indexToUpdate} nie istnieje.`
+              );
+            }
+          } else {
+            throw new Error(`Dokument o ID ${trainingId} nie istnieje.`);
+          }
+        })
+      );
+    }
     return of(void 0);
   }
 }

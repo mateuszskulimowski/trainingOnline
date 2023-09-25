@@ -7,4 +7,6 @@ export interface TrainingModel {
   readonly trainingWeek: number;
   readonly createAt: string;
   readonly trainerId: string;
+  raitingCommentTraining: string;
+  raitingValueTraining: number;
 }

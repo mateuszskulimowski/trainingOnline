@@ -1,32 +1,67 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="form-group">
-        <label for="comment">Komentarz do tygodnia:</label>
-        <textarea class="form-control" id="comment" rows="2"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="col-md-12">
-      <label for="difficulty">Poziom trudności:</label>
-      <div class="form-group">
-        <div
-          class="form-check form-check-inline"
-          *ngFor="let dificultValue of dificultValue$ | async"
-        >
-          <input
-            class="form-check-input"
-            type="radio"
-            name="difficulty"
-            [value]="dificultValue"
-          />
-          <label class="form-check-label" for="difficulty1">{{
-            dificultValue
-          }}</label>
+<form [formGroup]="raitingForm">
+  <div class="container p-2">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="comment">Komentarz do tygodnia:</label>
+          <textarea
+            formControlName="comment"
+            class="form-control"
+            id="comment"
+            rows="2"
+          ></textarea>
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <label for="difficulty">Poziom trudności:</label>
+        <div class="form-group">
+          <mat-radio-group
+            formControlName="raitingValue"
+            aria-label="Select an option"
+          >
+            <mat-radio-button
+              color="primary"
+              *ngFor="let dificultValue of dificultValue$ | async"
+              [value]="dificultValue"
+              >{{ dificultValue }}</mat-radio-button
+            >
+          </mat-radio-group>
+          <!-- <div
+            class="form-check form-check-inline"
+            *ngFor="let dificultValue of dificultValue$ | async"
+          >
+            <input
+              class="form-check-input"
+              type="radio"
+              name="raitingValue"
+              [value]="dificultValue"
+            />
+            <label class="form-check-label" for="difficulty1">{{
+              dificultValue
+            }}</label>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-end">
+        <button
+          class="btn btn-block bg-cadetblue text-ghostwhite"
+          (click)="
+            addRaiting(
+              data.trainingId,
+              raitingForm,
+              data.raitingType,
+              data.exerciseOrder
+            )
+          "
+        >
+          Zatwierdz
+        </button>
+      </div>
+    </div>
   </div>
-</div>
+</form>

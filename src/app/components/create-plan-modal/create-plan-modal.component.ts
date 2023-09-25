@@ -129,6 +129,8 @@ export class CreatePlanModalComponent implements OnDestroy {
         exercise: planForm.get('exercise')?.value,
         comment: planForm.get('comment')?.value,
         quantity: planForm.get('quantityExercise')?.value,
+        raitingCommentExercise: '',
+        raitingValueExercise: 0,
       })
       .subscribe(() => {
         planForm.get('exercise')?.reset();

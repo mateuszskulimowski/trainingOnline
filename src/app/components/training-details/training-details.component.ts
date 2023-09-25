@@ -11,6 +11,8 @@ import { TrainingModel } from '../../models/training.model';
 import { TrainingService } from '../../services/training.service';
 import { UserService } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 
 @Component({
   selector: 'app-training-details',
@@ -35,7 +37,8 @@ export class TrainingDetailsComponent implements OnInit {
     private _trainingService: TrainingService,
     private _router: Router,
     private _userService: UserService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    public dialog: MatDialog
   ) {}
   ngOnInit(): void {
     this._authService
@@ -48,5 +51,24 @@ export class TrainingDetailsComponent implements OnInit {
         )
       )
       .subscribe();
+  }
+  openRaitingModal(
+    raitingType: string,
+    exerciseOrder: number,
+    trainingId: string,
+    raitingComment: string,
+    raitingValue: number
+  ) {
+    let dialogRef = this.dialog.open(RatingModalComponent, {
+      height: '200px',
+      width: '360px',
+      data: {
+        raitingType: raitingType,
+        exerciseOrder: exerciseOrder - 1,
+        trainingId: trainingId,
+        raitingComment: raitingComment,
+        raitingValue: raitingValue,
+      },
+    });
   }
 }

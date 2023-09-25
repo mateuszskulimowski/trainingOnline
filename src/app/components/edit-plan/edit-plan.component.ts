@@ -65,9 +65,7 @@ export class EditPlanComponent {
     private _location: Location,
     private _userService: UserService
   ) {}
-  ngOnDestroy(): void {
-    sessionStorage.removeItem('test');
-  }
+
   onPlanFormSubmitted(user: UserModel): void {
     this._activatedRoute.params
       .pipe(
@@ -117,6 +115,8 @@ export class EditPlanComponent {
         exercise: planForm.get('exercise')?.value,
         comment: planForm.get('comment')?.value,
         quantity: planForm.get('quantityExercise')?.value,
+        raitingCommentExercise: '',
+        raitingValueExercise: 0,
       })
       .subscribe(() => {
         planForm.get('exercise')?.reset();

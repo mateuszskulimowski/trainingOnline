@@ -12,12 +12,4 @@ import { ChoiseDateModel } from 'src/app/models/choise-data.model';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrainingPlansPage {
-  private _dateSubject: BehaviorSubject<ChoiseDateModel> =
-    new BehaviorSubject<ChoiseDateModel>({ year: '', month: '', week: '' });
-  public date$: Observable<ChoiseDateModel> = this._dateSubject.asObservable();
-
-  changeChoiseDate($event: ChoiseDateModel) {
-    this._dateSubject.next($event);
-  }
-}
+export class TrainingPlansPage {}

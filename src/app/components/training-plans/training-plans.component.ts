@@ -16,6 +16,7 @@ import { UserService } from '../../services/user.service';
 import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-training-plans',
@@ -53,17 +54,20 @@ export class TrainingPlansComponent implements AfterContentInit {
     switchMap((trainingData) =>
       this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
-          user.trainingWeeks.map((week) => {
-            const weekTraining: TrainingModel[] = trainingData.training.filter(
-              (training) => week == training.trainingWeek
-            );
-            console.log(weekTraining);
-            return new TrainingListWithUsersWeekQueryModel(
-              week,
-              weekTraining,
-              user.role
-            );
-          })
+          user.trainingWeeks
+            .map((week) => {
+              const weekTraining: TrainingModel[] =
+                trainingData.training.filter(
+                  (training) => week == training.trainingWeek
+                );
+              console.log(weekTraining);
+              return new TrainingListWithUsersWeekQueryModel(
+                week,
+                weekTraining,
+                user.role
+              );
+            })
+            .reverse()
         )
       )
     )
@@ -85,9 +89,9 @@ export class TrainingPlansComponent implements AfterContentInit {
   }
   openRaitingWeekModal() {
     let dialogRef = this.dialog.open(RatingModalComponent, {
-      height: '180px',
-      width: '340px',
-      data: 'dupa',
+      height: '200px',
+      width: '360px',
+      data: { raitingType: 'week' },
     });
   }
 }

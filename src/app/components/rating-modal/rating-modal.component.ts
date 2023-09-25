@@ -4,8 +4,11 @@ import {
   Inject,
   ViewEncapsulation,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { TrainingService } from '../../services/training.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-rating-modal',
@@ -18,9 +21,37 @@ export class RatingModalComponent {
     new BehaviorSubject<number[]>([1, 2, 3, 4, 5]);
   public dificultValue$: Observable<number[]> =
     this._dificultValueSubject.asObservable();
+  readonly raitingForm: FormGroup = new FormGroup({
+    comment: new FormControl(),
+    raitingValue: new FormControl(),
+  });
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<any>
-  ) {}
+    public dialogRef: MatDialogRef<any>,
+    private _trainingService: TrainingService,
+    private _activatedRoute: ActivatedRoute
+  ) {
+    this.raitingForm.get('comment')?.patchValue(data.raitingComment);
+    this.raitingForm.get('raitingValue')?.patchValue(data.raitingValue);
+  }
+  addRaiting(
+    trainingId: string,
+    raitingForm: FormGroup,
+    raitingType: string,
+    exerciseOrder: number
+  ): void {
+    this.dialogRef.close();
+
+    this._trainingService
+      .setRaiting(
+        trainingId,
+        exerciseOrder,
+        raitingForm.get('comment')?.value,
+        raitingForm.get('raitingValue')?.value,
+        raitingType
+      )
+
+      .subscribe();
+  }
 }
