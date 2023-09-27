@@ -1,6 +1,6 @@
 import { TrainingModel } from '../models/training.model';
 
-export interface TrainingListWithUserRoleQueryModel {
+export interface TrainingWithUserQueryModel {
   readonly training: TrainingModel[];
-  readonly role: string;
+  readonly authId: string;
 }

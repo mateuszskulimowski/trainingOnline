@@ -3,8 +3,6 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { ChoiseDateModel } from 'src/app/models/choise-data.model';
 
 @Component({
   selector: 'app-create-plan-users-page',

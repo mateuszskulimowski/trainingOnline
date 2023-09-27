@@ -1,32 +1,26 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
-import { ChoiseDateModel } from '../../models/choise-data.model';
+import { Observable, map, switchMap } from 'rxjs';
 import { TrainingElementModel } from '../../models/training-element.model';
-import { TrainingModel } from '../../models/training.model';
 import { TrainingService } from '../../services/training.service';
 import { QuantityExerciseModel } from '../../models/quantity-exercise.model';
-import { Location } from '@angular/common';
 import { UserService } from 'src/app/services/user.service';
 import { UserModel } from 'src/app/models/user.model';
+import { EditTrainingElementModel } from 'src/app/models/edit-training-element.model';
 
 @Component({
-  selector: 'app-create-plan-modal',
-  templateUrl: './create-plan-modal.component.html',
+  selector: 'app-create-plan',
+  templateUrl: './create-plan.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlanModalComponent implements OnDestroy {
-  @Input() date!: ChoiseDateModel;
-
+export class CreatePlanComponent implements OnDestroy {
   readonly planForm: FormGroup = new FormGroup({
     trainingWeek: new FormControl(),
     exercise: new FormControl(''),
@@ -39,6 +33,7 @@ export class CreatePlanModalComponent implements OnDestroy {
       }),
     ]),
   });
+
   readonly editForm: FormGroup = new FormGroup({
     exercise: new FormControl(''),
     comment: new FormControl(''),
@@ -47,36 +42,30 @@ export class CreatePlanModalComponent implements OnDestroy {
 
   readonly trainingExercises$: Observable<TrainingElementModel[]> =
     this._trainingService.traning$;
-  readonly isEditForm$: Observable<{ isEdit: boolean; index: number }> =
+
+  readonly isEditForm$: Observable<EditTrainingElementModel> =
     this._trainingService.isEdit$;
 
-  private _editFieldSubject: BehaviorSubject<string> =
-    new BehaviorSubject<string>('comment');
-  public editField$: Observable<string> = this._editFieldSubject.asObservable();
-
-  quantityPlanFormLength: number = 1;
-  quantityEditFormLength: number = 0;
   readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
     switchMap((params) => this._userService.getOneUserByAuth(params['userId'])),
     map((user) => {
       this.planForm.get('trainingWeek')?.patchValue(user.trainingWeeks.length);
-
       return { ...user, training: user.trainingWeeks.reverse() };
     })
   );
-  // readonly weeks$: Observable<number[]> = this._trainingService.getAllPlans();
 
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _location: Location,
     private _userService: UserService
   ) {}
+
   ngOnDestroy(): void {
-    sessionStorage.removeItem('test');
+    this._trainingService.destroyTrainingContext().subscribe();
   }
+
   onPlanFormSubmitted(): void {
     this._activatedRoute.params
       .pipe(
@@ -95,9 +84,11 @@ export class CreatePlanModalComponent implements OnDestroy {
   get quantityExercise(): FormArray {
     return this.planForm.controls['quantityExercise'] as FormArray;
   }
+
   get quantityExerciseEdit(): FormArray {
     return this.editForm.controls['quantityExercise'] as FormArray;
   }
+
   addQuantityEdit(quantity: QuantityExerciseModel): void {
     const quantityForm = this._fb.group(quantity);
     this.quantityExerciseEdit.push(quantityForm);
@@ -106,20 +97,17 @@ export class CreatePlanModalComponent implements OnDestroy {
   addQuantity(typeForm: string): void {
     const quantityForm = this._fb.group({ set: [], rep: [], value: [] });
     if (typeForm === 'add') {
-      this.quantityPlanFormLength++;
       this.quantityExercise.push(quantityForm);
     } else if (typeForm === 'edit') {
-      this.quantityEditFormLength++;
       this.quantityExerciseEdit.push(quantityForm);
     }
   }
 
   deleteQuantity(i: number): void {
-    this.quantityPlanFormLength--;
     this.quantityExercise.removeAt(i);
   }
+
   deleteQuantityEdit(i: number): void {
-    this.quantityEditFormLength--;
     this.quantityExerciseEdit.removeAt(i);
   }
 
@@ -135,7 +123,6 @@ export class CreatePlanModalComponent implements OnDestroy {
       .subscribe(() => {
         planForm.get('exercise')?.reset();
         planForm.get('comment')?.reset();
-
         this.quantityExercise.clear();
         const quantityForm = this._fb.group({ set: [], rep: [], value: [] });
         this.quantityExercise.push(quantityForm);
@@ -143,15 +130,8 @@ export class CreatePlanModalComponent implements OnDestroy {
   }
 
   onEditForms(index: number, exercise: TrainingElementModel): void {
-    this.editForm.reset();
-    (this.editForm.controls['quantityExercise'] as FormArray).clear();
-    this.quantityEditFormLength === exercise.quantity.length;
-    const quantityFormArray = this._fb.array(exercise.quantity);
     this.editForm.patchValue(exercise);
     exercise.quantity.forEach((quantity) => this.addQuantityEdit(quantity));
-
-    console.log(this.editForm.get('quantityExercise')?.value);
-
     this._trainingService.editForm(true, index).subscribe();
   }
 
@@ -166,12 +146,12 @@ export class CreatePlanModalComponent implements OnDestroy {
     (this.editForm.controls['quantityExercise'] as FormArray).clear();
     this.editForm.reset();
   }
+
   back(userId: string): void {
     this._router.navigate([`/user/${userId}`]);
   }
 
   addWeeksToConception(userDetails: UserModel, trainingOrder: number) {
-    // console.log(!!!userDetails.trainingWeeks.length);
     if (!!!userDetails.trainingWeeks.length) {
       const newElements = Array.from(
         { length: trainingOrder },
@@ -185,7 +165,6 @@ export class CreatePlanModalComponent implements OnDestroy {
         { length: trainingOrder },
         (_, index) => lastElement + index + 1
       );
-
       const newTrainingNumbers = [...trainingWeeks, ...newElements];
       this._userService.setTraining(userDetails, newTrainingNumbers);
     }

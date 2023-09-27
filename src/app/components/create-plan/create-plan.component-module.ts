@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
-import { CreatePlanModalComponent } from './create-plan-modal.component';
+import { CreatePlanComponent } from './create-plan.component';
 
 @NgModule({
   imports: [
@@ -20,8 +20,8 @@ import { CreatePlanModalComponent } from './create-plan-modal.component';
     MatSelectModule,
     MatIconModule,
   ],
-  declarations: [CreatePlanModalComponent],
+  declarations: [CreatePlanComponent],
   providers: [],
-  exports: [CreatePlanModalComponent],
+  exports: [CreatePlanComponent],
 })
-export class CreatePlanModalComponentModule {}
+export class CreatePlanComponentModule {}

@@ -1,12 +1,13 @@
-import { Location } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnDestroy,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
+import { EditTrainingElementModel } from 'src/app/models/edit-training-element.model';
 import { QuantityExerciseModel } from 'src/app/models/quantity-exercise.model';
 import { TrainingElementModel } from 'src/app/models/training-element.model';
 import { UserModel } from 'src/app/models/user.model';
@@ -19,7 +20,7 @@ import { UserService } from 'src/app/services/user.service';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditPlanComponent {
+export class EditPlanComponent implements OnDestroy {
   readonly planForm: FormGroup = new FormGroup({
     trainingWeek: new FormControl(''),
     exercise: new FormControl(''),
@@ -32,6 +33,7 @@ export class EditPlanComponent {
       }),
     ]),
   });
+
   readonly editForm: FormGroup = new FormGroup({
     exercise: new FormControl(''),
     comment: new FormControl(''),
@@ -40,31 +42,28 @@ export class EditPlanComponent {
 
   readonly trainingExercises$: Observable<TrainingElementModel[]> =
     this._trainingService.traning$;
-  readonly isEditForm$: Observable<{ isEdit: boolean; index: number }> =
+
+  readonly isEditForm$: Observable<EditTrainingElementModel> =
     this._trainingService.isEdit$;
 
-  private _editFieldSubject: BehaviorSubject<string> =
-    new BehaviorSubject<string>('comment');
-  public editField$: Observable<string> = this._editFieldSubject.asObservable();
-
-  quantityPlanFormLength: number = 1;
-  quantityEditFormLength: number = 0;
   readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
     switchMap((params) => this._userService.getOneUserByAuth(params['userId'])),
     map((user) => {
       return { ...user, training: user.trainingWeeks.reverse() };
     })
   );
-  // readonly weeks$: Observable<number[]> = this._trainingService.getAllPlans();
 
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-    private _location: Location,
     private _userService: UserService
   ) {}
+
+  ngOnDestroy(): void {
+    this._trainingService.destroyTrainingContext().subscribe();
+  }
 
   onPlanFormSubmitted(user: UserModel): void {
     this._activatedRoute.params
@@ -81,9 +80,11 @@ export class EditPlanComponent {
   get quantityExercise(): FormArray {
     return this.planForm.controls['quantityExercise'] as FormArray;
   }
+
   get quantityExerciseEdit(): FormArray {
     return this.editForm.controls['quantityExercise'] as FormArray;
   }
+
   addQuantityEdit(quantity: QuantityExerciseModel): void {
     const quantityForm = this._fb.group(quantity);
     this.quantityExerciseEdit.push(quantityForm);
@@ -92,20 +93,17 @@ export class EditPlanComponent {
   addQuantity(typeForm: string): void {
     const quantityForm = this._fb.group({ set: [], rep: [], value: [] });
     if (typeForm === 'add') {
-      this.quantityPlanFormLength++;
       this.quantityExercise.push(quantityForm);
     } else if (typeForm === 'edit') {
-      this.quantityEditFormLength++;
       this.quantityExerciseEdit.push(quantityForm);
     }
   }
 
   deleteQuantity(i: number): void {
-    this.quantityPlanFormLength--;
     this.quantityExercise.removeAt(i);
   }
+
   deleteQuantityEdit(i: number): void {
-    this.quantityEditFormLength--;
     this.quantityExerciseEdit.removeAt(i);
   }
 
@@ -121,7 +119,6 @@ export class EditPlanComponent {
       .subscribe(() => {
         planForm.get('exercise')?.reset();
         planForm.get('comment')?.reset();
-
         this.quantityExercise.clear();
         const quantityForm = this._fb.group({ set: [], rep: [], value: [] });
         this.quantityExercise.push(quantityForm);
@@ -129,15 +126,8 @@ export class EditPlanComponent {
   }
 
   onEditForms(index: number, exercise: TrainingElementModel): void {
-    this.editForm.reset();
-    (this.editForm.controls['quantityExercise'] as FormArray).clear();
-    this.quantityEditFormLength === exercise.quantity.length;
-    const quantityFormArray = this._fb.array(exercise.quantity);
     this.editForm.patchValue(exercise);
     exercise.quantity.forEach((quantity) => this.addQuantityEdit(quantity));
-
-    console.log(this.editForm.get('quantityExercise')?.value);
-
     this._trainingService.editForm(true, index).subscribe();
   }
 
@@ -152,6 +142,7 @@ export class EditPlanComponent {
     (this.editForm.controls['quantityExercise'] as FormArray).clear();
     this.editForm.reset();
   }
+
   back(userId: string): void {
     this._router.navigate([`/user/${userId}`]);
   }
@@ -170,7 +161,6 @@ export class EditPlanComponent {
         { length: trainingOrder },
         (_, index) => lastElement + index + 1
       );
-
       const newTrainingNumbers = [...trainingWeeks, ...newElements];
       this._userService.setTraining(userDetails, newTrainingNumbers);
     }

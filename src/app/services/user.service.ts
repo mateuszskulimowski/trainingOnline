@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Observable, from, of, throwError } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { UserModel } from '../models/user.model';
-import { User } from 'firebase/auth';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -19,7 +18,8 @@ export class UserService {
   getAllUsers(): Observable<UserModel[]> {
     return this._angularFirestore
       .collection<UserModel>('users')
-      .valueChanges({ idField: 'id' });
+      .valueChanges({ idField: 'id' })
+      .pipe(shareReplay(1));
   }
   getOneUser(id: string): Observable<UserModel> {
     return this._angularFirestore
@@ -28,18 +28,24 @@ export class UserService {
       .pipe(
         map((users) => {
           return users.filter((user) => user.id === id).shift() as UserModel;
-        })
+        }),
+        shareReplay(1)
       );
-    // .pipe(
-    // map((x) => {
-    //   console.log(x);
-    //   return x.filter((c) => {
-    //     console.log(c.id);
-    //     return id === c.id;
-    //   });
-    // })
-    //   tap((x) => console.log(x))
-    // );
+  }
+  getOneUserByAuth(authId: string): Observable<UserModel> {
+    return this._angularFirestore
+      .collection<UserModel>('users', (ref) =>
+        ref.where('authId', '==', authId)
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(
+        switchMap((item) =>
+          item
+            ? of(item[0])
+            : throwError(new Error('Item does not exist in firebase'))
+        ),
+        shareReplay(1)
+      );
   }
   setTraining(
     userDetail: UserModel,
@@ -62,20 +68,5 @@ export class UserService {
         .doc('users/' + userDetail.id)
         .update({ paidTraining: paidTraining })
     ).pipe(map(() => void 0));
-  }
-
-  getOneUserByAuth(authId: string): Observable<UserModel> {
-    return this._angularFirestore
-      .collection<UserModel>('users', (ref) =>
-        ref.where('authId', '==', authId)
-      )
-      .valueChanges({ idField: 'id' })
-      .pipe(
-        switchMap((item) =>
-          item
-            ? of(item[0])
-            : throwError(new Error('Item does not exist in firebase'))
-        )
-      );
   }
 }

@@ -5,8 +5,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+
+import { BehaviorSubject, Observable } from 'rxjs';
 import { TrainingService } from '../../services/training.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
@@ -29,8 +29,7 @@ export class RatingModalComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
-    private _trainingService: TrainingService,
-    private _activatedRoute: ActivatedRoute
+    private _trainingService: TrainingService
   ) {
     this.raitingForm.get('comment')?.patchValue(data.raitingComment);
     this.raitingForm.get('raitingValue')?.patchValue(data.raitingValue);

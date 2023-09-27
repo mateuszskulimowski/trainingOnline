@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/user.model';

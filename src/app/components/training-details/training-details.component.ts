@@ -4,7 +4,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { TrainingModel } from '../../models/training.model';
@@ -35,7 +35,6 @@ export class TrainingDetailsComponent implements OnInit {
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _trainingService: TrainingService,
-    private _router: Router,
     private _userService: UserService,
     private _authService: AuthService,
     public dialog: MatDialog

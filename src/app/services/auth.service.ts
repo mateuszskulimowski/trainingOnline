@@ -1,24 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject, from } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { CredentialModel } from '../models/credential.model';
 import firebase from 'firebase/compat';
 import User = firebase.User;
 import { ContextModel } from '../models/context.model';
+import { UserContextModel } from '../models/user-context.model';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private _userContextSubject: Subject<{
-    id: string;
-    email: string;
-    isVerified: boolean;
-  }> = new Subject<{ id: string; email: string; isVerified: boolean }>();
-  public userContext$: Observable<{
-    id: string;
-    email: string;
-    isVerified: boolean;
-  }> = this._userContextSubject.asObservable();
+  private _userContextSubject: Subject<UserContextModel> =
+    new Subject<UserContextModel>();
+  public userContext$: Observable<UserContextModel> =
+    this._userContextSubject.asObservable();
 
   constructor(private _client: AngularFireAuth) {}
 
@@ -31,7 +26,7 @@ export class AuthService {
     ).pipe(map(() => void 0));
   }
 
-  register(credential: CredentialModel): Observable<string | undefined> {
+  register(credential: CredentialModel): Observable<string> {
     return from(
       this._client.createUserWithEmailAndPassword(
         credential.email,
@@ -40,7 +35,7 @@ export class AuthService {
     ).pipe(
       take(1),
       map((response) => {
-        return response.user?.uid;
+        return (response.user as User).uid;
       })
     );
   }
@@ -49,12 +44,10 @@ export class AuthService {
   }
   load(): Observable<ContextModel> {
     return this.getOne().pipe(
-      take(1),
       map((user) => {
         if (user === null && user == undefined) {
           return void 0;
         }
-        console.log(user);
         const context: ContextModel = {
           id: user.uid,
           email: user.email,
