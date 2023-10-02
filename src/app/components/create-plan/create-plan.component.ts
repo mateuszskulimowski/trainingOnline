@@ -6,13 +6,15 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, combineLatest, map, switchMap, take, tap } from 'rxjs';
 import { TrainingElementModel } from '../../models/training-element.model';
 import { TrainingService } from '../../services/training.service';
 import { QuantityExerciseModel } from '../../models/quantity-exercise.model';
 import { UserService } from 'src/app/services/user.service';
 import { UserModel } from 'src/app/models/user.model';
 import { EditTrainingElementModel } from 'src/app/models/edit-training-element.model';
+import { TrainingContextModel } from 'src/app/models/training-context.model';
+import { UserWithTrainingQueryModel } from 'src/app/query-models/user-with-training.query-model';
 
 @Component({
   selector: 'app-create-plan',
@@ -40,20 +42,53 @@ export class CreatePlanComponent implements OnDestroy {
     quantityExercise: new FormArray([]),
   });
 
-  readonly trainingExercises$: Observable<TrainingElementModel[]> =
+  readonly trainingExercises$: Observable<TrainingContextModel> =
     this._trainingService.traning$;
 
   readonly isEditForm$: Observable<EditTrainingElementModel> =
     this._trainingService.isEdit$;
 
-  readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
-    switchMap((params) => this._userService.getOneUserByAuth(params['userId'])),
-    map((user) => {
-      this.planForm.get('trainingWeek')?.patchValue(user.trainingWeeks.length);
-      return { ...user, training: user.trainingWeeks.reverse() };
-    })
+  // readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
+  //   switchMap((params) => this._userService.getOneUserByAuth(params['authId'])),
+  //   map((user) => {
+  //     this.planForm.get('trainingWeek')?.patchValue(user.trainingWeeks.length);
+  //     return { ...user, training: user.trainingWeeks.reverse() };
+  //   })
+  // );
+  readonly user$: Observable<UserWithTrainingQueryModel> = combineLatest([
+    this._activatedRoute.params,
+    this.trainingExercises$,
+  ]).pipe(
+    take(1),
+    switchMap(([params, trainingSubject]) =>
+      this._userService.getOneUserByAuth(params['authId']).pipe(
+        map((user) => {
+          console.log('map');
+          if (trainingSubject.isEdit) {
+            this.planForm
+              .get('trainingWeek')
+              ?.patchValue(trainingSubject.trainingWeek);
+            this._trainingService.setTrainingWeekOnSubject(
+              trainingSubject.trainingWeek
+            );
+          } else {
+            this.planForm
+              .get('trainingWeek')
+              ?.patchValue(user.trainingWeeks.length);
+            this._trainingService.setTrainingWeekOnSubject(
+              user.trainingWeeks.length
+            );
+          }
+          return {
+            userId: user.id,
+            authId: user.authId,
+            trainingWeeks: user.trainingWeeks.reverse(),
+            isEdit: trainingSubject.isEdit,
+          };
+        })
+      )
+    )
   );
-
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
@@ -64,16 +99,17 @@ export class CreatePlanComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this._trainingService.destroyTrainingContext().subscribe();
+    console.log('kkk');
   }
 
-  onPlanFormSubmitted(): void {
+  onPlanFormSubmitted(authId: string, isEdit: boolean): void {
     this._activatedRoute.params
       .pipe(
         switchMap((params) => {
-          return this._trainingService.addTraining(
-            parseInt(this.planForm.get('trainingWeek')?.value),
-            params['userId']
-          );
+          if (isEdit) {
+            return this._trainingService.setTraining(params['trainingId']);
+          }
+          return this._trainingService.addTraining(params['authId']);
         })
       )
       .subscribe({
@@ -151,22 +187,39 @@ export class CreatePlanComponent implements OnDestroy {
     this._router.navigate([`/user/${userId}`]);
   }
 
-  addWeeksToConception(userDetails: UserModel, trainingOrder: number) {
-    if (!!!userDetails.trainingWeeks.length) {
+  addWeeksToConception(
+    user: UserWithTrainingQueryModel,
+    trainingOrder: number
+  ) {
+    if (!!!user.trainingWeeks.length) {
       const newElements = Array.from(
         { length: trainingOrder },
         (_, index) => index + 1
       );
-      this._userService.setTraining(userDetails, newElements);
+      this.planForm.get('trainingWeek')?.patchValue(newElements);
+      this._userService.setTraining(user.userId, newElements);
     } else {
-      const trainingWeeks = userDetails.trainingWeeks.reverse();
+      const trainingWeeks = user.trainingWeeks.reverse();
       const lastElement = trainingWeeks[trainingWeeks.length - 1];
       const newElements = Array.from(
         { length: trainingOrder },
         (_, index) => lastElement + index + 1
       );
       const newTrainingNumbers = [...trainingWeeks, ...newElements];
-      this._userService.setTraining(userDetails, newTrainingNumbers);
+      this.planForm.get('trainingWeek')?.patchValue(newElements);
+      this._userService.setTraining(user.userId, newTrainingNumbers);
     }
+  }
+
+  setTrainingWeek(event: any): void {
+    // console.log(typeof );
+    const trainingWeek = parseInt(event.target.value);
+
+    this.planForm.get('trainingWeek')?.patchValue(trainingWeek);
+
+    this._trainingService.setTrainingWeekOnSubject(trainingWeek).subscribe();
+  }
+  deleteExercise(index: number) {
+    this._trainingService.deleteExercise(index).subscribe();
   }
 }

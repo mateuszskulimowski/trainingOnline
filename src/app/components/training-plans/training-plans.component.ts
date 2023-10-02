@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
-import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { TrainingModel } from '../../models/training.model';
 import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training.service';
@@ -34,6 +34,17 @@ export class TrainingPlansComponent implements AfterContentInit {
         };
       })
     );
+  readonly userRole$: Observable<string> = this.userContext$.pipe(
+    switchMap((userContext) => {
+      return this._userService.getOneUserByAuth(userContext.id).pipe(
+        map((user) => {
+          console.log('user');
+          return user.role;
+        }),
+        take(1)
+      );
+    })
+  );
 
   readonly trainingPlansQuery$: Observable<
     TrainingListWithUsersWeekQueryModel[]
@@ -41,26 +52,29 @@ export class TrainingPlansComponent implements AfterContentInit {
     this._trainingService.getAllPlans(),
     this.userContext$,
     this._activatedRoute.params,
+    this.userRole$,
   ]).pipe(
-    map(([trainingPlans, userContext, params]) =>
+    map(([trainingPlans, userContext, params, userRole]) =>
       params['authId']
-        ? this._getTrainingWithUser(trainingPlans, params['authId'])
-        : this._getTrainingWithUser(trainingPlans, userContext.id)
+        ? this._getTrainingWithUser(trainingPlans, params['authId'], userRole)
+        : this._getTrainingWithUser(trainingPlans, userContext.id, userRole)
     ),
+
     switchMap((trainingData) => {
       return this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
           user.trainingWeeks
             .map((week) => {
+              console.log('elo', trainingData.userRole);
               const weekTraining: TrainingModel[] =
                 trainingData.training.filter(
                   (training) => week == training.trainingWeek
                 );
-
+              console.log('dupa');
               return new TrainingListWithUsersWeekQueryModel(
                 week,
                 weekTraining,
-                user.role
+                trainingData.userRole
               );
             })
             .reverse()
@@ -81,13 +95,9 @@ export class TrainingPlansComponent implements AfterContentInit {
     this._authService.load().subscribe();
   }
 
-  // openRaitingWeekModal() {
-  //   let dialogRef = this.dialog.open(RatingModalComponent, {
-  //     height: '200px',
-  //     width: '360px',
-  //     data: { raitingType: 'week' },
-  //   });
-  // }
+  identify(index: number, item: any) {
+    return index;
+  }
 
   onClickTraining(training: TrainingModel): void {
     this._activatedRoute.params
@@ -100,22 +110,28 @@ export class TrainingPlansComponent implements AfterContentInit {
       )
       .subscribe();
   }
+  removeTraining(trainingId: string): void {
+    this._trainingService.removeTraining(trainingId).subscribe();
+  }
 
   private _getTrainingWithUser(
     trainings: TrainingModel[],
-    authId: string
+    authId: string,
+    userRole: string
   ): TrainingWithUserQueryModel {
+    console.log(userRole);
     return {
       training: trainings.filter(
-        (training) => training.userId && training.userId.includes(authId)
+        (training) => training.authId && training.authId.includes(authId)
       ),
       authId: authId,
+      userRole: userRole,
     };
   }
 
   private _editTraining(training: TrainingModel): void {
     this._trainingService
-      .addTrainingElementsToContext(training.trainingElement)
+      .addTrainingElementsToContext(training)
       .pipe(
         switchMap(() =>
           this._activatedRoute.params.pipe(

@@ -47,14 +47,11 @@ export class UserService {
         shareReplay(1)
       );
   }
-  setTraining(
-    userDetail: UserModel,
-    trainingActive: number[]
-  ): Observable<void> {
+  setTraining(userId: string, trainingActive: number[]): Observable<void> {
     console.log('serwis ', trainingActive);
     return from(
       this._angularFirestore
-        .doc('users/' + userDetail.id)
+        .doc('users/' + userId)
         .update({ trainingWeeks: trainingActive })
     ).pipe(map(() => void 0));
   }

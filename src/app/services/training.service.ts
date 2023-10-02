@@ -7,12 +7,17 @@ import { TrainingModel } from '../models/training.model';
 
 import { QuantityExerciseModel } from '../models/quantity-exercise.model';
 import { EditTrainingElementModel } from '../models/edit-training-element.model';
+import { TrainingContextModel } from '../models/training-context.model';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {
-  private _traningSubject: BehaviorSubject<TrainingElementModel[]> =
-    new BehaviorSubject<TrainingElementModel[]>([]);
-  public traning$: Observable<TrainingElementModel[]> =
+  private _traningSubject: BehaviorSubject<TrainingContextModel> =
+    new BehaviorSubject<TrainingContextModel>({
+      isEdit: false,
+      trainingElements: [],
+      trainingWeek: 0,
+    });
+  public traning$: Observable<TrainingContextModel> =
     this._traningSubject.asObservable();
 
   private _isEdit: BehaviorSubject<EditTrainingElementModel> =
@@ -25,19 +30,22 @@ export class TrainingService {
 
   constructor(private _client: AngularFirestore) {}
 
-  addTraining(trainingWeek: number, userId: string): Observable<void> {
+  addTraining(authId: string): Observable<void> {
     return from(
       this._client.collection('plans').add({
-        trainingWeek: trainingWeek,
-        userId: userId,
-        trainingElement: this._traningSubject.value,
+        ...this._traningSubject.value,
+        authId: authId,
+
         createAt: new Date().getTime(),
         raitingCommentTraining: '',
         raitingValueTraining: 0,
       })
     ).pipe(
       map(() => {
-        this._traningSubject.next([]);
+        this._traningSubject.next({
+          ...this._traningSubject.value,
+          trainingElements: [],
+        });
         return void 0;
       })
     );
@@ -59,28 +67,32 @@ export class TrainingService {
 
   setTraining(trainingId: string): Observable<void> {
     return from(
-      this._client
-        .doc('plans/' + trainingId)
-        .update({ trainingElement: this._traningSubject.value })
+      this._client.doc('plans/' + trainingId).update(this._traningSubject.value)
     ).pipe(map(() => void 0));
   }
 
   addTrainingElementToContext(
     trainingElement: Omit<TrainingElementModel, 'index'>
   ): Observable<void> {
-    this._traningSubject.next([
+    this._traningSubject.next({
       ...this._traningSubject.value,
-      {
-        ...trainingElement,
-        index: this._traningSubject.value.length + 1,
-      },
-    ]);
+
+      trainingElements: [
+        ...this._traningSubject.value.trainingElements,
+        {
+          ...trainingElement,
+          index: this._traningSubject.value.trainingElements.length + 1,
+        },
+      ],
+    });
     return of(void 0);
   }
-  addTrainingElementsToContext(
-    training: TrainingElementModel[]
-  ): Observable<void> {
-    this._traningSubject.next(training);
+  addTrainingElementsToContext(training: TrainingModel): Observable<void> {
+    this._traningSubject.next({
+      isEdit: true,
+      trainingElements: training.trainingElements,
+      trainingWeek: training.trainingWeek,
+    });
     return of(void 0);
   }
   getAllPlans(): Observable<TrainingModel[]> {
@@ -101,7 +113,7 @@ export class TrainingService {
     training: TrainingElementModel,
     quantity: QuantityExerciseModel[]
   ): Observable<void> {
-    const currentValue = this._traningSubject.value;
+    const currentValue = this._traningSubject.value.trainingElements;
 
     const editedTraining = { ...currentValue[index] };
 
@@ -112,7 +124,11 @@ export class TrainingService {
     this._isEdit.next({ isEdit: false, index: 0 });
 
     currentValue[index] = editedTraining;
-    this._traningSubject.next(currentValue);
+    this._traningSubject.next({
+      trainingWeek: this._traningSubject.value.trainingWeek,
+      isEdit: this._traningSubject.value.isEdit,
+      trainingElements: currentValue,
+    });
     return of(void 0);
   }
 
@@ -167,7 +183,38 @@ export class TrainingService {
   }
 
   destroyTrainingContext(): Observable<void> {
-    this._traningSubject.next([]);
+    this._traningSubject.next({
+      isEdit: false,
+      trainingElements: [],
+      trainingWeek: 0,
+    });
     return of(void 0);
+  }
+  setTrainingWeekOnSubject(trainingWeek: number): Observable<void> {
+    this._traningSubject.next({
+      ...this._traningSubject.value,
+      trainingWeek: trainingWeek,
+    });
+    return of(void 0);
+  }
+  deleteExercise(index: number): Observable<void> {
+    this._traningSubject.value.trainingElements.splice(index, 1);
+
+    const trainingElements = this._traningSubject.value.trainingElements.map(
+      (trainingElement, i) => ({
+        ...trainingElement,
+        index: i++ + 1,
+      })
+    );
+    this._traningSubject.next({
+      ...this._traningSubject.value,
+      trainingElements: trainingElements,
+    });
+    return of(void 0);
+  }
+  removeTraining(trainingId: string): Observable<void> {
+    return from(this._client.doc('plans/' + trainingId).delete()).pipe(
+      map(() => void 0)
+    );
   }
 }

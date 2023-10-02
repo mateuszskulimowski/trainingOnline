@@ -51,8 +51,11 @@
   </mat-expansion-panel>
 </mat-accordion> -->
 <!-- <pre>{{ trainingPlans$ | async | json }}</pre> -->
+
 <mat-accordion>
-  <mat-expansion-panel *ngFor="let trainingData of trainingPlansQuery$ | async">
+  <mat-expansion-panel
+    *ngFor="let trainingData of trainingPlansQuery$ | async; trackBy: identify"
+  >
     <mat-expansion-panel-header>
       <mat-panel-title
         >Tydzień {{ trainingData.week }}
@@ -70,14 +73,14 @@
           </div>
         </div> -->
       </mat-panel-title>
-      <mat-panel-description class="justify-content-end">
-        <!-- <button
+      <!-- <mat-panel-description class="justify-content-end"> -->
+      <!-- <button
           class="btn btn-block bg-cadetblue text-ghostwhite"
           (click)="openRaitingWeekModal(); $event.stopPropagation()"
         >
           Podsumuj tydzień
         </button> -->
-      </mat-panel-description>
+      <!-- </mat-panel-description> -->
     </mat-expansion-panel-header>
 
     <div class="container mt-5">
@@ -86,17 +89,30 @@
           class="col-md-4"
           *ngFor="let training of trainingData.training; let i = index"
         >
+          {{ trainingData.userRole }}
           <div class="card pointer" (click)="onClickTraining(training)">
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col">
                   <h3 class="mb-0">Trening {{ i + 1 }}</h3>
                 </div>
-                <div class="col"></div>
+
+                <div class="col d-flex justify-content-end">
+                  <button
+                    *ngIf="trainingData.userRole === 'admin'"
+                    type="button"
+                    class="btn btn-block p-1 d-flex align-items-center bg-danger text-ghostwhite"
+                    (click)="
+                      removeTraining(training.id); $event.stopPropagation()
+                    "
+                  >
+                    <mat-icon>delete_outline</mat-icon>
+                  </button>
+                </div>
               </div>
 
               <ol class="mt-2">
-                <li *ngFor="let trainingElement of training.trainingElement">
+                <li *ngFor="let trainingElement of training.trainingElements">
                   {{ trainingElement.exercise }}
                 </li>
               </ol>

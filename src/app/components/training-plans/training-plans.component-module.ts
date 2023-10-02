@@ -10,6 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RatingModalComponentModule } from '../rating-modal/rating-modal.component-module';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   imports: [
     CommonModule,
@@ -22,6 +23,7 @@ import { RatingModalComponentModule } from '../rating-modal/rating-modal.compone
     RouterModule,
     MatDialogModule,
     RatingModalComponentModule,
+    MatIconModule,
   ],
   declarations: [TrainingPlansComponent],
   providers: [],

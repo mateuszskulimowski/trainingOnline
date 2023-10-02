@@ -2,8 +2,8 @@ import { TrainingElementModel } from './training-element.model';
 
 export interface TrainingModel {
   readonly id: string;
-  readonly trainingElement: TrainingElementModel[];
-  readonly userId: string;
+  readonly trainingElements: TrainingElementModel[];
+  readonly authId: string;
   readonly trainingWeek: number;
   readonly createAt: string;
   readonly trainerId: string;
