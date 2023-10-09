@@ -8,6 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { CreatePlanComponent } from './create-plan.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   imports: [
@@ -19,6 +20,7 @@ import { CreatePlanComponent } from './create-plan.component';
     MatDividerModule,
     MatSelectModule,
     MatIconModule,
+    DragDropModule,
   ],
   declarations: [CreatePlanComponent],
   providers: [],

@@ -15,6 +15,7 @@ import { UserModel } from 'src/app/models/user.model';
 import { EditTrainingElementModel } from 'src/app/models/edit-training-element.model';
 import { TrainingContextModel } from 'src/app/models/training-context.model';
 import { UserWithTrainingQueryModel } from 'src/app/query-models/user-with-training.query-model';
+import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-create-plan',
@@ -42,8 +43,8 @@ export class CreatePlanComponent implements OnDestroy {
     quantityExercise: new FormArray([]),
   });
 
-  readonly trainingExercises$: Observable<TrainingContextModel> =
-    this._trainingService.traning$;
+  readonly trainingExercises$: Observable<TrainingContextModel> = this
+    ._trainingService.traning$ as Observable<TrainingContextModel>;
 
   readonly isEditForm$: Observable<EditTrainingElementModel> =
     this._trainingService.isEdit$;
@@ -81,7 +82,6 @@ export class CreatePlanComponent implements OnDestroy {
           }
           return {
             userId: user.id,
-            authId: user.authId,
             trainingWeeks: user.trainingWeeks.reverse(),
             isEdit: trainingSubject.isEdit,
           };
@@ -102,12 +102,14 @@ export class CreatePlanComponent implements OnDestroy {
     console.log('kkk');
   }
 
-  onPlanFormSubmitted(authId: string, isEdit: boolean): void {
+  onPlanFormSubmitted(userId: string, isEdit: boolean): void {
     this._activatedRoute.params
       .pipe(
         switchMap((params) => {
           if (isEdit) {
-            return this._trainingService.setTraining(params['trainingId']);
+            return this._trainingService
+              .setTraining(params['trainingId'])
+              .pipe(tap(() => this._router.navigate([`user/` + userId])));
           }
           return this._trainingService.addTraining(params['authId']);
         })
@@ -221,5 +223,16 @@ export class CreatePlanComponent implements OnDestroy {
   }
   deleteExercise(index: number) {
     this._trainingService.deleteExercise(index).subscribe();
+  }
+
+  onDrop(
+    event: CdkDragDrop<TrainingElementModel[]>,
+    trainingElements: TrainingElementModel[]
+  ): void {
+    const elementsArray = trainingElements;
+    const movedElement = elementsArray[event.previousIndex];
+    elementsArray.splice(event.previousIndex, 1);
+    elementsArray.splice(event.currentIndex, 0, movedElement);
+    this._trainingService.onDragTrainingElement(elementsArray);
   }
 }

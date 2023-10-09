@@ -65,12 +65,11 @@ export class TrainingPlansComponent implements AfterContentInit {
         map((user) =>
           user.trainingWeeks
             .map((week) => {
-              console.log('elo', trainingData.userRole);
               const weekTraining: TrainingModel[] =
                 trainingData.training.filter(
                   (training) => week == training.trainingWeek
                 );
-              console.log('dupa');
+
               return new TrainingListWithUsersWeekQueryModel(
                 week,
                 weekTraining,

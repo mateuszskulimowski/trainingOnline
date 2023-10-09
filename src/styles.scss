@@ -113,3 +113,14 @@ body {
 //   display: flex;
 //   flex-direction: column;
 // }
+.container-cdk {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Adjust the value as needed for the spacing between stacked elements */
+}
+
+.container-cdk .item {
+  cursor: move;
+  padding: 1em;
+  transition: transform 0.2s ease-in-out; /* Add a transition for smooth animation */
+}
