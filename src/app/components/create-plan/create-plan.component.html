@@ -1,174 +1,169 @@
-<div class="container mt-5" *ngIf="user$ | async as user">
-  <div class="row justify-content-center">
-    <div class="col-md-7">
-      <h1 class="text-center text-ghostwhite ms-md-5 ps-md-5">
-        Dodaj Ćwiczenie do Treningu
-      </h1>
-    </div>
-
-    <div class="col-md-2 text-end">
-      <button
-        type="button"
-        class="btn btn-block bg-cadetblue text-ghostwhite"
-        (click)="back(user.userId)"
-      >
-        Wróć
-      </button>
-    </div>
-  </div>
-  <form [formGroup]="planForm">
+<ng-container>
+  <div class="container mt-5" *ngIf="user$ | async as user">
     <div class="row justify-content-center">
-      <div class="col-md-6">
-        <select
-          class="form-control mb-3"
-          formControlName="trainingWeek"
-          (change)="setTrainingWeek($event)"
-        >
-          <option
-            *ngFor="let trainingWeek of user.trainingWeeks"
-            [value]="trainingWeek"
-          >
-            Tydzień {{ trainingWeek }}
-          </option>
-        </select>
-        <!-- {{ user.training }} -->
+      <div class="col-md-7">
+        <h1 class="text-center text-ghostwhite ms-md-5 ps-md-5">
+          Dodaj Ćwiczenie do Treningu
+        </h1>
       </div>
-      <div class="col-md-3 text-end">
+
+      <div class="col-md-2 text-end">
         <button
           type="button"
           class="btn btn-block bg-cadetblue text-ghostwhite"
-          (click)="addWeeksToConception(user, 1)"
+          (click)="back(user.userId)"
         >
-          Dodaj nowy tydzień
+          Wróć
+        </button>
+      </div>
+    </div>
+    <form [formGroup]="planForm">
+      <div class="row justify-content-center">
+        <div class="col-md-6">
+          <select
+            class="form-control mb-3"
+            formControlName="trainingWeek"
+            (change)="setTrainingWeek($event)"
+          >
+            <option
+              *ngFor="let trainingWeek of user.trainingWeeks"
+              [value]="trainingWeek"
+            >
+              Tydzień {{ trainingWeek }}
+            </option>
+          </select>
+          <!-- {{ user.training }} -->
+        </div>
+        <div class="col-md-3 text-end">
+          <button
+            type="button"
+            class="btn btn-block bg-cadetblue text-ghostwhite"
+            (click)="addWeeksToConception(user, 1)"
+          >
+            Dodaj nowy tydzień
+          </button>
+        </div>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-md-9">
+          <textarea
+            class="form-control"
+            placeholder="Ćwiczenie"
+            id="exerciseName"
+            formControlName="exercise"
+            rows="2"
+          ></textarea>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-md-9">
+          <textarea
+            class="form-control mt-3"
+            placeholder="Komentarz"
+            id="comment"
+            rows="4"
+            formControlName="comment"
+          ></textarea>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="col-7">
+          <ng-container formArrayName="quantityExercise"
+            ><ng-container
+              *ngFor="
+                let quantityExercise of quantityExercise.controls;
+                let i = index
+              "
+            >
+              <div class="row mt-3 justify-content-center" [formGroupName]="i">
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="sets"
+                    placeholder="Serie"
+                    formControlName="set"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="repetitions"
+                    placeholder="Powtórzenia"
+                    formControlName="rep"
+                  />
+                </div>
+
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="value"
+                    placeholder="Obciążenie"
+                    formControlName="value"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <button
+                    type="button"
+                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                    (click)="deleteQuantity(i)"
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+            </ng-container></ng-container
+          >
+        </div>
+        <div class="col col-md-2 d-flex align-items-start">
+          <div class="row mt-3 justify-content-center">
+            <div class="col d-inline-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-block bg-cadetblue text-ghostwhite"
+                (click)="addQuantity('add')"
+              >
+                +
+              </button>
+            </div>
+            <div class="col d-inline-flex justify-content-center">
+              <button
+                type="button"
+                class="btn btn-block bg-cadetblue text-ghostwhite"
+                (click)="addTrainingExercise(planForm)"
+              >
+                Dodaj
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mt-5">
+      <div class="col d-inline-flex justify-content-end">
+        <button
+          type="button"
+          class="btn btn-block bg-cadetblue text-ghostwhite"
+          (click)="onPlanFormSubmitted(user.userId, user.isEdit, user.isDone)"
+        >
+          Zatwierdź
         </button>
       </div>
     </div>
 
-    <div class="row justify-content-center">
-      <div class="col-md-9">
-        <textarea
-          class="form-control"
-          placeholder="Ćwiczenie"
-          id="exerciseName"
-          formControlName="exercise"
-          rows="2"
-        ></textarea>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-md-9">
-        <textarea
-          class="form-control mt-3"
-          placeholder="Komentarz"
-          id="comment"
-          rows="4"
-          formControlName="comment"
-        ></textarea>
-      </div>
-    </div>
-    <div class="row justify-content-center">
-      <div class="col-7">
-        <ng-container formArrayName="quantityExercise"
-          ><ng-container
-            *ngFor="
-              let quantityExercise of quantityExercise.controls;
-              let i = index
-            "
-          >
-            <div class="row mt-3 justify-content-center" [formGroupName]="i">
-              <div class="col-md-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="sets"
-                  placeholder="Serie"
-                  formControlName="set"
-                />
-              </div>
-              <div class="col-md-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="repetitions"
-                  placeholder="Powtórzenia"
-                  formControlName="rep"
-                />
-              </div>
-
-              <div class="col-md-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  id="value"
-                  placeholder="Obciążenie"
-                  formControlName="value"
-                />
-              </div>
-              <div class="col-md-3">
-                <button
-                  type="button"
-                  class="btn btn-block bg-cadetblue text-ghostwhite"
-                  (click)="deleteQuantity(i)"
-                >
-                  -
-                </button>
-              </div>
-            </div>
-          </ng-container></ng-container
-        >
-      </div>
-      <div class="col col-md-2 d-flex align-items-start">
-        <div class="row mt-3 justify-content-center">
-          <div class="col d-inline-flex justify-content-center">
-            <button
-              type="button"
-              class="btn btn-block bg-cadetblue text-ghostwhite"
-              (click)="addQuantity('add')"
-            >
-              +
-            </button>
-          </div>
-          <div class="col d-inline-flex justify-content-center">
-            <button
-              type="button"
-              class="btn btn-block bg-cadetblue text-ghostwhite"
-              (click)="addTrainingExercise(planForm)"
-            >
-              Dodaj
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  <div class="row mt-5">
-    <div class="col d-inline-flex justify-content-end">
-      <button
-        type="button"
-        class="btn btn-block bg-cadetblue text-ghostwhite"
-        (click)="onPlanFormSubmitted(user.userId, user.isEdit)"
-      >
-        Zatwierdź
-      </button>
-    </div>
-  </div>
-
-  <div class="mt-2 card p-2">
-    <form [formGroup]="editForm">
-      <ng-container *ngIf="trainingExercises$ | async as trainingExercises">
+    <div class="mt-2 card p-2">
+      <form [formGroup]="editForm">
         <div
           class="container-cdk"
           cdkDropList
-          (cdkDropListDropped)="
-            onDrop($event, trainingExercises.trainingElements)
-          "
+          (cdkDropListDropped)="onDrop($event, user.trainingElements)"
         >
           <div
             class="container hover bg-white item"
-            *ngFor="
-              let training of trainingExercises.trainingElements;
-              let i = index
-            "
+            *ngFor="let training of user.trainingElements; let i = index"
             cdkDrag
           >
             <ng-container *ngIf="isEditForm$ | async as edit">
@@ -358,7 +353,8 @@
             <span class="px-3"><mat-divider></mat-divider></span>
           </div>
         </div>
-      </ng-container>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
+</ng-container>
+<!-- {{ trainingExercises$ | async | json }} -->

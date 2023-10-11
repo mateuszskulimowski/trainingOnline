@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { TrainingElementModel } from '../models/training-element.model';
 import { TrainingModel } from '../models/training.model';
 
@@ -13,15 +13,14 @@ import { TrainingContextModel } from '../models/training-context.model';
 export class TrainingService {
   private _traningSubject: BehaviorSubject<TrainingContextModel | null> =
     new BehaviorSubject<TrainingContextModel | null>(
-      JSON.parse(
+      (JSON.parse(
         localStorage.getItem('trainingContext') as string
-      ) as TrainingContextModel
-      //  ||
-      // {
-      //   isEdit: false,
-      //   trainingElements: [],
-      //   trainingWeek: 0,
-      // }
+      ) as TrainingContextModel) || {
+        isEdit: false,
+        trainingElements: [],
+        trainingWeek: 0,
+        isDone: false,
+      }
     );
   public traning$: Observable<TrainingContextModel | null> =
     this._traningSubject.asObservable();
@@ -37,9 +36,13 @@ export class TrainingService {
   constructor(private _client: AngularFirestore) {}
 
   addTraining(authId: string): Observable<void> {
+    const trainingSubject: TrainingContextModel = {
+      ...this._traningSubject.value,
+      isDone: true,
+    } as TrainingContextModel;
     return from(
       this._client.collection('plans').add({
-        ...this._traningSubject.value,
+        ...trainingSubject,
         authId: authId,
 
         createAt: new Date().getTime(),
@@ -47,6 +50,7 @@ export class TrainingService {
         raitingValueTraining: 0,
       })
     ).pipe(
+      tap(() => localStorage.removeItem('trainingContext')),
       map(() => {
         if (this._traningSubject.value) {
           this._traningSubject.next({
@@ -79,14 +83,17 @@ export class TrainingService {
       this._client
         .doc('plans/' + trainingId)
         .update(this._traningSubject.value as TrainingContextModel)
-    ).pipe(map(() => void 0));
+    ).pipe(
+      tap(() => localStorage.removeItem('trainingContext')),
+      map(() => void 0)
+    );
   }
 
   addTrainingElementToContext(
     trainingElement: Omit<TrainingElementModel, 'index'>
   ): Observable<void> {
     if (this._traningSubject.value) {
-      this._traningSubject.next({
+      const trainingContext = {
         ...this._traningSubject.value,
 
         trainingElements: [
@@ -96,31 +103,23 @@ export class TrainingService {
             index: this._traningSubject.value.trainingElements.length + 1,
           },
         ],
-      });
-      localStorage.setItem(
-        'trainingContext',
-        JSON.stringify({
-          ...this._traningSubject.value,
+      };
 
-          trainingElements: [
-            ...this._traningSubject.value.trainingElements,
-            {
-              ...trainingElement,
-              index: this._traningSubject.value.trainingElements.length + 1,
-            },
-          ],
-        })
-      );
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     }
 
     return of(void 0);
   }
   addTrainingElementsToContext(training: TrainingModel): Observable<void> {
-    this._traningSubject.next({
+    const trainingContext = {
       isEdit: true,
       trainingElements: training.trainingElements,
       trainingWeek: training.trainingWeek,
-    });
+      isDone: training.isDone,
+    };
+    this._traningSubject.next(trainingContext);
+    localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     return of(void 0);
   }
   getAllPlans(): Observable<TrainingModel[]> {
@@ -153,11 +152,15 @@ export class TrainingService {
       this._isEdit.next({ isEdit: false, index: 0 });
 
       currentValue[index] = editedTraining;
-      this._traningSubject.next({
+
+      const trainingContext = {
         trainingWeek: this._traningSubject.value.trainingWeek,
         isEdit: this._traningSubject.value.isEdit,
         trainingElements: currentValue,
-      });
+        isDone: this._traningSubject.value.isDone,
+      };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     }
 
     return of(void 0);
@@ -218,15 +221,23 @@ export class TrainingService {
       isEdit: false,
       trainingElements: [],
       trainingWeek: 0,
+      isDone: false,
     });
     return of(void 0);
   }
   setTrainingWeekOnSubject(trainingWeek: number): Observable<void> {
+    if (this._traningSubject.value?.trainingWeek === trainingWeek) {
+      console.log('void');
+      return of(void 0);
+    }
     if (this._traningSubject.value) {
-      this._traningSubject.next({
+      console.log('setSubject', trainingWeek);
+      const trainingContext = {
         ...this._traningSubject.value,
         trainingWeek: trainingWeek,
-      });
+      };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     }
 
     return of(void 0);
@@ -241,10 +252,12 @@ export class TrainingService {
           index: i++ + 1,
         })
       );
-      this._traningSubject.next({
+      const trainingContext = {
         ...this._traningSubject.value,
         trainingElements: trainingElements,
-      });
+      };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     }
 
     return of(void 0);
@@ -258,13 +271,34 @@ export class TrainingService {
     trainingElements: TrainingElementModel[]
   ): Observable<void> {
     if (this._traningSubject.value) {
-      this._traningSubject.next({
+      const trainingContext = {
         ...this._traningSubject.value,
         trainingElements: trainingElements.map((trainingElement, i) => ({
           ...trainingElement,
           index: i + 1,
         })),
-      });
+      };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
+    }
+
+    return of(void 0);
+  }
+
+  isNotEdit(): Observable<void> {
+    if (this._traningSubject.value?.isEdit) {
+      const trainingContext = { ...this._traningSubject.value, isEdit: false };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
+    }
+
+    return of(void 0);
+  }
+  isEdit(): Observable<void> {
+    if (!this._traningSubject.value?.isEdit) {
+      const trainingContext = { ...this._traningSubject.value, isEdit: true };
+      this._traningSubject.next(trainingContext as TrainingContextModel);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
     }
 
     return of(void 0);

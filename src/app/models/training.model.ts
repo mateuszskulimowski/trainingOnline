@@ -9,4 +9,5 @@ export interface TrainingModel {
   readonly trainerId: string;
   raitingCommentTraining: string;
   raitingValueTraining: number;
+  readonly isDone: boolean;
 }

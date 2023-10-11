@@ -3,4 +3,4 @@
 
 $my-primary: mat-palette($mat-teal, 500);
 $my-theme: mat-light-theme($my-primary);
-@include angular-material-theme($my-theme);
+// @include angular-material-theme($my-theme);

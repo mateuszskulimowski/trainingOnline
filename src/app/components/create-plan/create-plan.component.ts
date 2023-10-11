@@ -6,7 +6,15 @@ import {
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable, combineLatest, map, switchMap, take, tap } from 'rxjs';
+import {
+  Observable,
+  combineLatest,
+  map,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs';
 import { TrainingElementModel } from '../../models/training-element.model';
 import { TrainingService } from '../../services/training.service';
 import { QuantityExerciseModel } from '../../models/quantity-exercise.model';
@@ -16,6 +24,7 @@ import { EditTrainingElementModel } from 'src/app/models/edit-training-element.m
 import { TrainingContextModel } from 'src/app/models/training-context.model';
 import { UserWithTrainingQueryModel } from 'src/app/query-models/user-with-training.query-model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { TrainingListWithUserRoleQueryModel } from 'src/app/query-models/training-list-with-user-role.query-model';
 
 @Component({
   selector: 'app-create-plan',
@@ -56,39 +65,89 @@ export class CreatePlanComponent implements OnDestroy {
   //     return { ...user, training: user.trainingWeeks.reverse() };
   //   })
   // );
+
   readonly user$: Observable<UserWithTrainingQueryModel> = combineLatest([
     this._activatedRoute.params,
     this.trainingExercises$,
   ]).pipe(
-    take(1),
-    switchMap(([params, trainingSubject]) =>
-      this._userService.getOneUserByAuth(params['authId']).pipe(
+    tap(() => {}),
+    switchMap(([params, trainingSubject]) => {
+      console.log(trainingSubject.isEdit);
+      return this._userService.getOneUserByAuth(params['authId']).pipe(
         map((user) => {
-          console.log('map');
+          // console.log('trainngWeek', trainingSubject.trainingWeek);
           if (trainingSubject.isEdit) {
+            console.log('isEdit', trainingSubject.trainingWeek);
+
             this.planForm
               .get('trainingWeek')
               ?.patchValue(trainingSubject.trainingWeek);
+
+            this._trainingService.setTrainingWeekOnSubject(
+              trainingSubject.trainingWeek
+            );
+
+            this.planForm
+              .get('trainingWeek')
+              ?.patchValue(trainingSubject.trainingWeek);
+
             this._trainingService.setTrainingWeekOnSubject(
               trainingSubject.trainingWeek
             );
           } else {
+            console.log('isNotEdit');
+
             this.planForm
               .get('trainingWeek')
               ?.patchValue(user.trainingWeeks.length);
-            this._trainingService.setTrainingWeekOnSubject(
-              user.trainingWeeks.length
-            );
+            this._trainingService
+              .setTrainingWeekOnSubject(user.trainingWeeks.length)
+              .pipe();
           }
           return {
             userId: user.id,
             trainingWeeks: user.trainingWeeks.reverse(),
             isEdit: trainingSubject.isEdit,
+            trainingWeek: trainingSubject.trainingWeek,
+            trainingElements: trainingSubject.trainingElements,
+            isDone: trainingSubject.isDone,
           };
         })
-      )
-    )
+      );
+    })
   );
+  // readonly user$: Observable<UserWithTrainingQueryModel> = combineLatest([
+  //   this._activatedRoute.params,
+  //   this.trainingExercises$,
+  // ]).pipe(
+  //   switchMap(([params, trainingSubject]) =>
+  //     this._userService.getOneUserByAuth(params['authId']).pipe(
+  //       map((user) => {
+  //         console.log('property:', trainingSubject.isEdit);
+  //         if (trainingSubject.isEdit) {
+  //           this.planForm
+  //             .get('trainingWeek')
+  //             ?.patchValue(trainingSubject.trainingWeek);
+  //           this._trainingService.setTrainingWeekOnSubject(
+  //             trainingSubject.trainingWeek
+  //           );
+  //         } else {
+  //           this.planForm
+  //             .get('trainingWeek')
+  //             ?.patchValue(user.trainingWeeks.length);
+  //           this._trainingService.setTrainingWeekOnSubject(
+  //             user.trainingWeeks.length
+  //           );
+  //         }
+  //         return {
+  //           userId: user.id,
+  //           trainingWeeks: user.trainingWeeks.reverse(),
+  //           isEdit: trainingSubject.isEdit,
+  //         };
+  //       })
+  //     )
+  //   )
+  // );
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
@@ -102,11 +161,11 @@ export class CreatePlanComponent implements OnDestroy {
     console.log('kkk');
   }
 
-  onPlanFormSubmitted(userId: string, isEdit: boolean): void {
+  onPlanFormSubmitted(userId: string, isEdit: boolean, isDone: boolean): void {
     this._activatedRoute.params
       .pipe(
         switchMap((params) => {
-          if (isEdit) {
+          if (isEdit && isDone) {
             return this._trainingService
               .setTraining(params['trainingId'])
               .pipe(tap(() => this._router.navigate([`user/` + userId])));
@@ -211,12 +270,14 @@ export class CreatePlanComponent implements OnDestroy {
       this.planForm.get('trainingWeek')?.patchValue(newElements);
       this._userService.setTraining(user.userId, newTrainingNumbers);
     }
+
+    this._trainingService.isNotEdit().subscribe();
   }
 
   setTrainingWeek(event: any): void {
-    // console.log(typeof );
+    this._trainingService.isEdit();
     const trainingWeek = parseInt(event.target.value);
-
+    console.log(trainingWeek);
     this.planForm.get('trainingWeek')?.patchValue(trainingWeek);
 
     this._trainingService.setTrainingWeekOnSubject(trainingWeek).subscribe();
