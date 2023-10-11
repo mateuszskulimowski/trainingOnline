@@ -19,21 +19,24 @@ import { TrainingDetailsPageModule } from './pages/training-details/training-det
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([
-      { path: 'create-plan', component: CreatePlanUsersPage },
-      { path: 'register', component: RegisterPage },
-      { path: 'login', component: LoginPage },
-      { path: 'users-list', component: UserListPage },
-      { path: 'user/:userId', component: UserDetailsPage },
-      { path: 'create-plan/:authId', component: CreatePlanUsersPage },
-      { path: 'training-plans', component: TrainingPlansPage },
-      {
-        path: 'training-plans/:authId',
-        component: TrainingPlansPage,
-      },
-      { path: 'edit-plan/:authId/:trainingId', component: EditPlanPage },
-      { path: 'training/:trainingId', component: TrainingDetailsPage },
-    ]),
+    RouterModule.forRoot(
+      [
+        { path: 'create-plan', component: CreatePlanUsersPage },
+        { path: 'register', component: RegisterPage },
+        { path: 'login', component: LoginPage },
+        { path: 'users-list', component: UserListPage },
+        { path: 'user/:userId', component: UserDetailsPage },
+        { path: 'create-plan/:authId', component: CreatePlanUsersPage },
+        { path: 'training-plans', component: TrainingPlansPage },
+        {
+          path: 'training-plans/:authId',
+          component: TrainingPlansPage,
+        },
+        { path: 'edit-plan/:authId/:trainingId', component: EditPlanPage },
+        { path: 'training/:trainingId', component: TrainingDetailsPage },
+      ],
+      { useHash: true }
+    ),
     CreatePlanUsersPageModule,
     RegisterPageModule,
     LoginPageModule,
