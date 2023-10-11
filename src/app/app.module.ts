@@ -13,6 +13,7 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { NavigationComponentModule } from './components/navigation/navigation.component-module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -29,7 +30,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     NavigationComponentModule,
     DragDropModule,
   ],
-  providers: [],
+  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
