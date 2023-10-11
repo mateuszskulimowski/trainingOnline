@@ -30,7 +30,7 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     NavigationComponentModule,
     DragDropModule,
   ],
-  providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
