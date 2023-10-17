@@ -2,29 +2,28 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  BehaviorSubject,
   Observable,
   combineLatest,
   map,
-  shareReplay,
+  startWith,
   switchMap,
-  take,
   tap,
 } from 'rxjs';
-import { TrainingElementModel } from '../../models/training-element.model';
+import { TrainingContextModel } from '../../models/training-context.model';
+import { EditTrainingElementModel } from '../../models/edit-training-element.model';
+import { UserWithTrainingQueryModel } from '../../query-models/user-with-training.query-model';
 import { TrainingService } from '../../services/training.service';
+import { UserService } from '../../services/user.service';
 import { QuantityExerciseModel } from '../../models/quantity-exercise.model';
-import { UserService } from 'src/app/services/user.service';
-import { UserModel } from 'src/app/models/user.model';
-import { EditTrainingElementModel } from 'src/app/models/edit-training-element.model';
-import { TrainingContextModel } from 'src/app/models/training-context.model';
-import { UserWithTrainingQueryModel } from 'src/app/query-models/user-with-training.query-model';
+import { TrainingElementModel } from '../../models/training-element.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { TrainingListWithUserRoleQueryModel } from 'src/app/query-models/training-list-with-user-role.query-model';
 
 @Component({
   selector: 'app-create-plan',
@@ -32,11 +31,12 @@ import { TrainingListWithUserRoleQueryModel } from 'src/app/query-models/trainin
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreatePlanComponent implements OnDestroy {
+export class CreatePlanComponent implements OnDestroy, OnInit {
   readonly planForm: FormGroup = new FormGroup({
     trainingWeek: new FormControl(),
     exercise: new FormControl(''),
     comment: new FormControl(''),
+    autocompleteControl: new FormControl(''),
     quantityExercise: new FormArray([
       new FormGroup({
         set: new FormControl(''),
@@ -52,19 +52,23 @@ export class CreatePlanComponent implements OnDestroy {
     quantityExercise: new FormArray([]),
   });
 
-  readonly trainingExercises$: Observable<TrainingContextModel> = this
-    ._trainingService.traning$ as Observable<TrainingContextModel>;
-
   readonly isEditForm$: Observable<EditTrainingElementModel> =
     this._trainingService.isEdit$;
+  readonly exerciseTemplates$: Observable<string[]> =
+    this._trainingService.getExerciseTemplates();
 
-  // readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
-  //   switchMap((params) => this._userService.getOneUserByAuth(params['authId'])),
-  //   map((user) => {
-  //     this.planForm.get('trainingWeek')?.patchValue(user.trainingWeeks.length);
-  //     return { ...user, training: user.trainingWeeks.reverse() };
-  //   })
-  // );
+  private _isAutocompleteSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  public isAutocomplete$: Observable<boolean> =
+    this._isAutocompleteSubject.asObservable();
+
+  private _filteredOptionsSubject: BehaviorSubject<string[]> =
+    new BehaviorSubject<string[]>(['']);
+  public filteredOptions$: Observable<string[]> =
+    this._filteredOptionsSubject.asObservable();
+
+  readonly trainingExercises$: Observable<TrainingContextModel> = this
+    ._trainingService.traning$ as Observable<TrainingContextModel>;
 
   readonly user$: Observable<UserWithTrainingQueryModel> = combineLatest([
     this._activatedRoute.params,
@@ -72,13 +76,9 @@ export class CreatePlanComponent implements OnDestroy {
   ]).pipe(
     tap(() => {}),
     switchMap(([params, trainingSubject]) => {
-      console.log(trainingSubject.isEdit);
       return this._userService.getOneUserByAuth(params['authId']).pipe(
         map((user) => {
-          // console.log('trainngWeek', trainingSubject.trainingWeek);
           if (trainingSubject.isEdit) {
-            console.log('isEdit', trainingSubject.trainingWeek);
-
             this.planForm
               .get('trainingWeek')
               ?.patchValue(trainingSubject.trainingWeek);
@@ -95,8 +95,6 @@ export class CreatePlanComponent implements OnDestroy {
               trainingSubject.trainingWeek
             );
           } else {
-            console.log('isNotEdit');
-
             this.planForm
               .get('trainingWeek')
               ?.patchValue(user.trainingWeeks.length);
@@ -116,38 +114,7 @@ export class CreatePlanComponent implements OnDestroy {
       );
     })
   );
-  // readonly user$: Observable<UserWithTrainingQueryModel> = combineLatest([
-  //   this._activatedRoute.params,
-  //   this.trainingExercises$,
-  // ]).pipe(
-  //   switchMap(([params, trainingSubject]) =>
-  //     this._userService.getOneUserByAuth(params['authId']).pipe(
-  //       map((user) => {
-  //         console.log('property:', trainingSubject.isEdit);
-  //         if (trainingSubject.isEdit) {
-  //           this.planForm
-  //             .get('trainingWeek')
-  //             ?.patchValue(trainingSubject.trainingWeek);
-  //           this._trainingService.setTrainingWeekOnSubject(
-  //             trainingSubject.trainingWeek
-  //           );
-  //         } else {
-  //           this.planForm
-  //             .get('trainingWeek')
-  //             ?.patchValue(user.trainingWeeks.length);
-  //           this._trainingService.setTrainingWeekOnSubject(
-  //             user.trainingWeeks.length
-  //           );
-  //         }
-  //         return {
-  //           userId: user.id,
-  //           trainingWeeks: user.trainingWeeks.reverse(),
-  //           isEdit: trainingSubject.isEdit,
-  //         };
-  //       })
-  //     )
-  //   )
-  // );
+
   constructor(
     private _fb: FormBuilder,
     private _trainingService: TrainingService,
@@ -158,7 +125,26 @@ export class CreatePlanComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this._trainingService.destroyTrainingContext().subscribe();
-    console.log('kkk');
+  }
+
+  ngOnInit() {
+    this.planForm.valueChanges
+      .pipe(
+        startWith(''),
+        switchMap((planForm) =>
+          this._filter(planForm.autocompleteControl || '')
+        ),
+        tap((data) => this._filteredOptionsSubject.next(data))
+      )
+      .subscribe();
+  }
+
+  get quantityExercise(): FormArray {
+    return this.planForm.controls['quantityExercise'] as FormArray;
+  }
+
+  get quantityExerciseEdit(): FormArray {
+    return this.editForm.controls['quantityExercise'] as FormArray;
   }
 
   onPlanFormSubmitted(userId: string, isEdit: boolean, isDone: boolean): void {
@@ -176,14 +162,6 @@ export class CreatePlanComponent implements OnDestroy {
       .subscribe({
         next: () => {},
       });
-  }
-
-  get quantityExercise(): FormArray {
-    return this.planForm.controls['quantityExercise'] as FormArray;
-  }
-
-  get quantityExerciseEdit(): FormArray {
-    return this.editForm.controls['quantityExercise'] as FormArray;
   }
 
   addQuantityEdit(quantity: QuantityExerciseModel): void {
@@ -277,7 +255,7 @@ export class CreatePlanComponent implements OnDestroy {
   setTrainingWeek(event: any): void {
     this._trainingService.isEdit();
     const trainingWeek = parseInt(event.target.value);
-    console.log(trainingWeek);
+
     this.planForm.get('trainingWeek')?.patchValue(trainingWeek);
 
     this._trainingService.setTrainingWeekOnSubject(trainingWeek).subscribe();
@@ -295,5 +273,25 @@ export class CreatePlanComponent implements OnDestroy {
     elementsArray.splice(event.previousIndex, 1);
     elementsArray.splice(event.currentIndex, 0, movedElement);
     this._trainingService.onDragTrainingElement(elementsArray);
+  }
+
+  activeTemplate(): void {
+    this._isAutocompleteSubject.next(!this._isAutocompleteSubject.value);
+  }
+  deactivationTemplate(value: string): void {
+    this._isAutocompleteSubject.next(false);
+    this.planForm.get('exercise')?.patchValue(value);
+  }
+
+  private _filter(value: string): Observable<string[]> {
+    const filterValue = value.toLowerCase();
+
+    return this._trainingService.getExerciseTemplates().pipe(
+      map((exerciseTemplates) => {
+        return exerciseTemplates.filter((exerciseTemplate) =>
+          exerciseTemplate.toLowerCase().includes(filterValue)
+        );
+      })
+    );
   }
 }

@@ -14,6 +14,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { NavigationComponentModule } from './components/navigation/navigation.component-module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,7 +25,9 @@ import { HashLocationStrategy, LocationStrategy } from '@angular/common';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideDatabase(() => getDatabase()),
+
     provideFirestore(() => getFirestore()),
+
     AngularFireModule.initializeApp(environment.firebase),
     ReactiveFormsModule,
     NavigationComponentModule,

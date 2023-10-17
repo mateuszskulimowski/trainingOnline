@@ -8,6 +8,7 @@ import { TrainingModel } from '../models/training.model';
 import { QuantityExerciseModel } from '../models/quantity-exercise.model';
 import { EditTrainingElementModel } from '../models/edit-training-element.model';
 import { TrainingContextModel } from '../models/training-context.model';
+import { AngularFireDatabase } from '@angular/fire/compat/database';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {
@@ -33,7 +34,10 @@ export class TrainingService {
   public isEdit$: Observable<EditTrainingElementModel> =
     this._isEdit.asObservable();
 
-  constructor(private _client: AngularFirestore) {}
+  constructor(
+    private _client: AngularFirestore,
+    private _fireDatabase: AngularFireDatabase
+  ) {}
 
   addTraining(authId: string): Observable<void> {
     const trainingSubject: TrainingContextModel = {
@@ -186,21 +190,19 @@ export class TrainingService {
       return docRef.get().pipe(
         switchMap((doc) => {
           if (doc.exists) {
-            const data = doc.data() as {
-              trainingElement: TrainingElementModel[];
-            };
-
+            const data = doc.data() as TrainingModel;
+            console.log(data);
             if (
-              data.trainingElement &&
-              data.trainingElement.length > indexToUpdate
+              data.trainingElements &&
+              data.trainingElements.length > indexToUpdate
             ) {
-              data.trainingElement[indexToUpdate].raitingCommentExercise =
+              data.trainingElements[indexToUpdate].raitingCommentExercise =
                 raitingComment;
-              data.trainingElement[indexToUpdate].raitingValueExercise =
+              data.trainingElements[indexToUpdate].raitingValueExercise =
                 raitingValue;
 
               return from(
-                docRef.update({ trainingElement: data.trainingElement })
+                docRef.update({ trainingElements: data.trainingElements })
               );
             } else {
               throw new Error(
@@ -302,5 +304,11 @@ export class TrainingService {
     }
 
     return of(void 0);
+  }
+  getExerciseTemplates(): Observable<string[]> {
+    return this._fireDatabase
+      .list('ExercisesTemplate')
+      .valueChanges()
+      .pipe(map((data) => data.flat() as string[]));
   }
 }

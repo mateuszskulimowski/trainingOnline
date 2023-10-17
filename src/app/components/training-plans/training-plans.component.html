@@ -57,30 +57,7 @@
     *ngFor="let trainingData of trainingPlansQuery$ | async; trackBy: identify"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title
-        >Tydzień {{ trainingData.week }}
-        <!-- <div class="container">
-          <div class="row alig">
-            <div class="col">Tydzień {{ trainingData.week }}</div>
-            <div class="col text-end">
-              <button
-                class="btn btn-block bg-cadetblue text-ghostwhite"
-                (click)="openRaitingWeekModal()"
-              >
-                Podsumuj tydzień
-              </button>
-            </div>
-          </div>
-        </div> -->
-      </mat-panel-title>
-      <!-- <mat-panel-description class="justify-content-end"> -->
-      <!-- <button
-          class="btn btn-block bg-cadetblue text-ghostwhite"
-          (click)="openRaitingWeekModal(); $event.stopPropagation()"
-        >
-          Podsumuj tydzień
-        </button> -->
-      <!-- </mat-panel-description> -->
+      <mat-panel-title>Tydzień {{ trainingData.week }} </mat-panel-title>
     </mat-expansion-panel-header>
 
     <div class="container mt-5">

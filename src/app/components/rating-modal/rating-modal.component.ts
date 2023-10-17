@@ -2,6 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   Inject,
+  OnDestroy,
+  OnInit,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -16,7 +18,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RatingModalComponent {
+export class RatingModalComponent implements OnInit {
   private _dificultValueSubject: BehaviorSubject<number[]> =
     new BehaviorSubject<number[]>([1, 2, 3, 4, 5]);
   public dificultValue$: Observable<number[]> =
@@ -30,10 +32,12 @@ export class RatingModalComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
     private _trainingService: TrainingService
-  ) {
-    this.raitingForm.get('comment')?.patchValue(data.raitingComment);
-    this.raitingForm.get('raitingValue')?.patchValue(data.raitingValue);
+  ) {}
+  ngOnInit(): void {
+    this.raitingForm.get('comment')?.patchValue(this.data.raitingComment);
+    this.raitingForm.get('raitingValue')?.patchValue(this.data.raitingValue);
   }
+
   addRaiting(
     trainingId: string,
     raitingForm: FormGroup,

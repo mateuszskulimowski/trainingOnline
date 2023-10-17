@@ -32,7 +32,6 @@
               Tydzień {{ trainingWeek }}
             </option>
           </select>
-          <!-- {{ user.training }} -->
         </div>
         <div class="col-md-3 text-end">
           <button
@@ -46,14 +45,46 @@
       </div>
 
       <div class="row justify-content-center">
-        <div class="col-md-9">
-          <textarea
-            class="form-control"
-            placeholder="Ćwiczenie"
-            id="exerciseName"
-            formControlName="exercise"
-            rows="2"
-          ></textarea>
+        <div class="col-md-7">
+          <div *ngIf="isAutocomplete$ | async; else noTemplate">
+            <textarea
+              class="form-control"
+              placeholder="Wybierz z szablonu"
+              aria-label="Number"
+              matInput
+              formControlName="autocompleteControl"
+              [matAutocomplete]="auto"
+              rows="2"
+            ></textarea>
+
+            <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
+              <mat-option
+                *ngFor="let option of filteredOptions$ | async"
+                [value]="option"
+                (onSelectionChange)="deactivationTemplate(option)"
+              >
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+          <ng-template #noTemplate>
+            <textarea
+              class="form-control"
+              placeholder="Ćwiczenie"
+              id="exerciseName"
+              formControlName="exercise"
+              rows="2"
+            ></textarea>
+          </ng-template>
+        </div>
+        <div class="col-md-2 text-end">
+          <button
+            type="button"
+            class="btn btn-block bg-cadetblue text-ghostwhite"
+            (click)="activeTemplate()"
+          >
+            Szablon
+          </button>
         </div>
       </div>
       <div class="row justify-content-center">
@@ -357,4 +388,3 @@
     </div>
   </div>
 </ng-container>
-<!-- {{ trainingExercises$ | async | json }} -->

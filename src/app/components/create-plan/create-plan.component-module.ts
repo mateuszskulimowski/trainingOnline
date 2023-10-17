@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { CreatePlanComponent } from './create-plan.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   imports: [
     ReactiveFormsModule,
@@ -21,6 +21,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatSelectModule,
     MatIconModule,
     DragDropModule,
+    MatAutocompleteModule,
   ],
   declarations: [CreatePlanComponent],
   providers: [],
