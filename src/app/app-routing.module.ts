@@ -16,27 +16,60 @@ import { EditPlanPage } from './pages/edit-plan/edit-plan.page';
 import { EditPlanPageModule } from './pages/edit-plan/edit-plan.page-module';
 import { TrainingDetailsPage } from './pages/training-details/training-details.page';
 import { TrainingDetailsPageModule } from './pages/training-details/training-details.page-module';
+import { HomePage } from './pages/home/home.page';
+import { HomePageModule } from './pages/home/home.page-module';
+import { IsNotLoggedInGuardModule } from './guards/is-not-logged-in.guard-module';
+import { IsNotLoggedInGuard } from './guards/is-not-logged-in.guard';
+import { IsAdminGuard } from './guards/is-admin.guard';
+import { IsAdminGuardModule } from './guards/is-admin.guard-module';
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(
-      [
-        { path: 'create-plan', component: CreatePlanUsersPage },
-        { path: 'register', component: RegisterPage },
-        { path: 'login', component: LoginPage },
-        { path: 'users-list', component: UserListPage },
-        { path: 'user/:userId', component: UserDetailsPage },
-        { path: 'create-plan/:authId', component: CreatePlanUsersPage },
-        { path: 'training-plans', component: TrainingPlansPage },
-        {
-          path: 'training-plans/:authId',
-          component: TrainingPlansPage,
-        },
-        { path: 'edit-plan/:authId/:trainingId', component: EditPlanPage },
-        { path: 'training/:trainingId', component: TrainingDetailsPage },
-      ],
-      { useHash: true }
-    ),
+    RouterModule.forRoot([
+      {
+        path: 'create-plan',
+        component: CreatePlanUsersPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      { path: 'register', component: RegisterPage },
+      { path: 'login', component: LoginPage },
+      {
+        path: 'users-list',
+        component: UserListPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      {
+        path: 'user/:userId',
+        component: UserDetailsPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      {
+        path: 'create-plan/:authId',
+        component: CreatePlanUsersPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      {
+        path: 'training-plans',
+        component: TrainingPlansPage,
+        canActivate: [IsNotLoggedInGuard],
+      },
+      {
+        path: 'training-plans/:authId',
+        component: TrainingPlansPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      {
+        path: 'edit-plan/:authId/:trainingId',
+        component: EditPlanPage,
+        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+      },
+      {
+        path: 'training/:trainingId',
+        component: TrainingDetailsPage,
+        canActivate: [IsNotLoggedInGuard],
+      },
+      { path: '', component: HomePage },
+    ]),
     CreatePlanUsersPageModule,
     RegisterPageModule,
     LoginPageModule,
@@ -45,6 +78,9 @@ import { TrainingDetailsPageModule } from './pages/training-details/training-det
     TrainingPlansPageModule,
     EditPlanPageModule,
     TrainingDetailsPageModule,
+    HomePageModule,
+    IsNotLoggedInGuardModule,
+    IsAdminGuardModule,
   ],
   exports: [RouterModule],
 })

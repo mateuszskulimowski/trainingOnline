@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { TrainingElementModel } from '../models/training-element.model';
 import { TrainingModel } from '../models/training.model';
 
@@ -131,7 +131,8 @@ export class TrainingService {
       .collection<TrainingModel>('plans', (ref) =>
         ref.orderBy('createAt', 'desc')
       )
-      .valueChanges({ idField: 'id' });
+      .valueChanges({ idField: 'id' })
+      .pipe(shareReplay(1));
   }
 
   editForm(isEdit: boolean, index: number): Observable<void> {

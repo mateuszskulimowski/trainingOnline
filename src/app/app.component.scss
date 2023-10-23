@@ -1,0 +1,14 @@
+.center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eeeeee;
+  min-height: 100vh;
+}
+
+.center_mat-card {
+  width: 100%;
+  max-width: 320px;
+  min-height: 200px;
+}

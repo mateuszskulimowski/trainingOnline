@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,7 @@ export class LoginComponent {
     password: new FormControl(),
   });
 
-  constructor(private _authService: AuthService) {}
+  constructor(private _authService: AuthService, private _router: Router) {}
 
   onLoginFormSubmitted(loginForm: FormGroup): void {
     this._authService
@@ -26,6 +27,6 @@ export class LoginComponent {
         email: loginForm.get('email')?.value,
         password: loginForm.get('password')?.value,
       })
-      .subscribe();
+      .subscribe({ next: () => this._router.navigate(['/training-plans']) });
   }
 }

@@ -1,33 +1,40 @@
-<form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmitted(loginForm)">
-  <div>
-    <mat-form-field appearance="fill"
-      ><mat-label>Email</mat-label
-      ><input
-        matInput
+<form
+  style="
+    min-height: 91vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-64px);
+  "
+  [formGroup]="loginForm"
+  (ngSubmit)="onLoginFormSubmitted(loginForm)"
+  class="d-flex text-center justify-content-center"
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <input
         type="text"
+        class="form-control w-25 m-3"
         placeholder="Email"
         formControlName="email"
         required
-      /><mat-error *ngIf="loginForm.get('email')!.invalid"
-        >email is invalid</mat-error
-      ></mat-form-field
-    >
-  </div>
-  <div>
-    <mat-form-field appearance="fill"
-      ><mat-label>Password</mat-label
-      ><input
-        matInput
+      />
+    </div>
+    <div class="row justify-content-center">
+      <input
         type="text"
+        class="form-control w-25 m-3"
         placeholder="Password"
         formControlName="password"
         required
-      /><mat-error *ngIf="loginForm.get('password')!.invalid"
-        >password is invalid</mat-error
-      ></mat-form-field
-    >
-  </div>
-  <div>
-    <button type="submit" mat-raised-button color="primary">Submit</button>
+      />
+    </div>
+    <div class="row">
+      <div class="d-inline-flex justify-content-center">
+        <button class="" type="submit" mat-raised-button color="primary">
+          Zaloguj
+        </button>
+      </div>
+    </div>
   </div>
 </form>

@@ -53,7 +53,7 @@ export class AuthService {
           email: user.email,
           isVerified: user.emailVerified,
         } as ContextModel;
-
+        console.log(context);
         this._userContextSubject.next(context);
         return context;
       })
@@ -61,6 +61,7 @@ export class AuthService {
   }
 
   logOut(): Observable<void> {
+    console.log('logout');
     return from(this._client.signOut()).pipe(map(() => void 0));
   }
 }

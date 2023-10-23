@@ -66,4 +66,7 @@ export class UserService {
         .update({ paidTraining: paidTraining })
     ).pipe(map(() => void 0));
   }
+  hasAdmin(role: string): Observable<boolean> {
+    return of(role === 'admin');
+  }
 }
