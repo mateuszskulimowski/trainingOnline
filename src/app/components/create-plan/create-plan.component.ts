@@ -194,6 +194,7 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
         quantity: planForm.get('quantityExercise')?.value,
         raitingCommentExercise: '',
         raitingValueExercise: 0,
+        exerciseValue: [],
       })
       .subscribe(() => {
         planForm.get('exercise')?.reset();

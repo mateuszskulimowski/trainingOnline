@@ -7,4 +7,5 @@ export interface TrainingElementModel {
   readonly index: number;
   raitingCommentExercise: string;
   raitingValueExercise: number;
+  exerciseValue: QuantityExerciseModel[];
 }

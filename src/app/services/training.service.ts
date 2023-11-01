@@ -176,8 +176,10 @@ export class TrainingService {
     indexToUpdate: number,
     raitingComment: string,
     raitingValue: number,
-    raitingType: string
+    raitingType: string,
+    exerciseValues: any
   ): Observable<void> {
+    console.log(exerciseValues);
     if (raitingType === 'training') {
       return from(
         this._client.doc('plans/' + trainingId).update({
@@ -201,6 +203,8 @@ export class TrainingService {
                 raitingComment;
               data.trainingElements[indexToUpdate].raitingValueExercise =
                 raitingValue;
+              data.trainingElements[indexToUpdate].exerciseValue =
+                exerciseValues;
 
               return from(
                 docRef.update({ trainingElements: data.trainingElements })

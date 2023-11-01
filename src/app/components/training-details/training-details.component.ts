@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
 import { UserContext } from 'src/app/contexts/user.context';
+import { QuantityExerciseModel } from 'src/app/models/quantity-exercise.model';
 
 @Component({
   selector: 'app-training-details',
@@ -29,12 +30,7 @@ export class TrainingDetailsComponent implements OnInit {
         this._trainingService.getOneTraining(params['trainingId'])
       )
     );
-  // private _roleSubject: BehaviorSubject<string> = new BehaviorSubject<string>(
-  //   ''
-  // );
-  // public role$: Observable<string> = this._roleSubject.asObservable();
-  // readonly userContext$: Observable<UserContext> =
-  //   this._inMemoryUserContextStorage.select();
+
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _trainingService: TrainingService,
@@ -43,36 +39,17 @@ export class TrainingDetailsComponent implements OnInit {
     public dialog: MatDialog,
     private _inMemoryUserContextStorage: InMemoryUserContextStorage
   ) {}
-  ngOnInit(): void {
-    // this._authService
-    //   .load()
-    //   .pipe(
-    //     switchMap((userContext) =>
-    //       this._userService
-    //         .getOneUserByAuth(userContext.id)
-    //         .pipe(tap((user) => this._roleSubject.next(user.role)))
-    //     )
-    //   )
-    //   .subscribe();
-    // this._inMemoryUserContextStorage
-    //   .select()
-    //   .pipe(
-    //     switchMap((userContext) =>
-    //       this._userService
-    //         .getOneUserByAuth(userContext.authId)
-    //         .pipe(tap((user) => _))
-    //     )
-    //   );
-  }
+  ngOnInit(): void {}
   openRaitingModal(
     raitingType: string,
     exerciseOrder: number,
     trainingId: string,
     raitingComment: string,
-    raitingValue: number
+    raitingValue: number,
+    quantityExercise?: QuantityExerciseModel[],
+    exerciseValue?: QuantityExerciseModel[]
   ) {
     let dialogRef = this.dialog.open(RatingModalComponent, {
-      height: '200px',
       width: '360px',
       data: {
         raitingType: raitingType,
@@ -80,6 +57,8 @@ export class TrainingDetailsComponent implements OnInit {
         trainingId: trainingId,
         raitingComment: raitingComment,
         raitingValue: raitingValue,
+        quantityExercise: quantityExercise,
+        exerciseValue: exerciseValue,
       },
     });
   }
