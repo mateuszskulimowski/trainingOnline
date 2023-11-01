@@ -76,6 +76,9 @@
     },
     "model": {
       "type": "DATA_STRUCTURE"
+    },
+    "context": {
+      "type": "DATA_STRUCTURE"
     }
   }
 }

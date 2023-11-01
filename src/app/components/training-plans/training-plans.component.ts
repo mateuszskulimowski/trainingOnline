@@ -16,6 +16,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 import { UserContextModel } from 'src/app/models/user-context.model';
 import { TrainingWithUserQueryModel } from 'src/app/query-models/training-with-user.query-model';
+import { UserContext } from 'src/app/contexts/user.context';
+import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
 
 @Component({
   selector: 'app-training-plans',
@@ -24,27 +26,30 @@ import { TrainingWithUserQueryModel } from 'src/app/query-models/training-with-u
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingPlansComponent implements AfterContentInit {
-  readonly userContext$: Observable<UserContextModel> =
-    this._authService.userContext$.pipe(
-      map((context) => {
-        return {
-          id: context.id,
-          email: context.email,
-          isVerified: context.isVerified,
-        };
-      })
-    );
-  readonly userRole$: Observable<string> = this.userContext$.pipe(
-    switchMap((userContext) => {
-      return this._userService.getOneUserByAuth(userContext.id).pipe(
-        map((user) => {
-          console.log('user');
-          return user.role;
-        }),
-        take(1)
-      );
-    })
-  );
+  // readonly userContext$: Observable<UserContextModel> =
+  //   this._authService.userContext$.pipe(
+  //     map((context) => {
+  //       return {
+  //         id: context.id,
+  //         email: context.email,
+  //         isVerified: context.isVerified,
+  //       };
+  //     })
+  //   );
+
+  readonly userContext$: Observable<UserContext> =
+    this._inMemoryUserContextStorage.select();
+  // readonly userRole$: Observable<string> = this.userContext$.pipe(
+  //   switchMap((userContext) => {
+  //     return this._userService.getOneUserByAuth(userContext.authId).pipe(
+  //       map((user) => {
+  //         // console.log('user');
+  //         return user.role;
+  //       }),
+  //       take(1)
+  //     );
+  //   })
+  // );
 
   readonly trainingPlansQuery$: Observable<
     TrainingListWithUsersWeekQueryModel[]
@@ -52,15 +57,24 @@ export class TrainingPlansComponent implements AfterContentInit {
     this._trainingService.getAllPlans(),
     this.userContext$,
     this._activatedRoute.params,
-    this.userRole$,
   ]).pipe(
-    map(([trainingPlans, userContext, params, userRole]) =>
-      params['authId']
-        ? this._getTrainingWithUser(trainingPlans, params['authId'], userRole)
-        : this._getTrainingWithUser(trainingPlans, userContext.id, userRole)
-    ),
+    map(([trainingPlans, userContext, params]) => {
+      // console.log(userContext);
+      return params['authId']
+        ? this._getTrainingWithUser(
+            trainingPlans,
+            params['authId'],
+            userContext.role
+          )
+        : this._getTrainingWithUser(
+            trainingPlans,
+            userContext.authId,
+            userContext.role
+          );
+    }),
 
     switchMap((trainingData) => {
+      // console.log(trainingData);
       return this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
           user.trainingWeeks
@@ -88,10 +102,11 @@ export class TrainingPlansComponent implements AfterContentInit {
     private _router: Router,
     public dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
-    private _userService: UserService
+    private _userService: UserService,
+    private _inMemoryUserContextStorage: InMemoryUserContextStorage
   ) {}
   ngAfterContentInit(): void {
-    this._authService.load().subscribe();
+    // this._authService.load().subscribe();
   }
 
   identify(index: number, item: any) {
@@ -118,7 +133,7 @@ export class TrainingPlansComponent implements AfterContentInit {
     authId: string,
     userRole: string
   ): TrainingWithUserQueryModel {
-    console.log(userRole);
+    // console.log(userRole);
     return {
       training: trainings.filter(
         (training) => training.authId && training.authId.includes(authId)

@@ -22,53 +22,71 @@ import { IsNotLoggedInGuardModule } from './guards/is-not-logged-in.guard-module
 import { IsNotLoggedInGuard } from './guards/is-not-logged-in.guard';
 import { IsAdminGuard } from './guards/is-admin.guard';
 import { IsAdminGuardModule } from './guards/is-admin.guard-module';
-
+import {
+  AngularFireAuthGuard,
+  redirectUnauthorizedTo,
+} from '@angular/fire/compat/auth-guard';
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 @NgModule({
   imports: [
     RouterModule.forRoot([
       {
         path: 'create-plan',
         component: CreatePlanUsersPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       { path: 'register', component: RegisterPage },
       { path: 'login', component: LoginPage },
       {
         path: 'users-list',
         component: UserListPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [IsAdminGuard],
+        // data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'user/:userId',
         component: UserDetailsPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'create-plan/:authId',
         component: CreatePlanUsersPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'training-plans',
         component: TrainingPlansPage,
-        canActivate: [IsNotLoggedInGuard],
+        canActivate: [AngularFireAuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'training-plans/:authId',
         component: TrainingPlansPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'edit-plan/:authId/:trainingId',
         component: EditPlanPage,
-        canActivate: [IsNotLoggedInGuard, IsAdminGuard],
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'training/:trainingId',
         component: TrainingDetailsPage,
-        canActivate: [IsNotLoggedInGuard],
+        canActivate: [AngularFireAuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       { path: '', component: HomePage },
+      {
+        path: 'home',
+        component: HomePage,
+        canActivate: [AngularFireAuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ]),
     CreatePlanUsersPageModule,
     RegisterPageModule,

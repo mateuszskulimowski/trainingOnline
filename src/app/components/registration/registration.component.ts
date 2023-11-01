@@ -7,6 +7,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
+import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
 
 @Component({
   selector: 'app-registration',
@@ -24,7 +25,8 @@ export class RegistrationComponent {
 
   constructor(
     private _authService: AuthService,
-    private _userService: UserService
+    private _userService: UserService,
+    private _inMemoryUserContextStorage: InMemoryUserContextStorage
   ) {}
 
   onRegisterFormSubmitted(registerForm: FormGroup): void {
@@ -42,7 +44,8 @@ export class RegistrationComponent {
       });
   }
   load() {
-    this._authService.load().subscribe();
+    // this._authService.load().subscribe();
+    this._inMemoryUserContextStorage.select().subscribe();
   }
   logout() {
     this._authService.logOut().subscribe();

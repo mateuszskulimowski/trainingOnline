@@ -19,12 +19,15 @@
             Podopieczni
           </button>
         </div>
-        <div class="col p-o text-end">
+        <div
+          class="col p-o text-end"
+          *ngIf="userAuthContext$ | async as userContext"
+        >
           <button
             class="mx-2"
             mat-button
             (click)="logOut()"
-            *ngIf="userAuthContext$ | async; else noLogin"
+            *ngIf="userContext.authId; else noLogin"
           >
             Log out
           </button>
