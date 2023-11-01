@@ -41,8 +41,8 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
       {
         path: 'users-list',
         component: UserListPage,
-        canActivate: [IsAdminGuard],
-        // data: { authGuardPipe: redirectUnauthorizedToLogin },
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
       {
         path: 'user/:userId',

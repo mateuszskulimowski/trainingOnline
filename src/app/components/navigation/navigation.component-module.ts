@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
-import { HasAdminDirectiveModule } from 'src/app/directives/has-admin/has-admin.directive-module';
+import { HasAdminDirective } from 'src/app/directives/has-admin/has-admin.directive';
 @NgModule({
   imports: [
     MatToolbarModule,
@@ -17,7 +17,6 @@ import { HasAdminDirectiveModule } from 'src/app/directives/has-admin/has-admin.
     MatSidenavModule,
     MatIconModule,
     CommonModule,
-    HasAdminDirectiveModule,
   ],
   declarations: [NavigationComponent],
   providers: [],

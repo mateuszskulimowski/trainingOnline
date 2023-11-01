@@ -75,7 +75,7 @@
 
                 <div class="col d-flex justify-content-end">
                   <button
-                    *ngIf="trainingData.userRole === 'admin'"
+                    *hasAdminRole
                     type="button"
                     class="btn btn-block p-1 d-flex align-items-center bg-danger text-ghostwhite"
                     (click)="

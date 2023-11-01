@@ -1,4 +1,7 @@
-<section style="min-height: 100vh">
+<section
+  style="min-height: 100vh"
+  *ngIf="userAuthContext$ | async as userContext"
+>
   <mat-toolbar class="bg-cadetblue text-ghostwhite">
     <div class="container">
       <div class="row">
@@ -15,14 +18,16 @@
             Treningi
           </button>
 
-          <button class="mx-2" mat-button [routerLink]="'/users-list'">
+          <button
+            class="mx-2"
+            mat-button
+            [routerLink]="'/users-list'"
+            *ngIf="userContext.role === 'admin'"
+          >
             Podopieczni
           </button>
         </div>
-        <div
-          class="col p-o text-end"
-          *ngIf="userAuthContext$ | async as userContext"
-        >
+        <div class="col p-o text-end">
           <button
             class="mx-2"
             mat-button

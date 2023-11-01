@@ -7,12 +7,21 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  filter,
+  shareReplay,
+  switchMap,
+  take,
+  takeUntil,
+} from 'rxjs';
 import { UserService } from 'src/app/services/user.service';
+import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
 
-@Directive({ selector: '[appHasAdmin]' })
+@Directive({ selector: '[hasAdminRole]' })
 export class HasAdminDirective implements OnInit, OnDestroy {
-  @Input() hasAdminRole!: string;
+  @Input() hasAdminRole: string | null = null;
   @Input() set hasAdminRoleElse(templateRef: TemplateRef<any> | null) {}
   private _elseTpl: TemplateRef<any> | null = null;
   private _onDestroy$ = new Subject<void>();
@@ -21,14 +30,23 @@ export class HasAdminDirective implements OnInit, OnDestroy {
     private tepmlateRef: TemplateRef<any>,
     private _userService: UserService,
     private viewContainer: ViewContainerRef,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
+    private _inMemoryUserContextStorage: InMemoryUserContextStorage
   ) {}
 
   ngOnInit(): void {
-    this._userService
-      .hasAdmin(this.hasAdminRole)
-      .pipe(takeUntil(this._onDestroy$))
+    this._inMemoryUserContextStorage
+      .select()
+      .pipe(
+        filter((userContext) => !!userContext.role),
+        switchMap((user) => {
+          return this._userService
+            .hasAdmin(user.role)
+            .pipe(takeUntil(this._onDestroy$));
+        })
+      )
       .subscribe((hasRole) => {
+        console.log(hasRole);
         this.viewContainer.clear();
         if (hasRole) {
           this.viewContainer.createEmbeddedView(this.tepmlateRef);

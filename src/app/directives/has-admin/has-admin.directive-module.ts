@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { HasAdminDirective } from './has-admin.directive';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
-  imports: [],
+  imports: [CommonModule],
   declarations: [HasAdminDirective],
   providers: [],
-  exports: [HasAdminDirective]
+  exports: [HasAdminDirective],
 })
-export class HasAdminDirectiveModule {
-}
+export class HasAdminDirectiveModule {}

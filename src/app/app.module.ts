@@ -18,6 +18,7 @@ import { LoadUserContextService } from './resolvers/load-user-context.service';
 import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
 import { LoadUserContextServiceModule } from './resolvers/load-user-context.service-module';
 import { InMemoryUserContextStorageModule } from './storages/in-memory-user-context.storage-module';
+import { HasAdminDirective } from './directives/has-admin/has-admin.directive';
 export const contextLoaded$: BehaviorSubject<boolean> =
   new BehaviorSubject<boolean>(false);
 const contextLoadedForInitialize$: Observable<boolean> =

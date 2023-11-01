@@ -7,10 +7,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { RegistrationComponent } from './registration.component';
 
 @NgModule({
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, CommonModule, MatButtonModule],
+  imports: [
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    CommonModule,
+    MatButtonModule,
+  ],
   declarations: [RegistrationComponent],
   providers: [],
-  exports: [RegistrationComponent]
+  exports: [RegistrationComponent],
 })
-export class RegistrationComponentModule {
-}
+export class RegistrationComponentModule {}
