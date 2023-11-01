@@ -1,122 +1,124 @@
-<form [formGroup]="raitingForm">
-  <div class="container p-2">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="form-group">
-          <label for="comment"
-            >Komentarz do {{ data.raitingType | raitingType }}:</label
-          >
-          <textarea
-            formControlName="comment"
-            class="form-control"
-            id="comment"
-            rows="2"
-          ></textarea>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-12">
-        <label for="difficulty">Poziom trudności:</label>
-        <div class="form-group">
-          <mat-radio-group
-            formControlName="raitingValue"
-            aria-label="Select an option"
-          >
-            <mat-radio-button
-              color="primary"
-              *ngFor="let dificultValue of dificultValue$ | async"
-              [value]="dificultValue"
-              >{{ dificultValue }}</mat-radio-button
+<mat-dialog-content
+  ><form [formGroup]="raitingForm">
+    <div class="container p-2 d-block">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="comment"
+              >Komentarz do {{ data.raitingType | raitingType }}:</label
             >
-          </mat-radio-group>
+            <textarea
+              formControlName="comment"
+              class="form-control"
+              id="comment"
+              rows="2"
+            ></textarea>
+          </div>
         </div>
       </div>
-    </div>
-    <ng-container formArrayName="exerciseValue"
-      ><ng-container
-        *ngFor="let exerciseValue of exerciseValue.controls; let i = index"
-      >
-        <div class="row mt-3 justify-content-center" [formGroupName]="i">
-          <div class="col-md-3">
-            <input
-              type="text"
-              class="form-control"
-              id="sets"
-              placeholder="Serie"
-              formControlName="set"
-            />
-          </div>
-          <div class="col-md-3">
-            <input
-              type="text"
-              class="form-control"
-              id="repetitions"
-              placeholder="Powtórzenia"
-              formControlName="rep"
-            />
-          </div>
 
-          <div class="col-md-3">
-            <input
-              type="text"
-              class="form-control"
-              id="value"
-              placeholder="Obciążenie"
-              formControlName="value"
-            />
+      <div class="row">
+        <div class="col-md-12">
+          <label for="difficulty">Poziom trudności:</label>
+          <div class="form-group">
+            <mat-radio-group
+              formControlName="raitingValue"
+              aria-label="Select an option"
+            >
+              <mat-radio-button
+                color="primary"
+                *ngFor="let dificultValue of dificultValue$ | async"
+                [value]="dificultValue"
+                >{{ dificultValue }}</mat-radio-button
+              >
+            </mat-radio-group>
           </div>
-          <div class="col-md-3">
+        </div>
+      </div>
+      <ng-container formArrayName="exerciseValue"
+        ><ng-container
+          *ngFor="let exerciseValue of exerciseValue.controls; let i = index"
+        >
+          <div class="row mt-3 justify-content-center" [formGroupName]="i">
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="sets"
+                placeholder="Serie"
+                formControlName="set"
+              />
+            </div>
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="repetitions"
+                placeholder="Powtórzenia"
+                formControlName="rep"
+              />
+            </div>
+
+            <div class="col-md-3">
+              <input
+                type="text"
+                class="form-control"
+                id="value"
+                placeholder="Obciążenie"
+                formControlName="value"
+              />
+            </div>
+            <div class="col-md-3">
+              <button
+                type="button"
+                class="btn btn-block bg-cadetblue text-ghostwhite"
+                (click)="deleteQuantity(i)"
+              >
+                -
+              </button>
+            </div>
+          </div></ng-container
+        ></ng-container
+      >
+      <div class="row" *ngIf="data.raitingType === 'exercise'">
+        <div class="row mt-3 text-end m-2">
+          <div class="col d-flex justify-content-end">
             <button
               type="button"
               class="btn btn-block bg-cadetblue text-ghostwhite"
-              (click)="deleteQuantity(i)"
+              (click)="asTrainingQuantityValue(data.quantityExercise)"
             >
-              -
+              Jak w planie
             </button>
           </div>
-        </div></ng-container
-      ></ng-container
-    >
-    <div class="row" *ngIf="data.raitingType === 'exercise'">
-      <div class="row mt-3 text-end m-2">
-        <div class="col d-flex justify-content-end">
-          <button
-            type="button"
-            class="btn btn-block bg-cadetblue text-ghostwhite"
-            (click)="asTrainingQuantityValue(data.quantityExercise)"
-          >
-            Jak w planie
-          </button>
+          <div class="col-md-2">
+            <button
+              type="button"
+              class="btn btn-block bg-cadetblue text-ghostwhite"
+              (click)="addQuantity('add')"
+            >
+              +
+            </button>
+          </div>
         </div>
-        <div class="col-md-2">
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-end">
           <button
-            type="button"
             class="btn btn-block bg-cadetblue text-ghostwhite"
-            (click)="addQuantity('add')"
+            (click)="
+              addRaiting(
+                data.trainingId,
+                raitingForm,
+                data.raitingType,
+                data.exerciseOrder
+              )
+            "
           >
-            +
+            Zatwierdz
           </button>
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-md-12 text-end">
-        <button
-          class="btn btn-block bg-cadetblue text-ghostwhite"
-          (click)="
-            addRaiting(
-              data.trainingId,
-              raitingForm,
-              data.raitingType,
-              data.exerciseOrder
-            )
-          "
-        >
-          Zatwierdz
-        </button>
-      </div>
-    </div>
-  </div>
-</form>
+  </form>
+</mat-dialog-content>

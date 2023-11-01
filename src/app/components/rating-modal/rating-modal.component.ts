@@ -37,11 +37,14 @@ export class RatingModalComponent implements OnInit {
     private _fb: FormBuilder
   ) {}
   ngOnInit(): void {
-    this.data.exerciseValue.forEach((exercise: QuantityExerciseModel) => {
-      const exerciseValue = this._fb.group(exercise);
-      console.log(exerciseValue);
-      this.exerciseValue.push(exerciseValue);
-    });
+    console.log(this.data.raitingType);
+    if (this.data.raitingType === 'exercise') {
+      this.data.exerciseValue.forEach((exercise: QuantityExerciseModel) => {
+        const exerciseValue = this._fb.group(exercise);
+        console.log(exerciseValue);
+        this.exerciseValue.push(exerciseValue);
+      });
+    }
 
     // this.raitingForm.get('exerciseValue')?.patchValue(this.data.exerciseValue);
     this.raitingForm.get('comment')?.patchValue(this.data.raitingComment);
