@@ -64,7 +64,6 @@ export class LoginComponent {
       )
       .subscribe({
         next: (userContext) => {
-          console.log(userContext);
           this._inMemoryUserContextStorage.setState(userContext);
           this._loadUserContext.load();
 

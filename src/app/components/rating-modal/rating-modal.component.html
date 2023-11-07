@@ -7,6 +7,7 @@
             <label for="comment"
               >Komentarz do {{ data.raitingType | raitingType }}:</label
             >
+
             <textarea
               formControlName="comment"
               class="form-control"
@@ -17,7 +18,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" *ngIf="data.raitingType != 'weekComment'">
         <div class="col-md-12">
           <label for="difficulty">Poziom trudności:</label>
           <div class="form-group">

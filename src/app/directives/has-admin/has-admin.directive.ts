@@ -46,7 +46,6 @@ export class HasAdminDirective implements OnInit, OnDestroy {
         })
       )
       .subscribe((hasRole) => {
-        console.log(hasRole);
         this.viewContainer.clear();
         if (hasRole) {
           this.viewContainer.createEmbeddedView(this.tepmlateRef);

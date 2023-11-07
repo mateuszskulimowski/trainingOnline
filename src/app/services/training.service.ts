@@ -21,6 +21,7 @@ export class TrainingService {
         trainingElements: [],
         trainingWeek: 0,
         isDone: false,
+        hasFill: false,
       }
     );
   public traning$: Observable<TrainingContextModel | null> =
@@ -179,7 +180,6 @@ export class TrainingService {
     raitingType: string,
     exerciseValues: any
   ): Observable<void> {
-    console.log(exerciseValues);
     if (raitingType === 'training') {
       return from(
         this._client.doc('plans/' + trainingId).update({
@@ -194,7 +194,7 @@ export class TrainingService {
         switchMap((doc) => {
           if (doc.exists) {
             const data = doc.data() as TrainingModel;
-            console.log(data);
+
             if (
               data.trainingElements &&
               data.trainingElements.length > indexToUpdate
@@ -234,17 +234,18 @@ export class TrainingService {
   }
   setTrainingWeekOnSubject(trainingWeek: number): Observable<void> {
     if (this._traningSubject.value?.trainingWeek === trainingWeek) {
-      console.log('void');
       return of(void 0);
     }
     if (this._traningSubject.value) {
-      console.log('setSubject', trainingWeek);
       const trainingContext = {
         ...this._traningSubject.value,
         trainingWeek: trainingWeek,
       };
+
       this._traningSubject.next(trainingContext);
+
       localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
+      console.log(this._traningSubject.value);
     }
 
     return of(void 0);
@@ -315,5 +316,13 @@ export class TrainingService {
       .list('ExercisesTemplate')
       .valueChanges()
       .pipe(map((data) => data.flat() as string[]));
+  }
+
+  setHasFillTraining(hasFill: boolean, trainingId: string): Observable<void> {
+    return from(
+      this._client.doc('plans/' + trainingId).update({
+        hasFill: hasFill,
+      })
+    );
   }
 }

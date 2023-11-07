@@ -8,6 +8,7 @@ import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
 import { Observable } from 'rxjs';
 import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -26,21 +27,25 @@ export class RegistrationComponent {
   constructor(
     private _authService: AuthService,
     private _userService: UserService,
-    private _inMemoryUserContextStorage: InMemoryUserContextStorage
+    private _inMemoryUserContextStorage: InMemoryUserContextStorage,
+    private _router: Router
   ) {}
 
   onRegisterFormSubmitted(registerForm: FormGroup): void {
     if (registerForm.invalid) {
       return;
     }
-    console.log(registerForm.get('email')?.value);
+
     this._authService
       .register({
         email: registerForm.get('email')?.value,
         password: registerForm.get('password')?.value,
       })
-      .subscribe((userId) => {
-        this.addUserData(registerForm, userId);
+      .subscribe({
+        next: (userId) => {
+          this.addUserData(registerForm, userId);
+          this._router.navigate(['/home']);
+        },
       });
   }
   load() {

@@ -1,63 +1,9 @@
-<!-- <mat-accordion>
-  <mat-expansion-panel *ngFor="let training of trainingPlans$ | async">
-    <mat-expansion-panel-header>
-      <ng-container>
-        <button
-          type="button"
-          class="btn btn-block bg-cadetblue text-ghostwhite"
-          (click)="editTraining(training); $event.stopPropagation()"
-        >
-          Edytuj trening
-        </button></ng-container
-      >
-
-      <mat-panel-title> Trening </mat-panel-title>
-      <mat-panel-description>
-        Data utworzenia: {{ training.createAt | date }}
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="container" *ngFor="let training of training.trainingElement">
-      <div class="row">
-        <div class="col-1">{{ training.index }}</div>
-        <div class="col-6 text-start">
-          <div class="row">
-            <span class="my-2"><b>Exercise</b></span>
-            {{ training.exercise }}
-          </div>
-
-          <div class="row">
-            <span class="my-2"><b>Comment</b></span>
-            {{ training.comment }}
-          </div>
-        </div>
-        <div class="col text-center" *ngFor="let quantity of training.quantity">
-          <div class="row justify-content-center">
-            <div class="col-1 fs-5 d-flex align-items-center">
-              <p>{{ quantity.set }}</p>
-            </div>
-            <div class="col-2">
-              <div class="row">
-                <p>{{ quantity.value }}</p>
-              </div>
-              <div class="row">
-                <p>{{ quantity.rep }}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <span class="px-3"><mat-divider></mat-divider></span>
-    </div>
-  </mat-expansion-panel>
-</mat-accordion> -->
-<!-- <pre>{{ trainingPlans$ | async | json }}</pre> -->
-
 <mat-accordion>
   <mat-expansion-panel
     *ngFor="let trainingData of trainingPlansQuery$ | async; trackBy: identify"
   >
     <mat-expansion-panel-header>
-      <mat-panel-title>Tydzień {{ trainingData.week }} </mat-panel-title>
+      <mat-panel-title>Tydzień {{ trainingData.week.number }} </mat-panel-title>
     </mat-expansion-panel-header>
 
     <div class="container mt-5">
@@ -73,7 +19,10 @@
                   <h3 class="mb-0">Trening {{ i + 1 }}</h3>
                 </div>
 
-                <div class="col d-flex justify-content-end">
+                <div
+                  class="col d-flex justify-content-end"
+                  *ngIf="!trainingReport"
+                >
                   <button
                     *hasAdminRole
                     type="button"

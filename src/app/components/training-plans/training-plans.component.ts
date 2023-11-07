@@ -26,30 +26,10 @@ import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-cont
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TrainingPlansComponent implements AfterContentInit {
-  // readonly userContext$: Observable<UserContextModel> =
-  //   this._authService.userContext$.pipe(
-  //     map((context) => {
-  //       return {
-  //         id: context.id,
-  //         email: context.email,
-  //         isVerified: context.isVerified,
-  //       };
-  //     })
-  //   );
+  trainingReport: boolean = false;
 
   readonly userContext$: Observable<UserContext> =
     this._inMemoryUserContextStorage.select();
-  // readonly userRole$: Observable<string> = this.userContext$.pipe(
-  //   switchMap((userContext) => {
-  //     return this._userService.getOneUserByAuth(userContext.authId).pipe(
-  //       map((user) => {
-  //         // console.log('user');
-  //         return user.role;
-  //       }),
-  //       take(1)
-  //     );
-  //   })
-  // );
 
   readonly trainingPlansQuery$: Observable<
     TrainingListWithUsersWeekQueryModel[]
@@ -59,38 +39,34 @@ export class TrainingPlansComponent implements AfterContentInit {
     this._activatedRoute.params,
   ]).pipe(
     map(([trainingPlans, userContext, params]) => {
-      // console.log(userContext);
+      if (this._router.url.includes('reports')) {
+        this.trainingReport = true;
+      }
       return params['authId']
-        ? this._getTrainingWithUser(
-            trainingPlans,
-            params['authId'],
-            userContext.role
-          )
-        : this._getTrainingWithUser(
-            trainingPlans,
-            userContext.authId,
-            userContext.role
-          );
+        ? this._getTrainingWithUser(trainingPlans, params['authId'])
+        : this._getTrainingWithUser(trainingPlans, userContext.authId);
     }),
 
     switchMap((trainingData) => {
-      // console.log(trainingData);
       return this._userService.getOneUserByAuth(trainingData.authId).pipe(
         map((user) =>
           user.trainingWeeks
             .map((week) => {
               const weekTraining: TrainingModel[] =
                 trainingData.training.filter(
-                  (training) => week == training.trainingWeek
+                  (training) => week.number == training.trainingWeek
                 );
 
               return new TrainingListWithUsersWeekQueryModel(
+                user.id,
                 week,
-                weekTraining,
-                trainingData.userRole
+                weekTraining.reverse(),
+                false //to jest tu zbedne
               );
             })
-            .reverse()
+            .sort((a, b) => {
+              return b.week.number - a.week.number;
+            })
         )
       );
     })
@@ -116,11 +92,17 @@ export class TrainingPlansComponent implements AfterContentInit {
   onClickTraining(training: TrainingModel): void {
     this._activatedRoute.params
       .pipe(
-        tap((params) =>
-          params['authId']
-            ? this._editTraining(training)
-            : this._openTrainingDetails(training)
-        )
+        tap((params) => {
+          if (params['authId']) {
+            if (this.trainingReport) {
+              this._router.navigate([`report-trainer/${training.id}`]);
+            } else {
+              this._editTraining(training);
+            }
+          } else {
+            this._openTrainingDetails(training);
+          }
+        })
       )
       .subscribe();
   }
@@ -130,16 +112,13 @@ export class TrainingPlansComponent implements AfterContentInit {
 
   private _getTrainingWithUser(
     trainings: TrainingModel[],
-    authId: string,
-    userRole: string
+    authId: string
   ): TrainingWithUserQueryModel {
-    // console.log(userRole);
     return {
       training: trainings.filter(
         (training) => training.authId && training.authId.includes(authId)
       ),
       authId: authId,
-      userRole: userRole,
     };
   }
 

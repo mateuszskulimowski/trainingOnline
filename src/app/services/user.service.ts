@@ -47,8 +47,10 @@ export class UserService {
         shareReplay(1)
       );
   }
-  setTraining(userId: string, trainingActive: number[]): Observable<void> {
-    console.log('serwis ', trainingActive);
+  setTraining(
+    userId: string,
+    trainingActive: { number: number; comment: string }[]
+  ): Observable<void> {
     return from(
       this._angularFirestore
         .doc('users/' + userId)
@@ -68,5 +70,30 @@ export class UserService {
   }
   hasAdmin(role: string): Observable<boolean> {
     return of(role === 'admin');
+  }
+  setCommentForWeek(
+    userId: string,
+    index: number,
+    comment: string
+  ): Observable<void> {
+    console.log(index);
+    const docRef = this._angularFirestore.collection('users').doc(userId);
+    // console.log(docRef.get());
+    return docRef.get().pipe(
+      switchMap((doc) => {
+        if (doc.exists) {
+          const data = doc.data() as UserModel;
+          console.log(
+            data.trainingWeeks.sort((a, b) => {
+              return b.number - a.number;
+            })
+          );
+          data.trainingWeeks[index].comment = comment;
+          return from(docRef.update({ trainingWeeks: data.trainingWeeks }));
+        } else {
+          throw new Error(`Dokument o ID ${userId} nie istnieje`);
+        }
+      })
+    );
   }
 }

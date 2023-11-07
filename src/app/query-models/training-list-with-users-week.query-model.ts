@@ -2,8 +2,9 @@ import { TrainingModel } from '../models/training.model';
 
 export class TrainingListWithUsersWeekQueryModel {
   constructor(
-    public readonly week: number,
+    public readonly userId: string,
+    public readonly week: { number: number; comment: string },
     public readonly training: TrainingModel[],
-    public readonly userRole: string
+    public readonly isToCheck: boolean
   ) {}
 }

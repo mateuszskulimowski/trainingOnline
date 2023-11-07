@@ -21,7 +21,6 @@ export class InMemoryUserContextStorage {
     return this._subject.asObservable();
   }
   setState(context: UserContext): Observable<void> {
-    // console.log('setuje', context);
     return of(this._subject.next(context)).pipe(map(() => void 0));
   }
 }

@@ -7,5 +7,5 @@ export interface UserModel {
   readonly authId: string;
   readonly trainerId: string;
   readonly paidTraining: number;
-  readonly trainingWeeks: number[];
+  readonly trainingWeeks: { number: number; comment: string }[];
 }

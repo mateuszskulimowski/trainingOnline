@@ -29,7 +29,6 @@ export class AuthService {
       )
     ).pipe(
       map((user) => {
-        console.log(user);
         // if(user===undefined&&user===null){
         //   return
         // }
@@ -69,7 +68,7 @@ export class AuthService {
   //         email: user.email,
   //         isVerified: user.emailVerified,
   //       } as ContextModel;
-  //       // console.log(context);
+
   //       this._userContextSubject.next(context);
   //       return context;
   //     })

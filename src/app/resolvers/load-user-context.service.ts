@@ -30,7 +30,6 @@ export class LoadUserContextService {
       .pipe(
         shareReplay(1),
         switchMap((userContext) => {
-          //   console.log('userLoad', userContext);
           if (userContext === null && userContext === undefined) {
             return of({ authId: '', email: '', role: '' });
           }
@@ -39,7 +38,6 @@ export class LoadUserContextService {
             .pipe(
               // take(1),
               map((user) => {
-                console.log('getUser');
                 const context: UserContext = {
                   authId: userContext?.uid,
                   email: userContext?.email,
@@ -51,7 +49,6 @@ export class LoadUserContextService {
             );
         }),
         switchMap((context) => {
-          console.log('wpada w load');
           this._isRoleSubject.next(context.role);
           return this._inMemoryUserContextStorage.setState(context);
         })

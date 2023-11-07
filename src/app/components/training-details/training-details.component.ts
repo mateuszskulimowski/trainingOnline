@@ -46,6 +46,7 @@ export class TrainingDetailsComponent implements OnInit {
     trainingId: string,
     raitingComment: string,
     raitingValue: number,
+    hasFill: boolean,
     quantityExercise?: QuantityExerciseModel[],
     exerciseValue?: QuantityExerciseModel[]
   ) {
@@ -59,6 +60,7 @@ export class TrainingDetailsComponent implements OnInit {
         raitingValue: raitingValue,
         quantityExercise: quantityExercise,
         exerciseValue: exerciseValue,
+        hasFill: hasFill,
       },
     });
   }

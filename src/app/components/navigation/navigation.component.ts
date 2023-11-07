@@ -58,7 +58,7 @@ export class NavigationComponent {
     //       .subscribe({ next: () => this._router.navigate(['/']) });
     //   this._inMemoryUserContextStorage
     //     .select()
-    //     .pipe(tap((context) => console.log('context', context)))
+    //     .pipe(tap((context) =>))
     //     .subscribe();
     // },
     // });

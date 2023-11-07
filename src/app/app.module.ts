@@ -27,7 +27,6 @@ function initializeAppFactory(
   resolver: LoadUserContextService
 ): () => Observable<any> {
   return () => {
-    console.log(contextLoaded$.value);
     return resolver.load().pipe(
       tap(() => {
         contextLoaded$.next(true);

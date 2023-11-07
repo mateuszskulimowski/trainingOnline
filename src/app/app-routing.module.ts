@@ -24,8 +24,13 @@ import { IsAdminGuard } from './guards/is-admin.guard';
 import { IsAdminGuardModule } from './guards/is-admin.guard-module';
 import {
   AngularFireAuthGuard,
+  canActivate,
   redirectUnauthorizedTo,
 } from '@angular/fire/compat/auth-guard';
+import { ReportsPage } from './pages/reports/reports.page';
+import { ReportsPageModule } from './pages/reports/reports.page-module';
+import { ReportsForUserPage } from './pages/reports-for-user/reports-for-user.page';
+import { ReportsForUserPageModule } from './pages/reports-for-user/reports-for-user.page-module';
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
 @NgModule({
   imports: [
@@ -87,6 +92,18 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
         canActivate: [AngularFireAuthGuard],
         data: { authGuardPipe: redirectUnauthorizedToLogin },
       },
+      {
+        path: 'reports/:authId',
+        component: ReportsPage,
+        canActivate: [AngularFireAuthGuard, IsAdminGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
+      {
+        path: 'reports',
+        component: ReportsForUserPage,
+        canActivate: [AngularFireAuthGuard],
+        data: { authGuardPipe: redirectUnauthorizedToLogin },
+      },
     ]),
     CreatePlanUsersPageModule,
     RegisterPageModule,
@@ -99,6 +116,8 @@ const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
     HomePageModule,
     IsNotLoggedInGuardModule,
     IsAdminGuardModule,
+    ReportsPageModule,
+    ReportsForUserPageModule,
   ],
   exports: [RouterModule],
 })

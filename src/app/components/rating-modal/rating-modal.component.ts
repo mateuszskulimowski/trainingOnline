@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { TrainingService } from '../../services/training.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { QuantityExerciseModel } from 'src/app/models/quantity-exercise.model';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-rating-modal',
@@ -34,14 +35,14 @@ export class RatingModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<any>,
     private _trainingService: TrainingService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private _userService: UserService
   ) {}
   ngOnInit(): void {
-    console.log(this.data.raitingType);
     if (this.data.raitingType === 'exercise') {
       this.data.exerciseValue.forEach((exercise: QuantityExerciseModel) => {
         const exerciseValue = this._fb.group(exercise);
-        console.log(exerciseValue);
+
         this.exerciseValue.push(exerciseValue);
       });
     }
@@ -65,20 +66,33 @@ export class RatingModalComponent implements OnInit {
     raitingType: string,
     exerciseOrder: number
   ): void {
-    console.log(trainingId);
     this.dialogRef.close();
+    if (raitingType === 'weekComment') {
+      this._userService
+        .setCommentForWeek(
+          this.data.userId,
+          this.data.index,
+          raitingForm.get('comment')?.value
+        )
+        .subscribe();
+    } else {
+      if (!this.data.hasFill) {
+        this._trainingService
+          .setHasFillTraining(true, this.data.trainingId)
+          .subscribe();
+      }
+      this._trainingService
+        .setRaiting(
+          trainingId,
+          exerciseOrder,
+          raitingForm.get('comment')?.value,
+          raitingForm.get('raitingValue')?.value,
+          raitingType,
+          raitingForm.get('exerciseValue')?.value
+        )
 
-    this._trainingService
-      .setRaiting(
-        trainingId,
-        exerciseOrder,
-        raitingForm.get('comment')?.value,
-        raitingForm.get('raitingValue')?.value,
-        raitingType,
-        raitingForm.get('exerciseValue')?.value
-      )
-
-      .subscribe();
+        .subscribe();
+    }
   }
 
   deleteQuantity(i: number): void {
@@ -91,10 +105,9 @@ export class RatingModalComponent implements OnInit {
     this.exerciseValue.push(quantityForm);
   }
   asTrainingQuantityValue(quantity: QuantityExerciseModel[]) {
-    console.log(quantity);
     quantity.forEach((val) => {
       const quantityForm = this._fb.group(val);
-      // console.log(quantity)
+
       this.exerciseValue.push(quantityForm);
     });
   }

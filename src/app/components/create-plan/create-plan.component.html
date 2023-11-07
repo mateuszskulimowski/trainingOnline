@@ -27,9 +27,9 @@
           >
             <option
               *ngFor="let trainingWeek of user.trainingWeeks"
-              [value]="trainingWeek"
+              [value]="trainingWeek.number"
             >
-              Tydzień {{ trainingWeek }}
+              Tydzień {{ trainingWeek.number }}
             </option>
           </select>
         </div>

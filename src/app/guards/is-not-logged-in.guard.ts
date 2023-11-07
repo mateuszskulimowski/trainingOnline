@@ -25,10 +25,10 @@ export class IsNotLoggedInGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     this._loadUserContextService;
     // .load()
-    // .subscribe(() => console.log('poszedl guard'));
+    // .subscribe(() => );
     // this._loadUserContextService
     //   .load()
-    //   .subscribe(() => console.log('poszedl guard'));
+    //   .subscribe(() => );
 
     return this._inMemoryUserContextStorage
       .select()

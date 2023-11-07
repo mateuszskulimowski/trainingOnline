@@ -30,14 +30,12 @@ export class IsAdminGuard implements CanActivate {
   ): Observable<boolean | UrlTree> {
     return contextLoaded$.pipe(
       filter((loaded) => {
-        console.log(loaded);
         return loaded === true;
       }),
       switchMap(() =>
         this._inMemoryUserContextStorage.select().pipe(
           filter((user) => !!user.authId === true),
           map((user) => {
-            console.log(!!user.authId);
             return user.role === 'admin' ? true : false;
           })
         )
@@ -48,7 +46,6 @@ export class IsAdminGuard implements CanActivate {
     //   switchMap(() => {
     //     return this._inMemoryUserContextStorage.select().pipe(
     //       map((user) => {
-    //         console.log(user);
     //         return user.role === 'admin' ? true : false;
     //       })
     //     );

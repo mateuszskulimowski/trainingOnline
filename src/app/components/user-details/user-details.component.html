@@ -15,12 +15,20 @@
                   Dodaj trening
                 </button>
               </div>
-              <div class="row">
+              <div class="row mb-2">
                 <button
                   class="btn btn-block bg-cadetblue text-ghostwhite"
                   [routerLink]="'/training-plans/' + user.authId"
                 >
                   Treningi
+                </button>
+              </div>
+              <div class="row mb-2">
+                <button
+                  class="btn btn-block bg-cadetblue text-ghostwhite"
+                  [routerLink]="'/reports/' + user.authId"
+                >
+                  Raporty
                 </button>
               </div>
             </div>
