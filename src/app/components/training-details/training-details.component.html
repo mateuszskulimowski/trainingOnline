@@ -1,8 +1,8 @@
-<ng-container *ngIf="trainingDetails$ | async as trainingDetails"
-  ><mat-card>
-    <mat-card-title class="text-end m-3"
-      ><button
-        class="btn btn-block bg-cadetblue text-ghostwhite"
+<ng-container *ngIf="trainingDetails$ | async as trainingDetails">
+  <mat-card>
+    <mat-card-title class="text-end m-3">
+      <button
+        class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
         (click)="
           openRaitingModal(
             'training',
@@ -17,76 +17,145 @@
         Podsumuj trening
       </button>
     </mat-card-title>
-    <mat-card-content
-      ><div
-        class="container"
-        *ngFor="let training of trainingDetails.trainingElements"
-      >
-        <ng-container>
-          <div class="row">
-            <div class="col-1">{{ training.index }}</div>
-            <div class="col-5 text-start">
+
+    <div
+      class="container mt-5 px-3"
+      *ngFor="let training of trainingDetails.trainingElements; let i = index"
+    >
+      <div class="row d-flex justify-content-center">
+        <div class="col-1">{{ i + 1 }}.</div>
+        <div class="col">
+          <div class="border rounded mb-3">
+            <div class="row align-items-center">
+              <div class="mb-1 pt-3 ps-4 text-title">
+                <span class="d-inline-flex bg-white">Ćwiczenie</span>
+              </div>
+            </div>
+            <p class="mx-3">{{ training.exercise }}</p>
+          </div>
+          <div class="border rounded mb-3">
+            <div class="row align-items-center">
+              <div class="mb-1 pt-3 ps-4 text-title">
+                <span class="text-title-without-btn d-inline-flex bg-white"
+                  >Komentarz</span
+                >
+              </div>
+            </div>
+            <p class="mx-3">{{ training.comment }}</p>
+          </div>
+          <div class="row ps-2 mb-3">
+            <div class="col-3 col-md-2 border-left-right">
               <div class="row">
-                <span class="my-2"><b>Exercise</b></span>
-
-                {{ training.exercise }}
+                <p class="mb-0 pe-2 ps-0 text-end">Obciazenie</p>
               </div>
-
               <div class="row">
-                <span class="my-2"><b>Comment</b></span>
+                <p class="mb-0 pe-2 ps-0 text-end">Serie</p>
+              </div>
+              <div class="row">
+                <p class="mb-0 pe-2 ps-0 text-end">Powtórzenia</p>
+              </div>
+            </div>
+            <div
+              class="col-3 border-right"
+              *ngFor="let quantity of training.quantity"
+            >
+              <div class="row">
+                <p class="mb-0 px-0 text-center">{{ quantity.value }}</p>
+              </div>
+              <div class="row">
+                <p class="mb-0 px-0 text-center">{{ quantity.set }}</p>
+              </div>
+              <div class="row">
+                <p class="mb-0 px-0 text-center">{{ quantity.rep }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 text-end mb-3">
+          <button
+            class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
+            (click)="
+              openRaitingModal(
+                'exercise',
+                training.index,
+                trainingDetails.id,
+                training.raitingCommentExercise,
+                training.raitingValueExercise,
+                trainingDetails.hasFill,
+                training.quantity,
+                training.exerciseValue
+              )
+            "
+          >
+            Podsumuj ćwiczenie
+          </button>
+        </div>
+      </div>
+      <span class="px-3"><mat-divider></mat-divider></span>
+    </div>
+  </mat-card>
+</ng-container>
+<!-- <mat-card>
+  <mat-card-title class="text-end m-3">
+    <button
+      class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
+    >
+      Podsumuj trening
+    </button>
+  </mat-card-title>
 
-                {{ training.comment }}
-              </div>
+  <div class="container mt-5 px-3">
+    <div class="row d-flex justify-content-center">
+      <div class="col-1">1.</div>
+      <div class="col">
+        <div class="border rounded mb-3">
+          <div class="row align-items-center">
+            <div class="mb-1 pt-3 ps-4 text-title">
+              <span class="d-inline-flex bg-white">Ćwiczenie</span>
             </div>
-            <div class="col text-start">
-              <div
-                *ngFor="let quantity of training.quantity"
-                class="mb-3 row justify-content-start"
+          </div>
+          <p class="mx-3">rwanie</p>
+        </div>
+        <div class="border rounded mb-3">
+          <div class="row align-items-center">
+            <div class="mb-1 pt-3 ps-4 text-title">
+              <span class="text-title-without-btn d-inline-flex bg-white"
+                >Komentarz</span
               >
-                <div class="row mb-1">
-                  <div class="col-4">
-                    <span><b>Serie: </b></span>
-                  </div>
-                  <div class="col">{{ quantity.set }}</div>
-                </div>
-                <div class="row mb-1">
-                  <div class="col-4">
-                    <span> <b>Powtórzenia: </b></span>
-                  </div>
-                  <div class="col">
-                    {{ quantity.rep }}
-                  </div>
-                </div>
-                <div class="row mb-1">
-                  <div class="col-4">
-                    <span><b>Cięzar: </b></span>
-                  </div>
-                  <div class="col">{{ quantity.value }}</div>
-                </div>
-              </div>
             </div>
-            <div class="col">
-              <button
-                class="btn btn-block bg-cadetblue text-ghostwhite"
-                (click)="
-                  openRaitingModal(
-                    'exercise',
-                    training.index,
-                    trainingDetails.id,
-                    training.raitingCommentExercise,
-                    training.raitingValueExercise,
-                    trainingDetails.hasFill,
-                    training.quantity,
-                    training.exerciseValue
-                  )
-                "
-              >
-                Podsumuj ćwiczenie
-              </button>
+          </div>
+          <p class="mx-3">W paskach</p>
+        </div>
+        <div class="row ps-2 mb-3">
+          <div class="col-3 border-left-right">
+            <div class="row">
+              <p class="mb-0 pe-2 ps-0 text-end">Obciazenie</p>
             </div>
-          </div></ng-container
+            <div class="row">
+              <p class="mb-0 pe-2 ps-0 text-end">Serie</p>
+            </div>
+            <div class="row">
+              <p class="mb-0 pe-2 ps-0 text-end">Powtórzenia</p>
+            </div>
+          </div>
+          <div class="col-2 border-right">
+            <div class="row">
+              <p class="mb-0 px-0 text-center">100</p>
+            </div>
+            <div class="row">
+              <p class="mb-0 px-0 text-center">2</p>
+            </div>
+            <div class="row"><p class="mb-0 px-0 text-center">3</p></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 text-end mb-3">
+        <button
+          class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
         >
-
-        <span class="px-3"><mat-divider></mat-divider></span>
-      </div> </mat-card-content></mat-card
-></ng-container>
+          Podsumuj ćwiczenie
+        </button>
+      </div>
+    </div>
+  </div>
+</mat-card> -->

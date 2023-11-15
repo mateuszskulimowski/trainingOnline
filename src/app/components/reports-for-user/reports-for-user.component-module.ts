@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { ReportsForUserComponent } from './reports-for-user.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-  imports: [],
+  imports: [BrowserModule, BrowserAnimationsModule],
   declarations: [ReportsForUserComponent],
   providers: [],
-  exports: [ReportsForUserComponent]
+  exports: [ReportsForUserComponent],
 })
-export class ReportsForUserComponentModule {
-}
+export class ReportsForUserComponentModule {}

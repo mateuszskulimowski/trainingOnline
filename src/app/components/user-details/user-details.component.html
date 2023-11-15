@@ -1,78 +1,80 @@
 <ng-container *ngIf="user$ | async as user">
-  <mat-card class="height-100"
-    ><mat-card-title class="text-center"
-      >{{ user.name }} {{ user.lastName }}</mat-card-title
-    ><mat-card-content
-      ><div class="contarier">
-        <div class="row">
-          <div class="col text-center">
-            <div class="container">
-              <div class="row mb-2">
-                <button
-                  class="btn btn-block bg-cadetblue text-ghostwhite"
-                  [routerLink]="'/create-plan/' + user.authId"
-                >
-                  Dodaj trening
-                </button>
-              </div>
-              <div class="row mb-2">
-                <button
-                  class="btn btn-block bg-cadetblue text-ghostwhite"
-                  [routerLink]="'/training-plans/' + user.authId"
-                >
-                  Treningi
-                </button>
-              </div>
-              <div class="row mb-2">
-                <button
-                  class="btn btn-block bg-cadetblue text-ghostwhite"
-                  [routerLink]="'/reports/' + user.authId"
-                >
-                  Raporty
-                </button>
+  <section class="mx-lg-5 px-lg-3 my-lg-3">
+    <mat-card class="height-100"
+      ><mat-card-title class="text-center"
+        >{{ user.name }} {{ user.lastName }}</mat-card-title
+      ><mat-card-content
+        ><div class="contarier">
+          <div class="row">
+            <div class="col text-center">
+              <div class="container">
+                <div class="row mb-2">
+                  <button
+                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                    [routerLink]="'/create-plan/' + user.authId"
+                  >
+                    Dodaj trening
+                  </button>
+                </div>
+                <div class="row mb-2">
+                  <button
+                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                    [routerLink]="'/training-plans/' + user.authId"
+                  >
+                    Treningi
+                  </button>
+                </div>
+                <div class="row mb-2">
+                  <button
+                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                    [routerLink]="'/reports/' + user.authId"
+                  >
+                    Raporty
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-4 text-center">
-            <form [formGroup]="userDetailsForm">
-              <input
-                type="number"
-                class="form-control"
-                id="paid"
-                placeholder="Ilość tygodni"
-                formControlName="paidTraining"
-              />
-              <button
-                type="button"
-                class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
-                (click)="addPaidTraining(user, userDetailsForm)"
-              >
-                powieksz pakiet
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-md-6">
-            <h2>Status Tygodni</h2>
-            <p>
-              Ilość wykupionych tygodni:
-              <span id="wynikIloscWykupionychTygodni">{{
-                user.paidTraining
-              }}</span>
-            </p>
-            <p>
-              Ilość wykonanych tygodni:
-              <span id="wynikIloscWykonanychTygodni">{{
-                user.trainingWeeks.length
-              }}</span>
-            </p>
+            <div class="col-4 text-center">
+              <form [formGroup]="userDetailsForm">
+                <input
+                  type="number"
+                  class="form-control"
+                  id="paid"
+                  placeholder="Ilość tygodni"
+                  formControlName="paidTraining"
+                />
+                <button
+                  type="button"
+                  class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
+                  (click)="addPaidTraining(user, userDetailsForm)"
+                >
+                  powieksz pakiet
+                </button>
+              </form>
+            </div>
           </div>
         </div>
-      </div></mat-card-content
-    ></mat-card
-  >
+        <div class="container mt-5">
+          <div class="row">
+            <div class="col-md-6">
+              <h2>Status Tygodni</h2>
+              <p>
+                Ilość wykupionych tygodni:
+                <span id="wynikIloscWykupionychTygodni">{{
+                  user.paidTraining
+                }}</span>
+              </p>
+              <p>
+                Ilość wykonanych tygodni:
+                <span id="wynikIloscWykonanychTygodni">{{
+                  user.trainingWeeks.length
+                }}</span>
+              </p>
+            </div>
+          </div>
+        </div></mat-card-content
+      ></mat-card
+    >
+  </section>
 </ng-container>
-<div class="col-md-3"></div>
+<!-- <div class="col-md-3"></div> -->

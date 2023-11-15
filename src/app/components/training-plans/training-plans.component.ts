@@ -18,6 +18,7 @@ import { UserContextModel } from 'src/app/models/user-context.model';
 import { TrainingWithUserQueryModel } from 'src/app/query-models/training-with-user.query-model';
 import { UserContext } from 'src/app/contexts/user.context';
 import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
+import { RemoveTrainingModalComponent } from '../remove-training-modal/remove-training-modal.component';
 
 @Component({
   selector: 'app-training-plans',
@@ -108,6 +109,12 @@ export class TrainingPlansComponent implements AfterContentInit {
   }
   removeTraining(trainingId: string): void {
     this._trainingService.removeTraining(trainingId).subscribe();
+  }
+  openRemoveTrainingModal(trainingId: string) {
+    let dialogRef = this.dialog.open(RemoveTrainingModalComponent, {
+      width: '380px',
+      data: { trainingId: trainingId },
+    });
   }
 
   private _getTrainingWithUser(

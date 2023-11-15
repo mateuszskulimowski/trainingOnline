@@ -13,6 +13,9 @@ import { RatingModalComponentModule } from '../rating-modal/rating-modal.compone
 import { MatIconModule } from '@angular/material/icon';
 import { HasAdminDirective } from 'src/app/directives/has-admin/has-admin.directive';
 import { HasAdminDirectiveModule } from 'src/app/directives/has-admin/has-admin.directive-module';
+import { RemoveTrainingModalComponentModule } from '../remove-training-modal/remove-training-modal.component-module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 @NgModule({
   imports: [
     CommonModule,
@@ -24,9 +27,12 @@ import { HasAdminDirectiveModule } from 'src/app/directives/has-admin/has-admin.
     MatExpansionModule,
     RouterModule,
     MatDialogModule,
-    RatingModalComponentModule,
+    RemoveTrainingModalComponentModule,
     MatIconModule,
     HasAdminDirectiveModule,
+    RatingModalComponentModule,
+    MatButtonModule,
+    MatCardModule,
   ],
   declarations: [TrainingPlansComponent],
   providers: [],

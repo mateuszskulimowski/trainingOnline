@@ -1,54 +1,63 @@
-<table mat-table *ngIf="users$ | async as users" [dataSource]="users" class="">
-  <ng-container matColumnDef="index">
-    <th mat-header-cell *matHeaderCellDef><b>l.p.</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.id"
-      class="pointer"
+<section class="mx-lg-5 px-lg-3 my-lg-3">
+  <mat-card>
+    <table
+      mat-table
+      *ngIf="users$ | async as users"
+      [dataSource]="users"
+      class="rounded-corners"
     >
-      {{ element.index }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef><b>Imię</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.id"
-      class="pointer"
-    >
-      {{ element.name }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="lastName">
-    <th mat-header-cell *matHeaderCellDef><b>Nazwisko</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.id"
-      class="pointer"
-    >
-      {{ element.lastName }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="email">
-    <th mat-header-cell *matHeaderCellDef><b>Email</b></th>
-    <td
-      mat-cell
-      *matCellDef="let element"
-      [routerLink]="'/user/' + element.id"
-      class="pointer"
-    >
-      {{ element.lastName }}
-    </td>
-  </ng-container>
-  <tr
-    mat-header-row
-    *matHeaderRowDef="['index', 'name', 'lastName', 'email']"
-  ></tr>
-  <tr
-    mat-row
-    *matRowDef="let row; columns: ['index', 'name', 'lastName', 'email']"
-  ></tr>
-</table>
+      <ng-container matColumnDef="index">
+        <th mat-header-cell *matHeaderCellDef><b>l.p.</b></th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [routerLink]="'/user/' + element.id"
+          class="pointer"
+        >
+          {{ element.index }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef><b>Imię</b></th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [routerLink]="'/user/' + element.id"
+          class="pointer"
+        >
+          {{ element.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef><b>Nazwisko</b></th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [routerLink]="'/user/' + element.id"
+          class="pointer"
+        >
+          {{ element.lastName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef><b>Email</b></th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [routerLink]="'/user/' + element.id"
+          class="pointer"
+        >
+          {{ element.lastName }}
+        </td>
+      </ng-container>
+      <tr
+        mat-header-row
+        *matHeaderRowDef="['index', 'name', 'lastName', 'email']"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: ['index', 'name', 'lastName', 'email']"
+      ></tr>
+    </table>
+  </mat-card>
+</section>

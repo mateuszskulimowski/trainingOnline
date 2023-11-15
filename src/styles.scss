@@ -42,7 +42,9 @@ body {
 body {
   background-color: #a0c0c0;
 }
-
+.dimgray-color {
+  color: #696969;
+}
 .bg-cadetblue {
   background-color: #5f9ea0;
 }
@@ -69,7 +71,9 @@ body {
   cursor: pointer;
 }
 .height-100 {
-  height: 100vh;
+  @media (min-width>992px) {
+    height: 75vh;
+  }
 }
 .z-index-2 {
   z-index: 2;
@@ -113,3 +117,83 @@ body {
 //   display: flex;
 //   flex-direction: column;
 // }
+fieldset {
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+legend {
+  display: relative;
+  margin-top: -20px;
+  font-size: 20px;
+}
+
+.text-title {
+  margin-top: -28px;
+
+  color: #a9a9a9;
+
+  @media (width<992px) {
+    font-size: 10px;
+  }
+  @media (width>992px) {
+    font-size: 15px;
+  }
+}
+.font-size {
+  @media (width<992px) {
+    font-size: 10px;
+  }
+  @media (width>992px) {
+    font-size: 15px;
+  }
+}
+.text-title-without-btn {
+  padding-top: 2px;
+}
+.navigation-hide {
+  @media (width<992px) {
+    display: none;
+  }
+}
+.navigation-menu {
+  @media (width>=992px) {
+    display: none;
+  }
+}
+.fullscreen {
+  width: 100%;
+  height: 91%;
+
+  left: 0;
+}
+.card-sd {
+  position: fixed;
+  transition: all 1s linear;
+}
+.mat-button-hover:hover {
+  background-color: #45818e;
+}
+table.rounded-corners {
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 10px;
+}
+.button-font {
+  @media (max-width: 992px) {
+    font-size: 10px;
+  }
+}
+.button-font {
+  @media (min-width: 992px) {
+    font-size: 15px;
+  }
+}
+.border-left-right {
+  border-left: 1px solid #696969;
+  border-right: 1px solid #696969;
+}
+.border-right {
+  border-right: 1px solid #696969;
+}
