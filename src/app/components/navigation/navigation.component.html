@@ -1,54 +1,210 @@
-<section
+<!-- <section
   style="min-height: 100vh"
   *ngIf="userAuthContext$ | async as userContext"
 >
+  <mat-toolbar
+    class="bg-white position-fixed sticky-top border-grey d-flex justify-content-between z-index-2"
+  >
+    <div class="justify-content-between">
+      <div>d</div>
+      <div>d</div>
+    </div></mat-toolbar
+  >
+
   <mat-toolbar class="bg-cadetblue text-ghostwhite">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2 p-0">
-          <div class="d-flex-center pointer" [routerLink]="'/'">
-            <div class="font-family">
-              <span>StrefaDwuboju</span>
-            </div>
+    <div class="row">
+      <div class="col p-0">
+        <div class="d-flex-center pointer" [routerLink]="'/'">
+          <div class="font-family">
+            <span>StrefaDwuboju</span>
           </div>
         </div>
-        <div class="col text-start p-0">
-          <button class="mx-2" mat-button [routerLink]="'/'">Home</button>
-          <button class="mx-2" mat-button [routerLink]="'/training-plans'">
-            Treningi
-          </button>
-          <button class="mx-2" mat-button [routerLink]="'/reports'">
-            Raporty
-          </button>
-          <button
-            class="mx-2"
-            mat-button
-            [routerLink]="'/users-list'"
-            *ngIf="userContext.role === 'admin'"
-          >
-            Podopieczni
-          </button>
-        </div>
-        <div class="col p-o text-end">
-          <button
-            class="mx-2"
-            mat-button
-            (click)="logOut()"
-            *ngIf="userContext.authId; else noLogin"
-          >
-            Log out
-          </button>
-          <ng-template #noLogin>
-            <button class="mx-2" mat-button [routerLink]="'/login'">
-              <mat-icon>account_circle</mat-icon>Login
-            </button></ng-template
-          >
-        </div>
+      </div>
+      <div class="col text-start p-0 navigation">
+        <button class="mx-2" mat-button [routerLink]="'/'">Home</button>
+        <button class="mx-2" mat-button [routerLink]="'/training-plans'">
+          Treningi
+        </button>
+        <button class="mx-2" mat-button [routerLink]="'/reports'">
+          Raporty
+        </button>
+        <button
+          class="mx-2"
+          mat-button
+          [routerLink]="'/users-list'"
+          *ngIf="userContext.role === 'admin'"
+        >
+          Podopieczni
+        </button>
+      </div>
+      <div class="col p-o text-end">
+        <button
+          class="mx-2"
+          mat-button
+          (click)="logOut()"
+          *ngIf="userContext.authId; else noLogin"
+        >
+          Log out
+        </button>
+        <ng-template #noLogin>
+          <button class="mx-2" mat-button [routerLink]="'/login'">
+            <mat-icon>account_circle</mat-icon>Login
+          </button></ng-template
+        >
       </div>
     </div>
   </mat-toolbar>
 
+  <nav class="navbar-nav nav-fill w-100 bg-cadetblue text-ghostwhite">
+    <div class="d-flex-center pointer" [routerLink]="'/'">
+      <div class="font-family">
+        <span>StrefaDwuboju</span>
+      </div>
+    </div>
+  </nav>
+
   <mat-sidenav-container>
     <mat-sidenav-content> <ng-content></ng-content></mat-sidenav-content
   ></mat-sidenav-container>
-</section>
+</section> -->
+
+<mat-toolbar
+  *ngIf="userAuthContext$ | async as userContext"
+  class="bg-cadetblue text-ghostwhite sticky-top border-grey d-flex justify-content-between z-index-2"
+>
+  <div class="row">
+    <div class="col ms-2">
+      <div
+        class="d-flex-center pointer"
+        [routerLink]="'/'"
+        (click)="onToggleClicked()"
+      >
+        <!-- <div class="font-family">
+          <span>StrefaDwuboju</span>
+        </div> -->
+        <img src="/assets/logo-sd.png" width="40" />
+      </div>
+    </div>
+    <div class="col text-start p-0 navigation-hide">
+      <button class="mx-2 ms-2" mat-button [routerLink]="'/'">Home</button>
+      <button class="mx-2" mat-button [routerLink]="'/training-plans'">
+        Treningi
+      </button>
+      <button class="mx-2" mat-button [routerLink]="'/reports'">Raporty</button>
+      <button
+        class="mx-2"
+        mat-button
+        [routerLink]="'/users-list'"
+        *ngIf="userContext.role === 'admin'"
+      >
+        Podopieczni
+      </button>
+    </div>
+  </div>
+
+  <div class="navigation-hide">
+    <div class="col p-o text-end">
+      <button
+        class="mx-2"
+        mat-button
+        (click)="logOut()"
+        *ngIf="userContext.authId; else noLogin"
+      >
+        <mat-icon>login</mat-icon> Log out
+      </button>
+      <ng-template #noLogin>
+        <button class="mx-2" mat-button [routerLink]="'/login'">
+          <mat-icon>account_circle</mat-icon>Login
+        </button></ng-template
+      >
+    </div>
+  </div>
+  <div class="navigation-menu pointer text-ghostwhite">
+    <mat-icon
+      (click)="onToggleClicked()"
+      *ngIf="isToggle$ | async; else isToggleIcon"
+      >highlight_off</mat-icon
+    >
+    <ng-template #isToggleIcon>
+      <mat-icon (click)="onToggleClicked()">menu</mat-icon></ng-template
+    >
+  </div>
+</mat-toolbar>
+
+<mat-card
+  class="fullscreen card-sd"
+  *ngIf="isToggle$ | async; else isToggleMenu"
+  ><mat-card-content *ngIf="userAuthContext$ | async as userContext"
+    ><div class="container">
+      <div class="row">
+        <button
+          class="mx-2 ms-2"
+          mat-button
+          [routerLink]="'/'"
+          (click)="onToggleClicked()"
+        >
+          Home
+        </button>
+      </div>
+      <div class="row">
+        <button
+          class="mx-2"
+          mat-button
+          [routerLink]="'/training-plans'"
+          (click)="onToggleClicked()"
+        >
+          Treningi
+        </button>
+      </div>
+    </div>
+    <div class="row">
+      <button
+        class="mx-2"
+        mat-button
+        [routerLink]="'/reports'"
+        (click)="onToggleClicked()"
+      >
+        Raporty
+      </button>
+    </div>
+
+    <div class="row">
+      <button
+        class="mx-2"
+        mat-button
+        [routerLink]="'/users-list'"
+        *ngIf="userContext.role === 'admin'"
+        (click)="onToggleClicked()"
+      >
+        Podopieczni
+      </button>
+    </div>
+    <div class="row">
+      <button
+        class="mx-2"
+        mat-button
+        (click)="logOut()"
+        (click)="onToggleClicked()"
+        *ngIf="userContext.authId; else noLogin"
+      >
+        <mat-icon>login</mat-icon> Log out
+      </button>
+      <ng-template #noLogin>
+        <button
+          class="mx-2"
+          mat-button
+          [routerLink]="'/login'"
+          (click)="onToggleClicked()"
+        >
+          <mat-icon>account_circle</mat-icon>Login
+        </button></ng-template
+      >
+    </div></mat-card-content
+  ></mat-card
+>
+
+<ng-template #isToggleMenu
+  ><mat-sidenav-container>
+    <mat-sidenav-content class="dimgray-color font-size">
+      <ng-content></ng-content> </mat-sidenav-content></mat-sidenav-container
+></ng-template>

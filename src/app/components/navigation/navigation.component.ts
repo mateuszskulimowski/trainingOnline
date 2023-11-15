@@ -4,12 +4,13 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { Observable, switchMap, tap } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { ContextModel } from '../../models/context.model';
+import { UserContext } from '../../contexts/user.context';
 import { AuthService } from '../../services/auth.service';
-import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
-import { UserContext } from 'src/app/contexts/user.context';
+import { InMemoryUserContextStorage } from '../../storages/in-memory-user-context.storage';
 
 @Component({
   selector: 'app-navigation',
@@ -20,7 +21,11 @@ import { UserContext } from 'src/app/contexts/user.context';
 export class NavigationComponent {
   readonly userAuthContext$: Observable<UserContext> =
     this._inMemoryUserContextStorage.select();
-
+  private _isToggleSubject: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+  readonly isToggle$: Observable<boolean> =
+    this._isToggleSubject.asObservable();
+  // readonly menu$:Observable<{label:string,route:string}[]>=of([])
   constructor(
     private _authService: AuthService,
     private _router: Router,
@@ -62,5 +67,9 @@ export class NavigationComponent {
     //     .subscribe();
     // },
     // });
+  }
+
+  onToggleClicked(): void {
+    this._isToggleSubject.next(!this._isToggleSubject.value);
   }
 }
