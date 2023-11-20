@@ -36,20 +36,56 @@
             </div>
             <div class="col-4 text-center">
               <form [formGroup]="userDetailsForm">
-                <input
-                  type="number"
-                  class="form-control"
-                  id="paid"
-                  placeholder="Ilość tygodni"
-                  formControlName="paidTraining"
-                />
-                <button
-                  type="button"
-                  class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
-                  (click)="addPaidTraining(user, userDetailsForm)"
-                >
-                  powieksz pakiet
-                </button>
+                <div class="row">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="paid"
+                    placeholder="Ilość tygodni"
+                    formControlName="paidTraining"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
+                    (click)="addPaidTraining(user, userDetailsForm)"
+                  >
+                    Powieksz pakiet
+                  </button>
+                </div>
+                <div class="row">
+                  <!-- tutaj  dac selecta -->
+                  <!-- <select>
+                    <option>d</option>
+                  </select> -->
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="paid"
+                    placeholder="Wybierz trenera"
+                    formControlName="addTrainer"
+                    [matAutocomplete]="auto"
+                  />
+                  <mat-autocomplete
+                    #auto="matAutocomplete"
+                    autoActiveFirstOption
+                  >
+                    <mat-option
+                      *ngFor="let option of filteredTrainers$ | async"
+                      [value]="option.name"
+                      (onSelectionChange)="
+                        choseTrainer(user.id, option.trainerId)
+                      "
+                    >
+                      {{ option.name }}
+                    </mat-option>
+                  </mat-autocomplete>
+                  <!-- <button
+                    type="button"
+                    class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
+                  >
+                    Przypisz trenera
+                  </button> -->
+                </div>
               </form>
             </div>
           </div>

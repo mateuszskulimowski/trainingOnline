@@ -96,4 +96,12 @@ export class UserService {
       })
     );
   }
+
+  setTrainerIdForUser(userId: string, trainerId: string): Observable<void> {
+    return from(
+      this._angularFirestore
+        .doc('users/' + userId)
+        .update({ trainerId: trainerId })
+    ).pipe(map(() => void 0));
+  }
 }
