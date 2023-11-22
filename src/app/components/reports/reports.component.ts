@@ -44,6 +44,7 @@ export class ReportsComponent {
                     const isToCheck = weekTraining.some(
                       (training) => training.hasFill
                     );
+                    console.log(weekTraining);
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,

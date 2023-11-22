@@ -197,3 +197,11 @@ table.rounded-corners {
 .border-right {
   border-right: 1px solid #696969;
 }
+.w-60-md {
+  @media (max-width: 767px) {
+    width: 65%;
+  }
+}
+.text-height-min {
+  min-height: 46px;
+}

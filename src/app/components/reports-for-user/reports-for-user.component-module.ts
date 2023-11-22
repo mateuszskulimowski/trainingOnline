@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatCardModule } from '@angular/material/card';
 import { ReportsForUserComponent } from './reports-for-user.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { BrowserModule } from '@angular/platform-browser';
 
 @NgModule({
-  imports: [BrowserModule, BrowserAnimationsModule],
+  imports: [MatExpansionModule, MatCardModule, ReactiveFormsModule],
   declarations: [ReportsForUserComponent],
   providers: [],
   exports: [ReportsForUserComponent],
 })
-export class ReportsForUserComponentModule {}
+export class ReportsForUserComponentModule { }
