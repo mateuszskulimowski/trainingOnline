@@ -2,15 +2,13 @@
   <div class="container mt-5" *ngIf="user$ | async as user">
     <div class="row justify-content-center">
       <div class="col-md-7">
-        <h1 class="text-center text-ghostwhite ms-md-5 ps-md-5">
-          Dodaj Ćwiczenie do Treningu
-        </h1>
+        <h1 class="text-center text-ghostwhite ms-md-5 ps-md-5">TRENING</h1>
       </div>
 
       <div class="col-md-2 text-end">
         <button
           type="button"
-          class="btn btn-block bg-cadetblue text-ghostwhite"
+          class="btn btn-block bg-cadetblue text-ghostwhite mb-2"
           (click)="back(user.userId)"
         >
           Wróć
@@ -19,9 +17,9 @@
     </div>
     <form [formGroup]="planForm">
       <div class="row justify-content-center">
-        <div class="col-md-6">
+        <div class="col-md-6 col-5">
           <select
-            class="form-control mb-3"
+            class="form-control mb-2 mb-md-3"
             formControlName="trainingWeek"
             (change)="setTrainingWeek($event)"
           >
@@ -33,7 +31,7 @@
             </option>
           </select>
         </div>
-        <div class="col-md-3 text-end">
+        <div class="col-md-3 col text-end mb-2 mb-md-3">
           <button
             type="button"
             class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -69,7 +67,7 @@
           </div>
           <ng-template #noTemplate>
             <textarea
-              class="form-control"
+              class="form-control mb-2"
               placeholder="Ćwiczenie"
               id="exerciseName"
               formControlName="exercise"
@@ -90,7 +88,7 @@
       <div class="row justify-content-center">
         <div class="col-md-9">
           <textarea
-            class="form-control mt-3"
+            class="form-control mt-2"
             placeholder="Komentarz"
             id="comment"
             rows="4"
@@ -151,7 +149,7 @@
         </div>
         <div class="col col-md-2 d-flex align-items-start">
           <div class="row mt-3 justify-content-center">
-            <div class="col d-inline-flex justify-content-center">
+            <div class="col d-inline-flex justify-content-center mb-2 mb-md-3">
               <button
                 type="button"
                 class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -160,7 +158,7 @@
                 +
               </button>
             </div>
-            <div class="col d-inline-flex justify-content-center">
+            <div class="col">
               <button
                 type="button"
                 class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -193,9 +191,8 @@
           (cdkDropListDropped)="onDrop($event, user.trainingElements)"
         >
           <div
-            class="container hover bg-white item"
+            class="container hover bg-white item p-3"
             *ngFor="let training of user.trainingElements; let i = index"
-            cdkDrag
           >
             <ng-container *ngIf="isEditForm$ | async as edit">
               <ng-container
@@ -203,74 +200,103 @@
               >
                 <div class="row">
                   <div class="col-1">{{ training.index }}</div>
-                  <div class="col-4 text-start">
-                    <div class="row">
-                      <span class="my-2"><b>Ćwiczenie</b></span>
-
-                      {{ training.exercise }}
-                    </div>
-
-                    <div class="row">
-                      <span class="my-2"><b>Komentarz</b></span>
-
-                      {{ training.comment }}
-                    </div>
-                  </div>
                   <div class="col text-start">
-                    <div
-                      *ngFor="let quantity of training.quantity"
-                      class="mb-3 row justify-content-start"
-                    >
-                      <div class="row mb-1">
-                        <div class="col-4">
-                          <span><b>Serie: </b></span>
+                    <div class="row">
+                      <div
+                        cdkDrag
+                        class="border rounded mb-3 p-0 text-height-min"
+                      >
+                        <div class="align-items-center">
+                          <div class="mb-1 pt-3 ps-2 text-title">
+                            <span class="d-inline-flex bg-white"
+                              >Ćwiczenie</span
+                            >
+                          </div>
                         </div>
-                        <div class="col">{{ quantity.set }}</div>
+                        <p class="mx-3">{{ training.exercise }}</p>
                       </div>
-                      <div class="row mb-1">
-                        <div class="col-4">
-                          <span> <b>Powtórzenia: </b></span>
+                    </div>
+
+                    <div class="row">
+                      <div class="border rounded p-0 mb-3 text-height-min">
+                        <div class="align-items-center">
+                          <div class="mb-1 pt-3 ps-2 text-title">
+                            <span class="d-inline-flex bg-white"
+                              >Komentarz ćwiczenia
+                            </span>
+                          </div>
                         </div>
-                        <div class="col">
-                          {{ quantity.rep }}
-                        </div>
-                      </div>
-                      <div class="row mb-1">
-                        <div class="col-4">
-                          <span><b>Cięzar: </b></span>
-                        </div>
-                        <div class="col">{{ quantity.value }}</div>
+                        <p class="mx-3">
+                          {{ training.raitingCommentExercise }}
+                        </p>
                       </div>
                     </div>
                   </div>
-                  <div class="col-1">
-                    <button
-                      type="button"
-                      class="btn btn-block bg-cadetblue text-ghostwhite"
-                      (click)="onEditForms(i, training)"
-                    >
-                      Edytuj
-                    </button>
+                  <div class="col">
+                    <div class="row d-flex flex-row-reverse">
+                      <div class="col-md-3 mb-2 text-end">
+                        <button
+                          type="button"
+                          class="btn btn-block bg-cadetblue text-ghostwhite"
+                          (click)="onEditForms(i, training)"
+                        >
+                          Edytuj
+                        </button>
+                      </div>
+                      <div class="col-md-2 text-end">
+                        <button
+                          type="button"
+                          class="btn btn-block bg-danger text-ghostwhite m-0"
+                          (click)="deleteExercise(i)"
+                        >
+                          <mat-icon class="d-flex">delete_outline</mat-icon>
+                        </button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-1">
-                    <button
-                      type="button"
-                      class="btn btn-block d-flex align-items-center bg-danger text-ghostwhite"
-                      (click)="deleteExercise(i)"
-                    >
-                      <mat-icon>delete_outline</mat-icon>
-                    </button>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 col-sm-3 col-6 border-right mb-3">
+                    <div class="d-flex flex-row-reverse">
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Obciazenie</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Serie</p>
+                    </div>
+                    <div class="d-flex flex-row-reverse">
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Powtórzenia</p>
+                    </div>
                   </div>
-                </div></ng-container
-              >
+                  <div
+                    class="col-3 border-right mb-3"
+                    *ngFor="let exerciseValue of training.quantity"
+                  >
+                    <div class="row">
+                      <p class="mb-0 px-0 text-center">
+                        {{ exerciseValue.value }}
+                      </p>
+                    </div>
+                    <div class="row">
+                      <p class="mb-0 px-0 text-center">
+                        {{ exerciseValue.set }}
+                      </p>
+                    </div>
+                    <div class="row">
+                      <p class="mb-0 px-0 text-center">
+                        {{ exerciseValue.rep }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
               <ng-template #isEditForm>
                 <div class="row">
                   <div class="col-1">{{ training.index }}</div>
-                  <div class="col-5 text-start">
+                  <div class="col text-start">
                     <div class="row">
                       <span class="my-2"><b>Exercise</b></span>
                       <textarea
-                        class="form-control"
+                        class="form-control font-size"
                         placeholder="Ćwiczenie"
                         id="exerciseName"
                         formControlName="exercise"
@@ -278,101 +304,114 @@
                       ></textarea>
                     </div>
 
-                    <div class="row">
-                      <span class="my-2"><b>Comment</b></span>
+                    <div class="row mb-3">
+                      <span class="mt-2"><b>Komentarz</b></span>
 
                       <textarea
-                        class="form-control mt-3"
+                        class="form-control mt-3 font-size"
                         placeholder="Komentarz"
                         id="comment"
                         rows="4"
                         formControlName="comment"
                       ></textarea>
                     </div>
-                  </div>
-                  <div class="col">
-                    <ng-container formArrayName="quantityExercise">
-                      <ng-container
-                        *ngFor="
-                          let quantityExerciseEdit of quantityExerciseEdit.controls;
-                          let j = index
-                        "
-                      >
-                        <div class="row mb-3" [formGroupName]="j">
-                          <div class="col">
-                            <div class="row mb-1">
-                              <div class="col d-flex align-items-center">
-                                <span><b>Serie: </b></span>
+                    <div class="row">
+                      <div class="col-md-4 border-right mb-3 border-md-none-sd">
+                        <div class="d-flex">
+                          <p class="mb-0 pe-2 ps-0 text-md-end d-flex">
+                            Obciazenie
+                          </p>
+                        </div>
+                        <div>
+                          <p class="mb-0 pe-2 ps-0 text-end d-flex">Serie</p>
+                        </div>
+                        <div>
+                          <p class="mb-0 pe-2 ps-0 text-end d-flex">
+                            Powtórzenia
+                          </p>
+                        </div>
+                      </div>
+                      <ng-container formArrayName="quantityExercise">
+                        <div
+                          class="col-md-4 border-right mb-3 border-md-none-sd"
+                          *ngFor="
+                            let quantityExerciseEdit of quantityExerciseEdit.controls;
+                            let j = index
+                          "
+                        >
+                          <div class="container">
+                            <div class="row">
+                              <div class="col">
+                                <div [formGroupName]="j">
+                                  <div class="row">
+                                    <div class="mb-0 px-0 text-center">
+                                      <input
+                                        type="text"
+                                        class="form-control font-size"
+                                        id="load"
+                                        formControlName="value"
+                                      />
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <p class="mb-0 px-0 text-center">
+                                      <input
+                                        type="text"
+                                        class="form-control font-size"
+                                        id="rep"
+                                        formControlName="rep"
+                                      />
+                                    </p>
+                                  </div>
+                                  <div class="row">
+                                    <p class="mb-0 px-0 text-center">
+                                      <input
+                                        size="1"
+                                        type="text"
+                                        class="form-control font-size"
+                                        id="sets"
+                                        formControlName="set"
+                                      />
+                                    </p>
+                                  </div>
+                                </div>
                               </div>
                               <div class="col">
-                                <input
-                                  size="1"
-                                  type="text"
-                                  class="form-control"
-                                  id="sets"
-                                  formControlName="set"
-                                />
+                                <div class="col-2">
+                                  <button
+                                    type="button"
+                                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                                    (click)="deleteQuantityEdit(j)"
+                                  >
+                                    -
+                                  </button>
+                                </div>
                               </div>
                             </div>
-                            <div class="row mb-1">
-                              <div class="col d-flex align-items-center">
-                                <span><b>Podejścia: </b></span>
-                              </div>
-                              <div class="col">
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="rep"
-                                  formControlName="rep"
-                                />
-                              </div>
-                            </div>
-                            <div class="row mb-1">
-                              <div class="col d-flex align-items-center">
-                                <span> <b>Cięzar: </b></span>
-                              </div>
-                              <div class="col">
-                                <input
-                                  type="text"
-                                  class="form-control"
-                                  id="load"
-                                  formControlName="value"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <div class="col-2">
-                            <button
-                              type="button"
-                              class="btn btn-block bg-cadetblue text-ghostwhite"
-                              (click)="deleteQuantityEdit(j)"
-                            >
-                              -
-                            </button>
                           </div>
                         </div>
-                      </ng-container></ng-container
-                    >
+                        <div class="col-2 justify-content-center">
+                          <button
+                            type="button"
+                            class="btn btn-block bg-cadetblue text-ghostwhite"
+                            (click)="addQuantity('edit')"
+                          >
+                            +
+                          </button>
+                        </div></ng-container
+                      >
+                    </div>
                   </div>
 
                   <div class="col-3">
                     <div class="row">
-                      <div class="col-2 justify-content-center">
-                        <button
-                          type="button"
-                          class="btn btn-block bg-cadetblue text-ghostwhite"
-                          (click)="addQuantity('edit')"
-                        >
-                          +
-                        </button>
-                      </div>
-                      <div class="col justify-content-center">
+                      <div class="col text-end">
                         <button
                           type="button"
                           class="btn btn-block bg-cadetblue text-ghostwhite"
                           (click)="editSubmit(editForm, i)"
                         >
-                          Zatwierdź
+                          Zakończ edycję
                         </button>
                       </div>
                     </div>

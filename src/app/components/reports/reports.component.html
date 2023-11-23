@@ -10,19 +10,29 @@
       <mat-expansion-panel-header
         [ngClass]="{ 'bg-success': trainingData.isToCheck }"
       >
-        <mat-panel-title>
-          Tydzień {{ trainingData.week.number }}
-          <button
-            type="button"
-            class="btn btn-block bg-cadetblue text-ghostwhite"
-            (click)="
-              setCommentForWeekModal(trainingData.userId, i, trainingData.week);
-              $event.stopPropagation()
-            "
-          >
-            Komentarz
-          </button></mat-panel-title
-        >
+        <mat-panel-title class="">
+          <!-- <div class="contaier"> -->
+          <!-- <div class="row"> -->
+          <div class="col">Tydzień {{ trainingData.week.number }}</div>
+          <div class="col text-end">
+            <button
+              type="button"
+              class="btn btn-block bg-cadetblue text-ghostwhite"
+              (click)="
+                setCommentForWeekModal(
+                  trainingData.userId,
+                  i,
+                  trainingData.week
+                );
+                $event.stopPropagation()
+              "
+            >
+              Skomentuj tydzień
+            </button>
+          </div>
+          <!-- </div> -->
+          <!-- </div> -->
+        </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="container">
         <div
@@ -35,7 +45,7 @@
               <div class="col">
                 <h2>Trening {{ i + 1 }}</h2>
               </div>
-              <div class="col col-md-4">
+              <div class="col col-md-4 text-end">
                 <button
                   type="button"
                   class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -79,30 +89,6 @@
               </div>
             </div>
 
-            <!-- <div class="row mt-2 d-flex justify-content-center mx-4">
-              <div class="border rounded mb-3 col">
-                <div class="align-items-center">
-                  <div class="mb-1 pt-3 ps-4 text-title">
-                    <span class="d-inline-flex bg-white"
-                      >Komentarz treningu</span
-                    >
-                  </div>
-                </div>
-                <p class="mx-3">{{ training.raitingValueTraining }}</p>
-              </div>
-              <div class="col">
-                <div class="border rounded mb-3 col">
-                  <div class="align-items-center">
-                    <div class="mb-1 pt-3 ps-4 text-title">
-                      <span class="d-inline-flex bg-white"
-                        >Poziom trudności treningu</span
-                      >
-                    </div>
-                  </div>
-                  <p class="mx-3">{{ training.raitingValueTraining }}</p>
-                </div>
-              </div>
-            </div> -->
             <div
               class="row my-2 d-flex justify-content-center mx-4"
               *ngFor="let trainingElement of training.trainingElements"
@@ -181,57 +167,10 @@
 
               <span class="px-3 mb-3"><mat-divider></mat-divider></span>
             </div>
-            <div>
-              <!-- <h4>
-                Komentarz treningu: {{ training.raitingCommentTraining }}
-                <br />Poziom trudności treningu:
-                {{ training.raitingValueTraining }}
-              </h4> -->
-              <div
-                class="row my-2"
-                *ngFor="let trainingElement of training.trainingElements"
-              >
-                <div class="col-md-5">
-                  <div>
-                    <h4>Ćwiczenie: {{ trainingElement.exercise }}</h4>
-                  </div>
-
-                  <h4>
-                    Komentarz ćwiczenia:
-                    {{ trainingElement.raitingCommentExercise }}
-                  </h4>
-                  <h4>
-                    Poziom trudności ćwiczenia:
-                    {{ trainingElement.raitingValueExercise }}
-                  </h4>
-                </div>
-                <div
-                  class="col-2 text-end"
-                  *ngFor="let exerciseValue of trainingElement.exerciseValue"
-                >
-                  <p>Serie: {{ exerciseValue.set }}</p>
-                  <p>Powtórzenia: {{ exerciseValue.rep }}</p>
-                  <p>Ciężar: {{ exerciseValue.value }}</p>
-                </div>
-                <span class="px-3"><mat-divider></mat-divider></span>
-              </div>
-            </div>
+            <div></div>
           </div>
         </div>
       </div>
     </mat-expansion-panel>
   </mat-accordion>
 </section>
-<!-- <pre>{{ trainings$ | async | json }}</pre> -->
-<!-- <mat-accordion
-  ><mat-expansion-panel
-    *ngFor="
-      let trainingData of trainings$ | async;
-      trackBy: identify;
-      let i = index
-    "
-    ><mat-expansion-panel-header
-      >Tygdzień{{ trainingData.week.number }}</mat-expansion-panel-header
-    ></mat-expansion-panel
-  ></mat-accordion
-> -->

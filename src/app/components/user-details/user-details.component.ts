@@ -47,6 +47,7 @@ export class UserDetailsComponent implements OnInit {
 
   readonly trainers$: Observable<{ name: string; trainerId: string }[]> = of([
     { name: 'Mateusz', trainerId: 'CaSXm8HpX2RHgkEPAaBL0HEDaOc2' },
+    { name: 'Arkadiusz', trainerId: '' },
   ]);
 
   private _filteredTrainersSubject: BehaviorSubject<

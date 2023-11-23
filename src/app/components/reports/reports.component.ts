@@ -41,10 +41,12 @@ export class ReportsComponent {
                       .filter(
                         (training) => training.authId === params['authId']
                       );
-                    const isToCheck = weekTraining.some(
-                      (training) => training.hasFill
-                    );
-                    console.log(weekTraining);
+                    const isToCheck = weekTraining.some((training) => {
+                      // console.log(training);
+                      return training.hasFill;
+                    });
+                    console.log(isToCheck);
+                    // console.log(weekTraining);
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,

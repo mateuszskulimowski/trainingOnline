@@ -205,3 +205,8 @@ table.rounded-corners {
 .text-height-min {
   min-height: 46px;
 }
+.border-md-none-sd {
+  @media (max-width: 767px) {
+    border: none !important;
+  }
+}
