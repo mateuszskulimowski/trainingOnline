@@ -107,9 +107,7 @@ export class TrainingPlansComponent implements AfterContentInit {
       )
       .subscribe();
   }
-  removeTraining(trainingId: string): void {
-    this._trainingService.removeTraining(trainingId).subscribe();
-  }
+
   openRemoveTrainingModal(trainingId: string) {
     let dialogRef = this.dialog.open(RemoveTrainingModalComponent, {
       width: '380px',

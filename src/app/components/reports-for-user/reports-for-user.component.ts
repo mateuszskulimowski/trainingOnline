@@ -42,7 +42,7 @@ export class ReportsForUserComponent {
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,
-                      weekTraining,
+                      weekTraining.reverse(),
                       false
                     );
                   })

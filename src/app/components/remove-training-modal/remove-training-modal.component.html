@@ -6,12 +6,20 @@
   </div>
   <div class="row">
     <div class="col text-center">
-      <button type="button" class="btn btn-block bg-cadetblue text-ghostwhite">
+      <button
+        (click)="removeTraining(data.trainingId)"
+        type="button"
+        class="btn btn-block bg-cadetblue text-ghostwhite"
+      >
         Tak
       </button>
     </div>
     <div class="col text-center">
-      <button type="button" class="btn btn-block bg-cadetblue text-ghostwhite">
+      <button
+        (click)="closeDialog()"
+        type="button"
+        class="btn btn-block bg-cadetblue text-ghostwhite"
+      >
         Nie
       </button>
     </div>

@@ -41,35 +41,39 @@
           *ngFor="let exerciseValue of exerciseValue.controls; let i = index"
         >
           <div class="row mt-3 justify-content-center" [formGroupName]="i">
-            <div class="col-md-3">
-              <input
-                type="text"
-                class="form-control"
-                id="sets"
-                placeholder="Serie"
-                formControlName="set"
-              />
-            </div>
-            <div class="col-md-3">
-              <input
-                type="text"
-                class="form-control"
-                id="repetitions"
-                placeholder="Powtórzenia"
-                formControlName="rep"
-              />
-            </div>
+            <div class="col">
+              <div class="row">
+                <div class="col-md mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="sets"
+                    placeholder="Serie"
+                    formControlName="set"
+                  />
+                </div>
+                <div class="col-md mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="repetitions"
+                    placeholder="Powtórzenia"
+                    formControlName="rep"
+                  />
+                </div>
 
-            <div class="col-md-3">
-              <input
-                type="text"
-                class="form-control"
-                id="value"
-                placeholder="Obciążenie"
-                formControlName="value"
-              />
+                <div class="col-md mb-2">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="value"
+                    placeholder="Obciążenie"
+                    formControlName="value"
+                  />
+                </div>
+              </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-2">
               <button
                 type="button"
                 class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -82,23 +86,23 @@
         ></ng-container
       >
       <div class="row" *ngIf="data.raitingType === 'exercise'">
-        <div class="row mt-3 text-end m-2">
-          <div class="col d-flex justify-content-end">
-            <button
-              type="button"
-              class="btn btn-block bg-cadetblue text-ghostwhite"
-              (click)="asTrainingQuantityValue(data.quantityExercise)"
-            >
-              Jak w planie
-            </button>
-          </div>
-          <div class="col-md-2">
+        <div class="row mt-3 text-end m-2 d-flex justify-content-end">
+          <div class="col-md-2 mb-2">
             <button
               type="button"
               class="btn btn-block bg-cadetblue text-ghostwhite"
               (click)="addQuantity('add')"
             >
               +
+            </button>
+          </div>
+          <div class="col-5 d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn btn-block bg-cadetblue text-ghostwhite"
+              (click)="asTrainingQuantityValue(data.quantityExercise)"
+            >
+              Jak w planie
             </button>
           </div>
         </div>
