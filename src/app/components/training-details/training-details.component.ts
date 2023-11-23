@@ -51,7 +51,7 @@ export class TrainingDetailsComponent implements OnInit {
     exerciseValue?: QuantityExerciseModel[]
   ) {
     let dialogRef = this.dialog.open(RatingModalComponent, {
-      width: '380px',
+      width: '480px',
 
       data: {
         raitingType: raitingType,

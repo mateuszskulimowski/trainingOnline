@@ -111,4 +111,7 @@ export class RatingModalComponent implements OnInit {
       this.exerciseValue.push(quantityForm);
     });
   }
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
 }

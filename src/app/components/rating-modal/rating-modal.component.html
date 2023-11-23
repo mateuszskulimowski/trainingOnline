@@ -1,6 +1,18 @@
 <mat-dialog-content class="p-0"
   ><form [formGroup]="raitingForm">
     <div class="container p-2 d-block">
+      <div class="row d-flex justify-content-end">
+        <div class="col-sm-2 col-3">
+          <button
+            (click)="closeDialog()"
+            type="button"
+            mat-button
+            aria-label="Close"
+          >
+            x
+          </button>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-12">
           <div class="form-group">
@@ -85,9 +97,12 @@
           </div></ng-container
         ></ng-container
       >
-      <div class="row" *ngIf="data.raitingType === 'exercise'">
-        <div class="row mt-3 text-end m-2 d-flex justify-content-end">
-          <div class="col-md-2 mb-2">
+      <div class="container">
+        <div
+          class="row d-flex justify-content-end mt-3 m-2"
+          *ngIf="data.raitingType === 'exercise'"
+        >
+          <div class="col-md-2 col-3 mb-2">
             <button
               type="button"
               class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -96,7 +111,7 @@
               +
             </button>
           </div>
-          <div class="col-5 d-flex justify-content-end">
+          <div class="col text-end">
             <button
               type="button"
               class="btn btn-block bg-cadetblue text-ghostwhite"
@@ -107,8 +122,9 @@
           </div>
         </div>
       </div>
+
       <div class="row">
-        <div class="col-md-12 text-end">
+        <div class="col-md-12 text-end pe-5">
           <button
             class="btn btn-block bg-cadetblue text-ghostwhite"
             (click)="

@@ -5,6 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RatingModalComponent } from './rating-modal.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { RaitingTypePipeModule } from 'src/app/pipes/raiting-type.pipe-module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { RaitingTypePipeModule } from 'src/app/pipes/raiting-type.pipe-module';
     ReactiveFormsModule,
     MatRadioModule,
     RaitingTypePipeModule,
+    MatButtonModule,
   ],
   declarations: [RatingModalComponent],
   providers: [],
