@@ -19,9 +19,7 @@
       </div>
       <mat-accordion>
         <mat-expansion-panel>
-          <mat-expansion-panel-header
-            [ngClass]="{ 'bg-success': trainingData.isToCheck }"
-          >
+          <mat-expansion-panel-header>
             <mat-panel-title>
               Wykonane treningi {{ trainingData.training.length }}
             </mat-panel-title>
@@ -30,7 +28,6 @@
             <div
               class="card"
               *ngFor="let training of trainingData.training; let i = index"
-              [ngClass]="{ 'bg-success': training.hasFill }"
             >
               <div class="card-body">
                 <div class="row ms-4">
