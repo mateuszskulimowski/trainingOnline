@@ -20,7 +20,7 @@
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="dimgray-color">
               Wykonane treningi {{ trainingData.training.length }}
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -30,7 +30,7 @@
               *ngFor="let training of trainingData.training; let i = index"
             >
               <div class="card-body">
-                <div class="row ms-4">
+                <div class="row ms-4 dimgray-color">
                   <div class="col">
                     <h2>Trening {{ i + 1 }}</h2>
                   </div>
@@ -40,7 +40,9 @@
                   class="row my-2 d-flex justify-content-center mx-4"
                   *ngFor="let trainingElement of training.trainingElements"
                 >
-                  <div class="col-1">{{ trainingElement.index }}</div>
+                  <div class="col-1 dimgray-color">
+                    {{ trainingElement.index }}
+                  </div>
 
                   <div class="col">
                     <div class="row p-0">
@@ -54,7 +56,9 @@
                                 >
                               </div>
                             </div>
-                            <p class="mx-3">{{ trainingElement.exercise }}</p>
+                            <p class="mx-3 dimgray-color">
+                              {{ trainingElement.exercise }}
+                            </p>
                           </div>
                         </div>
                         <div class="row">
@@ -66,7 +70,7 @@
                                 </span>
                               </div>
                             </div>
-                            <p class="mx-3">
+                            <p class="mx-3 dimgray-color">
                               {{ trainingElement.raitingCommentExercise }}
                             </p>
                           </div>
@@ -83,13 +87,13 @@
                               </span>
                             </div>
                           </div>
-                          <p class="mx-3">
+                          <p class="mx-3 dimgray-color">
                             {{ trainingElement.raitingValueExercise }}
                           </p>
                         </div>
                       </div>
                     </div>
-                    <div class="row">
+                    <div class="row dimgray-color">
                       <div class="col-5 col-md-3 border-right mb-3">
                         <div class="d-flex flex-row-reverse">
                           <p class="mb-0 pe-2 ps-0 text-end d-flex">

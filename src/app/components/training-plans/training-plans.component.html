@@ -2,13 +2,14 @@
   <mat-card>
     <mat-accordion>
       <mat-expansion-panel
+        class="dimgray-color"
         *ngFor="
           let trainingData of trainingPlansQuery$ | async;
           trackBy: identify
         "
       >
         <mat-expansion-panel-header>
-          <mat-panel-title
+          <mat-panel-title class="dimgray-color"
             >Tydzień {{ trainingData.week.number }}
           </mat-panel-title>
         </mat-expansion-panel-header>

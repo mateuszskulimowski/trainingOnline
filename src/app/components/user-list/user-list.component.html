@@ -1,5 +1,5 @@
 <section class="mx-lg-5 px-lg-3 my-lg-3">
-  <mat-card>
+  <mat-card class="">
     <table
       mat-table
       *ngIf="users$ | async as users"
@@ -7,45 +7,53 @@
       class="rounded-corners"
     >
       <ng-container matColumnDef="index">
-        <th mat-header-cell *matHeaderCellDef><b>l.p.</b></th>
+        <th mat-header-cell *matHeaderCellDef class="dimgray-color">
+          <b>l.p.</b>
+        </th>
         <td
           mat-cell
           *matCellDef="let element"
           [routerLink]="'/user/' + element.id"
-          class="pointer"
+          class="pointer dimgray-color"
         >
           {{ element.index }}
         </td>
       </ng-container>
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef><b>Imię</b></th>
+        <th mat-header-cell *matHeaderCellDef class="dimgray-color">
+          <b>Imię</b>
+        </th>
         <td
           mat-cell
           *matCellDef="let element"
           [routerLink]="'/user/' + element.id"
-          class="pointer"
+          class="pointer dimgray-color"
         >
           {{ element.name }}
         </td>
       </ng-container>
       <ng-container matColumnDef="lastName">
-        <th mat-header-cell *matHeaderCellDef><b>Nazwisko</b></th>
+        <th mat-header-cell *matHeaderCellDef class="dimgray-color">
+          <b>Nazwisko</b>
+        </th>
         <td
           mat-cell
           *matCellDef="let element"
           [routerLink]="'/user/' + element.id"
-          class="pointer"
+          class="pointer dimgray-color"
         >
           {{ element.lastName }}
         </td>
       </ng-container>
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef><b>Email</b></th>
+        <th mat-header-cell *matHeaderCellDef class="dimgray-color">
+          <b>Email</b>
+        </th>
         <td
           mat-cell
           *matCellDef="let element"
           [routerLink]="'/user/' + element.id"
-          class="pointer"
+          class="pointer dimgray-color"
         >
           {{ element.lastName }}
         </td>

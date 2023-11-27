@@ -2,21 +2,34 @@
   <ng-container *ngIf="trainingDetails$ | async as trainingDetails">
     <mat-card>
       <mat-card-title class="text-end m-3">
-        <button
-          class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
-          (click)="
-            openRaitingModal(
-              'training',
-              1000,
-              trainingDetails.id,
-              trainingDetails.raitingCommentTraining,
-              trainingDetails.raitingValueTraining,
-              trainingDetails.hasFill
-            )
-          "
-        >
-          Podsumuj trening
-        </button>
+        <div class="container">
+          <div class="row flex-row-reverse">
+            <div class="col-md-2 col-sm-3 col-4 p-0">
+              <button
+                class="btn btn-block button-font p-2 sd-bg-color text-ghostwhite"
+                (click)="
+                  openRaitingModal(
+                    'training',
+                    1000,
+                    trainingDetails.id,
+                    trainingDetails.raitingCommentTraining,
+                    trainingDetails.raitingValueTraining,
+                    trainingDetails.hasFill
+                  )
+                "
+              >
+                Podsumuj trening
+              </button>
+            </div>
+            <div class="col-md-2 col-5 pe-0">
+              <button
+                class="btn btn-block button-font p-2 sd-bg-color text-ghostwhite"
+              >
+                Dodaj nagrania
+              </button>
+            </div>
+          </div>
+        </div>
       </mat-card-title>
 
       <div
@@ -72,9 +85,10 @@
               </div>
             </div>
           </div>
+
           <div class="col-3 text-end mb-3">
             <button
-              class="btn btn-block button-font p-2 bg-cadetblue text-ghostwhite"
+              class="btn btn-block button-font p-2 sd-bg-color text-ghostwhite"
               (click)="
                 openRaitingModal(
                   'exercise',

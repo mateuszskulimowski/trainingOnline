@@ -10,14 +10,14 @@
       <mat-expansion-panel-header
         [ngClass]="{ 'bg-success': trainingData.isToCheck }"
       >
-        <mat-panel-title class="">
+        <mat-panel-title>
           <!-- <div class="contaier"> -->
           <!-- <div class="row"> -->
           <div class="col">Tydzień {{ trainingData.week.number }}</div>
           <div class="col text-end">
             <button
               type="button"
-              class="btn btn-block bg-cadetblue text-ghostwhite"
+              class="btn btn-block sd-bg-color text-ghostwhite"
               (click)="
                 setCommentForWeekModal(
                   trainingData.userId,
@@ -43,12 +43,12 @@
           <div class="card-body">
             <div class="row ms-4">
               <div class="col">
-                <h2>Trening {{ i + 1 }}</h2>
+                <h2 class="dimgray-color">Trening {{ i + 1 }}</h2>
               </div>
               <div class="col col-md-4 text-end">
                 <button
                   type="button"
-                  class="btn btn-block bg-cadetblue text-ghostwhite"
+                  class="btn btn-block sd-bg-color text-ghostwhite"
                   (click)="hasChecked(training.id); $event.stopPropagation()"
                 >
                   Sprawdzony

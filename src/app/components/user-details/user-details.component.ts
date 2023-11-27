@@ -7,7 +7,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { UserService } from '../../services/user.service';
 import { UserModel } from '../../models/user.model';
 
@@ -21,21 +21,23 @@ export class UserDetailsComponent implements OnInit {
   readonly user$: Observable<any> = this._activatedRoute.params.pipe(
     switchMap((params) => {
       return this._userService.getOneUser(params['userId']).pipe(
-        take(1),
-        switchMap((user) =>
-          this.trainers$.pipe(
+        filter((user) => !!user),
+        switchMap((user) => {
+          return this.trainers$.pipe(
             map((trainers) => {
               const trainersMap = trainers.reduce((a, c) => {
                 return { ...a, [c.trainerId]: c.name };
               }, {} as Record<string, string>);
-              console.log(trainersMap[user.trainerId]);
+              // console.log('pierwszy upadek', trainersMap);
+              // console.log(user);
+              // console.log(trainersMap[user.trainerId]);
               this.userDetailsForm
                 .get('addTrainer')
                 ?.patchValue(trainersMap[user.trainerId]);
               return user;
             })
-          )
-        )
+          );
+        })
       );
     })
   );
@@ -43,11 +45,12 @@ export class UserDetailsComponent implements OnInit {
   readonly userDetailsForm: FormGroup = new FormGroup({
     paidTraining: new FormControl(),
     addTrainer: new FormControl(),
+    driveLink: new FormControl(),
   });
 
   readonly trainers$: Observable<{ name: string; trainerId: string }[]> = of([
     { name: 'Mateusz', trainerId: 'CaSXm8HpX2RHgkEPAaBL0HEDaOc2' },
-    { name: 'Arkadiusz', trainerId: '' },
+    { name: 'Arkadiusz', trainerId: '2PZgBbsJQlT5eUdA1d7uB3IcVop2' },
   ]);
 
   private _filteredTrainersSubject: BehaviorSubject<
@@ -75,7 +78,7 @@ export class UserDetailsComponent implements OnInit {
     const paid =
       userDetail.paidTraining + paidTrainingForm.get('paidTraining')?.value;
     this._userService.setPaidTraining(userDetail, paid);
-    paidTrainingForm.reset();
+    paidTrainingForm.get('paidTraining')?.reset();
   }
   choseTrainer(userId: string, trainerId: string): void {
     console.log(userId);

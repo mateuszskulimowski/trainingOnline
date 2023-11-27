@@ -224,6 +224,7 @@ export class TrainingService {
   }
 
   destroyTrainingContext(): Observable<void> {
+    localStorage.removeItem('trainingContext');
     this._traningSubject.next({
       isEdit: false,
       trainingElements: [],

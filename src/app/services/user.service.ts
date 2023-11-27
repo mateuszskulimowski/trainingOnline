@@ -22,11 +22,13 @@ export class UserService {
       .pipe(shareReplay(1));
   }
   getOneUser(id: string): Observable<UserModel> {
+    console.log('wpada grt one');
     return this._angularFirestore
       .collection<UserModel>('users')
       .valueChanges({ idField: 'id' })
       .pipe(
         map((users) => {
+          console.log('mapuje', users);
           return users.filter((user) => user.id === id).shift() as UserModel;
         }),
         shareReplay(1)

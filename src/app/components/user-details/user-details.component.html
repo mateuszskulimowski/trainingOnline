@@ -1,114 +1,148 @@
 <ng-container *ngIf="user$ | async as user">
   <section class="mx-lg-5 px-lg-3 my-lg-3">
     <mat-card class="height-100"
-      ><mat-card-title class="text-center"
+      ><mat-card-title class="text-center m-3"
         >{{ user.name }} {{ user.lastName }}</mat-card-title
-      ><mat-card-content
-        ><div class="contarier">
-          <div class="row">
-            <div class="col text-center">
-              <div class="container">
-                <div class="row mb-2">
-                  <button
-                    class="btn btn-block bg-cadetblue text-ghostwhite"
-                    [routerLink]="'/create-plan/' + user.authId"
-                  >
-                    Dodaj trening
-                  </button>
-                </div>
-                <div class="row mb-2">
-                  <button
-                    class="btn btn-block bg-cadetblue text-ghostwhite"
-                    [routerLink]="'/training-plans/' + user.authId"
-                  >
-                    Treningi
-                  </button>
-                </div>
-                <div class="row mb-2">
-                  <button
-                    class="btn btn-block bg-cadetblue text-ghostwhite"
-                    [routerLink]="'/reports/' + user.authId"
-                  >
-                    Raporty
-                  </button>
+      ><mat-card-content>
+        <form [formGroup]="userDetailsForm">
+          <div class="contarier">
+            <div class="row">
+              <div class="col-4 text-center">
+                <div class="container">
+                  <div class="row mb-2">
+                    <button
+                      class="btn btn-block sd-bg-color text-ghostwhite font-size"
+                      [routerLink]="'/create-plan/' + user.authId"
+                    >
+                      Dodaj trening
+                    </button>
+                  </div>
+                  <div class="row mb-2">
+                    <button
+                      class="btn btn-block sd-bg-color text-ghostwhite font-size"
+                      [routerLink]="'/training-plans/' + user.authId"
+                    >
+                      Treningi
+                    </button>
+                  </div>
+                  <div class="row mb-2">
+                    <button
+                      class="btn btn-block sd-bg-color text-ghostwhite font-size"
+                      [routerLink]="'/reports/' + user.authId"
+                    >
+                      Raporty
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-4 text-center">
-              <form [formGroup]="userDetailsForm">
-                <div class="row">
-                  <input
-                    type="number"
-                    class="form-control"
-                    id="paid"
-                    placeholder="Ilość tygodni"
-                    formControlName="paidTraining"
-                  />
-                  <button
-                    type="button"
-                    class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
-                    (click)="addPaidTraining(user, userDetailsForm)"
-                  >
-                    Powieksz pakiet
-                  </button>
-                </div>
-                <div class="row mt-2">
-                  <!-- tutaj  dac selecta -->
-                  <!-- <select>
-                    <option>d</option>
-                  </select> -->
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="paid"
-                    placeholder="Wybierz trenera"
-                    formControlName="addTrainer"
-                    [matAutocomplete]="auto"
-                  />
-                  <mat-autocomplete
-                    #auto="matAutocomplete"
-                    autoActiveFirstOption
-                  >
-                    <mat-option
-                      *ngFor="let option of filteredTrainers$ | async"
-                      [value]="option.name"
-                      (onSelectionChange)="
-                        choseTrainer(user.id, option.trainerId)
-                      "
+              <div class="col">
+                <div class="row align-items-center mb-2">
+                  <div class="col-4 fs-5 d-flex pe-0 justify-content-end">
+                    <p class="mb-0 font-size">Trener</p>
+                  </div>
+                  <div class="col">
+                    <input
+                      type="text"
+                      class="form-control dimgray-color font-size"
+                      id="paid"
+                      placeholder="Wybierz trenera"
+                      formControlName="addTrainer"
+                      [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                      #auto="matAutocomplete"
+                      autoActiveFirstOption
                     >
-                      {{ option.name }}
-                    </mat-option>
-                  </mat-autocomplete>
-                  <!-- <button
-                    type="button"
-                    class="btn btn-block bg-cadetblue text-ghostwhite mt-2"
-                  >
-                    Przypisz trenera
-                  </button> -->
+                      <mat-option
+                        *ngFor="let option of filteredTrainers$ | async"
+                        [value]="option.name"
+                        (onSelectionChange)="
+                          choseTrainer(user.id, option.trainerId)
+                        "
+                        class="font-size"
+                      >
+                        {{ option.name }}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </div>
                 </div>
-              </form>
+                <div class="row">
+                  <div class="col-4"></div>
+                  <div class="col text-end">
+                    <input
+                      type="number"
+                      class="form-control font-size mb-2"
+                      id="paid"
+                      placeholder="Ilość tygodni"
+                      formControlName="paidTraining"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-block sd-bg-color text-ghostwhite font-size"
+                      (click)="addPaidTraining(user, userDetailsForm)"
+                    >
+                      Powieksz pakiet
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="col">
+                <div class="row mb-2">
+      
+                </div>
+                <div class="row pe-2">
+               
+                </div>
+              </div> -->
+            </div>
+            <div class="row align-items-center">
+              <div class="col">
+                <input
+                  type="text"
+                  class="form-control font-size"
+                  id="paid"
+                  placeholder="Link do dysku"
+                  formControlName="driveLink"
+                />
+              </div>
+              <div class="col-md-2 col-3 ps-0 pe-md-3 pe-0">
+                <button
+                  type="button"
+                  class="btn btn-block sd-bg-color text-ghostwhite mt-2 mb-2 font-size"
+                >
+                  Zapisz link
+                </button>
+              </div>
+              <div class="col-md-2 col-4 text-end">
+                <button
+                  type="button"
+                  class="btn btn-block sd-bg-color text-ghostwhite mt-2 mb-2 font-size"
+                >
+                  Otwórz dysk
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="container mt-5">
-          <div class="row">
-            <div class="col-md-6">
-              <h2>Status Tygodni</h2>
-              <p>
-                Ilość wykupionych tygodni:
-                <span id="wynikIloscWykupionychTygodni">{{
-                  user.paidTraining
-                }}</span>
-              </p>
-              <p>
-                Ilość wykonanych tygodni:
-                <span id="wynikIloscWykonanychTygodni">{{
-                  user.trainingWeeks.length
-                }}</span>
-              </p>
+          <div class="container mt-5">
+            <div class="row">
+              <div class="col-md-6">
+                <h2>Status Tygodni</h2>
+                <p>
+                  Ilość wykupionych tygodni:
+                  <span id="wynikIloscWykupionychTygodni">{{
+                    user.paidTraining
+                  }}</span>
+                </p>
+                <p>
+                  Ilość wykonanych tygodni:
+                  <span id="wynikIloscWykonanychTygodni">{{
+                    user.trainingWeeks.length
+                  }}</span>
+                </p>
+              </div>
             </div>
           </div>
-        </div></mat-card-content
+        </form></mat-card-content
       ></mat-card
     >
   </section>

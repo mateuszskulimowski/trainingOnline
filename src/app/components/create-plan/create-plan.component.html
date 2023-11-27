@@ -8,7 +8,7 @@
       <div class="col-md-2 text-end">
         <button
           type="button"
-          class="btn btn-block bg-cadetblue text-ghostwhite mb-2"
+          class="btn btn-block sd-bg-color text-ghostwhite mb-2"
           (click)="back(user.userId)"
         >
           Wróć
@@ -34,7 +34,7 @@
         <div class="col-md-3 col text-end mb-2 mb-md-3">
           <button
             type="button"
-            class="btn btn-block bg-cadetblue text-ghostwhite"
+            class="btn btn-block sd-bg-color text-ghostwhite"
             (click)="addWeeksToConception(user, 1)"
           >
             Dodaj nowy tydzień
@@ -78,7 +78,7 @@
         <div class="col-md-2 text-end">
           <button
             type="button"
-            class="btn btn-block bg-cadetblue text-ghostwhite"
+            class="btn btn-block sd-bg-color text-ghostwhite"
             (click)="activeTemplate()"
           >
             Szablon
@@ -137,7 +137,7 @@
                 <div class="col-md-3">
                   <button
                     type="button"
-                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                    class="btn btn-block sd-bg-color text-ghostwhite"
                     (click)="deleteQuantity(i)"
                   >
                     -
@@ -152,7 +152,7 @@
             <div class="col d-inline-flex justify-content-center mb-2 mb-md-3">
               <button
                 type="button"
-                class="btn btn-block bg-cadetblue text-ghostwhite"
+                class="btn btn-block sd-bg-color text-ghostwhite"
                 (click)="addQuantity('add')"
               >
                 +
@@ -161,7 +161,7 @@
             <div class="col">
               <button
                 type="button"
-                class="btn btn-block bg-cadetblue text-ghostwhite"
+                class="btn btn-block sd-bg-color text-ghostwhite"
                 (click)="addTrainingExercise(planForm)"
               >
                 Dodaj
@@ -175,7 +175,7 @@
       <div class="col d-inline-flex justify-content-end">
         <button
           type="button"
-          class="btn btn-block bg-cadetblue text-ghostwhite"
+          class="btn btn-block sd-bg-color text-ghostwhite"
           (click)="onPlanFormSubmitted(user.userId, user.isEdit, user.isDone)"
         >
           Zatwierdź
@@ -237,7 +237,7 @@
                       <div class="col-md-3 mb-2 text-end">
                         <button
                           type="button"
-                          class="btn btn-block bg-cadetblue text-ghostwhite"
+                          class="btn btn-block sd-bg-color text-ghostwhite"
                           (click)="onEditForms(i, training)"
                         >
                           Edytuj
@@ -380,7 +380,7 @@
                                 <div class="col-2">
                                   <button
                                     type="button"
-                                    class="btn btn-block bg-cadetblue text-ghostwhite"
+                                    class="btn btn-block sd-bg-color text-ghostwhite"
                                     (click)="deleteQuantityEdit(j)"
                                   >
                                     -
@@ -393,7 +393,7 @@
                         <div class="col-2 justify-content-center">
                           <button
                             type="button"
-                            class="btn btn-block bg-cadetblue text-ghostwhite"
+                            class="btn btn-block sd-bg-color text-ghostwhite"
                             (click)="addQuantity('edit')"
                           >
                             +
@@ -408,7 +408,7 @@
                       <div class="col text-end">
                         <button
                           type="button"
-                          class="btn btn-block bg-cadetblue text-ghostwhite"
+                          class="btn btn-block sd-bg-color text-ghostwhite"
                           (click)="editSubmit(editForm, i)"
                         >
                           Zakończ edycję
