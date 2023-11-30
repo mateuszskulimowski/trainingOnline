@@ -37,7 +37,7 @@ export class ReportsForUserComponent {
                       // console.log(training);
                       return training.hasFill;
                     });
-                    console.log(isToCheck);
+
                     // console.log(weekTraining);
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,

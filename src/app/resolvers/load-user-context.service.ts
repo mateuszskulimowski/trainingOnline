@@ -31,7 +31,7 @@ export class LoadUserContextService {
         shareReplay(1),
         switchMap((userContext) => {
           if (userContext === null && userContext === undefined) {
-            return of({ authId: '', email: '', role: '' });
+            return of({ authId: '', email: '', role: '', driveLink: '' });
           }
           return this._userService
             .getOneUserByAuth(userContext?.uid as string)
@@ -42,6 +42,7 @@ export class LoadUserContextService {
                   authId: userContext?.uid,
                   email: userContext?.email,
                   role: user.role,
+                  driveLink: user.driveLink,
                 } as UserContext;
 
                 return context;

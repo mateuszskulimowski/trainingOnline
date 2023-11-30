@@ -8,4 +8,5 @@ export interface UserModel {
   readonly trainerId: string;
   readonly paidTraining: number;
   readonly trainingWeeks: { number: number; comment: string }[];
+  readonly driveLink: string;
 }

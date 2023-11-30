@@ -42,6 +42,7 @@ export class NavigationComponent {
             authId: '',
             email: '',
             role: '',
+            driveLink: '',
           })
         )
       )

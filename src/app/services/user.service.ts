@@ -106,4 +106,12 @@ export class UserService {
         .update({ trainerId: trainerId })
     ).pipe(map(() => void 0));
   }
+
+  setDriveLink(userId: string, driveLink: string): Observable<void> {
+    return from(
+      this._angularFirestore
+        .doc('users/' + userId)
+        .update({ driveLink: driveLink })
+    ).pipe(map(() => void 0));
+  }
 }

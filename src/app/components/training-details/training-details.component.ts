@@ -30,7 +30,8 @@ export class TrainingDetailsComponent implements OnInit {
         this._trainingService.getOneTraining(params['trainingId'])
       )
     );
-
+  readonly user$: Observable<UserContext> =
+    this._inMemoryUserContextStorage.select();
   constructor(
     private _activatedRoute: ActivatedRoute,
     private _trainingService: TrainingService,
@@ -64,5 +65,9 @@ export class TrainingDetailsComponent implements OnInit {
         hasFill: hasFill,
       },
     });
+  }
+
+  openDriveGoogle(driveLink: string): void {
+    window.open(driveLink);
   }
 }

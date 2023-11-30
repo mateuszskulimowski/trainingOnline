@@ -5,6 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ReportsForUserComponent } from './reports-for-user.component';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
+import { AllRepsPipeModule } from 'src/app/pipes/all-reps.pipe-module';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { MatDividerModule } from '@angular/material/divider';
     ReactiveFormsModule,
     CommonModule,
     MatDividerModule,
+    AllRepsPipeModule,
   ],
   declarations: [ReportsForUserComponent],
   providers: [],

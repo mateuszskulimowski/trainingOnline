@@ -21,9 +21,10 @@
                 Podsumuj trening
               </button>
             </div>
-            <div class="col-md-2 col-5 pe-0">
+            <div class="col-md-2 col-5 pe-0" *ngIf="user$ | async as user">
               <button
                 class="btn btn-block button-font p-2 sd-bg-color text-ghostwhite"
+                (click)="openDriveGoogle(user.driveLink)"
               >
                 Dodaj nagrania
               </button>

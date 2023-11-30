@@ -46,6 +46,7 @@
 
                   <div class="col">
                     <div class="row p-0">
+                      <div class="col-md-1 p-0 mx-1"></div>
                       <div class="col mx-1">
                         <div class="row">
                           <div class="border rounded mb-3 p-0 text-height-min">
@@ -76,14 +77,49 @@
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4 p-0 mx-1">
+                      <div class="col-md-1 p-0 mx-1"></div>
+                    </div>
+                    <div class="row d-flex justify-content-center">
+                      <div class="col-md mx-1">
                         <div
-                          class="border rounded p-0 mb-3 text-height-min w-60-md"
+                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
                         >
                           <div class="align-items-center">
                             <div class="mb-1 pt-3 ps-2 text-title">
                               <span class="d-inline-flex bg-white">
-                                Poziom trudności ćwiczenia
+                                Liczba powtórzeń
+                              </span>
+                            </div>
+                          </div>
+                          <p class="mx-3 dimgray-color">
+                            {{ trainingElement.exerciseValue | allReps }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md mx-1">
+                        <div
+                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
+                        >
+                          <div class="align-items-center">
+                            <div class="mb-1 pt-3 ps-2 text-title">
+                              <span class="d-inline-flex bg-white">
+                                Objętość
+                              </span>
+                            </div>
+                          </div>
+                          <p class="mx-3 dimgray-color">
+                            {{ trainingElement.raitingValueExercise }}
+                          </p>
+                        </div>
+                      </div>
+                      <div class="col-md mx-1">
+                        <div
+                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
+                        >
+                          <div class="align-items-center">
+                            <div class="mb-1 pt-3 ps-2 text-title">
+                              <span class="d-inline-flex bg-white">
+                                Średni cięzar
                               </span>
                             </div>
                           </div>

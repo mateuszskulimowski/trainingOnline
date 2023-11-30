@@ -18,7 +18,7 @@ import { UserModel } from '../../models/user.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserDetailsComponent implements OnInit {
-  readonly user$: Observable<any> = this._activatedRoute.params.pipe(
+  readonly user$: Observable<UserModel> = this._activatedRoute.params.pipe(
     switchMap((params) => {
       return this._userService.getOneUser(params['userId']).pipe(
         filter((user) => !!user),
@@ -28,6 +28,8 @@ export class UserDetailsComponent implements OnInit {
               const trainersMap = trainers.reduce((a, c) => {
                 return { ...a, [c.trainerId]: c.name };
               }, {} as Record<string, string>);
+              console.log(user.driveLink);
+              this.userDetailsForm.get('driveLink')?.patchValue(user.driveLink);
               // console.log('pierwszy upadek', trainersMap);
               // console.log(user);
               // console.log(trainersMap[user.trainerId]);
@@ -84,6 +86,17 @@ export class UserDetailsComponent implements OnInit {
     console.log(userId);
     this._userService.setTrainerIdForUser(userId, trainerId).subscribe();
   }
+
+  setDriveLink(userId: string, userForm: FormGroup): void {
+    this._userService
+      .setDriveLink(userId, userForm.get('driveLink')?.value)
+      .subscribe();
+  }
+
+  openDriveGoogle(driveLink: string): void {
+    window.open(driveLink);
+  }
+
   private _filterTrainers(
     name: string
   ): Observable<{ name: string; trainerId: string }[]> {

@@ -15,6 +15,7 @@ export class InMemoryUserContextStorage {
     authId: '',
     email: '',
     role: '',
+    driveLink: '',
   });
 
   select(): Observable<UserContext> {

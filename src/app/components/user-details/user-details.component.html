@@ -109,14 +109,16 @@
                 <button
                   type="button"
                   class="btn btn-block sd-bg-color text-ghostwhite mt-2 mb-2 font-size"
+                  (click)="setDriveLink(user.id, userDetailsForm)"
                 >
-                  Zapisz link
+                  Zapisz dysk
                 </button>
               </div>
               <div class="col-md-2 col-4 text-end">
                 <button
                   type="button"
                   class="btn btn-block sd-bg-color text-ghostwhite mt-2 mb-2 font-size"
+                  (click)="openDriveGoogle(user.driveLink)"
                 >
                   Otwórz dysk
                 </button>
