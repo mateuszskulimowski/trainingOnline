@@ -1,13 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { QuantityExerciseModel } from '../models/quantity-exercise.model';
-import { BehaviorSubject, Subject } from 'rxjs';
 
-@Pipe({ name: 'allReps' })
-export class AllRepsPipe implements PipeTransform {
+@Pipe({ name: 'summaryExerciseValues' })
+export class SummaryExerciseValuesPipe implements PipeTransform {
   transform(value: QuantityExerciseModel[]): number {
-    // ['2(1 +1  +1)', '2(2+2+1)'].replace()
-    // console.log(value);
-
     const result: number = value
       .map((data) => {
         const tokens = data.rep
@@ -66,20 +62,17 @@ export class AllRepsPipe implements PipeTransform {
           );
           // console.log();
           // console.log();
-          return Number(data.set) * summary * multiplicand;
+          return Number(data.set) * summary * multiplicand * Number(data.value);
         } else {
           const summary: number = Number(tokens.shift());
           // console.log(valueSet);
           // console.log();
-          return summary * Number(data.set);
+          return summary * Number(data.set) * Number(data.value);
         }
       })
       .reduce((a, c) => {
         return a + c;
       }, 0) as number;
-
-    // console.log(result);
-
     return result;
   }
 }

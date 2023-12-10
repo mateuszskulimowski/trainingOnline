@@ -6,6 +6,8 @@ import { ReportsForUserComponent } from './reports-for-user.component';
 import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { AllRepsPipeModule } from 'src/app/pipes/all-reps.pipe-module';
+import { SummaryExerciseValuesPipeModule } from 'src/app/pipes/summary-exercise-values.pipe-module';
+import { AverageValuePipeModule } from 'src/app/pipes/average-value.pipe-module';
 
 @NgModule({
   imports: [
@@ -15,6 +17,8 @@ import { AllRepsPipeModule } from 'src/app/pipes/all-reps.pipe-module';
     CommonModule,
     MatDividerModule,
     AllRepsPipeModule,
+    SummaryExerciseValuesPipeModule,
+    AverageValuePipeModule,
   ],
   declarations: [ReportsForUserComponent],
   providers: [],

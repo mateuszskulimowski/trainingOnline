@@ -108,7 +108,11 @@
                             </div>
                           </div>
                           <p class="mx-3 dimgray-color">
-                            {{ trainingElement.raitingValueExercise }}
+                            {{
+                              trainingElement.exerciseValue
+                                | summaryExerciseValues
+                            }}
+                            kg
                           </p>
                         </div>
                       </div>
@@ -124,7 +128,13 @@
                             </div>
                           </div>
                           <p class="mx-3 dimgray-color">
-                            {{ trainingElement.raitingValueExercise }}
+                            {{
+                              (trainingElement.exerciseValue
+                                | summaryExerciseValues) /
+                                (trainingElement.exerciseValue | allReps)
+                                | number : "1.1-1"
+                            }}
+                            kg
                           </p>
                         </div>
                       </div>

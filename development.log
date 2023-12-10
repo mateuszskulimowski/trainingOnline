@@ -1,0 +1,448 @@
+[info] [CLI] Calling Query entity/create/flow: {
+	"funcParams": {
+		"clickedPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/all-reps.pipe.ts"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Query entity/create/flow"
+}
+[info] [CLI] Called Query entity/create/flow: {
+	"result": {
+		"context": {},
+		"steps": [
+			{
+				"contextId": "entity",
+				"title": "What do you want to create?",
+				"type": "multi-option",
+				"options": [
+					{
+						"id": "component",
+						"suffix": "Component",
+						"folder": "components/$name$",
+						"type": "ANGULAR_COMPONENT",
+						"insideOf": "App",
+						"config": {
+							"stylesExtension": "none",
+							"viewEncapsulation": "None",
+							"selector": "generated",
+							"changeDetectionStrategy": "OnPush"
+						}
+					},
+					{
+						"id": "page",
+						"suffix": "Page",
+						"folder": "pages/$name$",
+						"type": "ANGULAR_COMPONENT",
+						"insideOf": "App",
+						"config": {
+							"stylesExtension": "none",
+							"viewEncapsulation": "None",
+							"selector": "generated",
+							"changeDetectionStrategy": "OnPush"
+						}
+					},
+					{
+						"id": "directive",
+						"suffix": "Directive",
+						"folder": "directives/$name$",
+						"type": "ANGULAR_DIRECTIVE",
+						"insideOf": "App"
+					},
+					{
+						"id": "queryModel",
+						"suffix": "QueryModel",
+						"folder": "query-models",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					},
+					{
+						"id": "service",
+						"suffix": "Service",
+						"folder": "services",
+						"type": "ANGULAR_SERVICE",
+						"insideOf": "App",
+						"config": {
+							"provideStrategy": "root"
+						}
+					},
+					{
+						"id": "guard",
+						"suffix": "Guard",
+						"folder": "guards",
+						"type": "ANGULAR_GUARD",
+						"insideOf": "App",
+						"config": {
+							"provideStrategy": "root"
+						}
+					},
+					{
+						"id": "pipe",
+						"suffix": "Pipe",
+						"folder": "pipes",
+						"type": "ANGULAR_PIPE",
+						"insideOf": "App"
+					},
+					{
+						"id": "model",
+						"suffix": "Model",
+						"folder": "models",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					},
+					{
+						"id": "context",
+						"suffix": "Context",
+						"folder": "contexts",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					}
+				],
+				"extraOptions": [],
+				"property": "id",
+				"canBeEmpty": false
+			}
+		],
+		"request": {}
+	},
+	"level": "info",
+	"message": "[CLI] Called Query entity/create/flow"
+}
+[info] [CLI] Calling Query angular-pipe/create/flow: {
+	"funcParams": {
+		"entityId": "pipe"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Query angular-pipe/create/flow"
+}
+[info] [CLI] Called Query angular-pipe/create/flow: {
+	"result": {
+		"context": {
+			"entity": {
+				"id": "pipe"
+			}
+		},
+		"steps": [
+			{
+				"contextId": "name",
+				"title": "What is the pipe name?",
+				"subtitle": "e.g. user",
+				"type": "text-input",
+				"canBeEmpty": false
+			}
+		],
+		"request": {
+			"config": {
+				"url": "angular-pipe/create",
+				"payload": {
+					"name": "name.value",
+					"entityId": "entity.id"
+				}
+			}
+		}
+	},
+	"level": "info",
+	"message": "[CLI] Called Query angular-pipe/create/flow"
+}
+[info] [CLI] Calling Command angular-pipe/create: {
+	"funcParams": {
+		"name": "summaryExerciseValues",
+		"entityId": "pipe"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Command angular-pipe/create"
+}
+[info] [CommandBus]: Dispatching command CreatePipe: {
+	"commandName": "CreatePipe",
+	"payload": {
+		"name": "summaryExerciseValues",
+		"suffix": "Pipe",
+		"absoluteFolderPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Dispatching command CreatePipe"
+}
+[info] [EventBus]: Broadcasting event PIPE_CREATED_EVENT: {
+	"type": "PIPE_CREATED_EVENT",
+	"payload": {
+		"createdFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasting event PIPE_CREATED_EVENT"
+}
+[info] [EventBus]: Broadcasted PIPE_CREATED_EVENT: {
+	"event": {
+		"createdFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasted PIPE_CREATED_EVENT"
+}
+[info] [CommandBus]: Dispatching command MODULE_CREATE_MODULE: {
+	"commandName": "MODULE_CREATE_MODULE",
+	"payload": {
+		"filePath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe.ts",
+		"entityType": "ANGULAR_PIPE"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Dispatching command MODULE_CREATE_MODULE"
+}
+[info] [EventBus]: Broadcasting event MODULE_MODULE_CREATED: {
+	"type": "MODULE_MODULE_CREATED",
+	"payload": {
+		"moduleFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe-module.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasting event MODULE_MODULE_CREATED"
+}
+[info] [EventBus]: Broadcasted MODULE_MODULE_CREATED: {
+	"event": {
+		"moduleFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe-module.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasted MODULE_MODULE_CREATED"
+}
+[info] [CommandBus]: Handled  MODULE_CREATE_MODULE: {
+	"commandName": "MODULE_CREATE_MODULE",
+	"payload": {
+		"filePath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/summary-exercise-values.pipe.ts",
+		"entityType": "ANGULAR_PIPE"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Handled  MODULE_CREATE_MODULE"
+}
+[info] [CommandBus]: Handled  CreatePipe: {
+	"commandName": "CreatePipe",
+	"payload": {
+		"name": "summaryExerciseValues",
+		"suffix": "Pipe",
+		"absoluteFolderPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Handled  CreatePipe"
+}
+[info] [CLI] Called Command angular-pipe/create: {
+	"message": "[CLI] Called Command angular-pipe/create",
+	"level": "info"
+}
+[info] [CLI] Calling Query entity/create/flow: {
+	"funcParams": {
+		"clickedPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/components/reports-for-user/reports-for-user.component.html"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Query entity/create/flow"
+}
+[info] [CLI] Called Query entity/create/flow: {
+	"result": {
+		"context": {},
+		"steps": [
+			{
+				"contextId": "entity",
+				"title": "What do you want to create?",
+				"type": "multi-option",
+				"options": [
+					{
+						"id": "component",
+						"suffix": "Component",
+						"folder": "components/$name$",
+						"type": "ANGULAR_COMPONENT",
+						"insideOf": "App",
+						"config": {
+							"stylesExtension": "none",
+							"viewEncapsulation": "None",
+							"selector": "generated",
+							"changeDetectionStrategy": "OnPush"
+						}
+					},
+					{
+						"id": "page",
+						"suffix": "Page",
+						"folder": "pages/$name$",
+						"type": "ANGULAR_COMPONENT",
+						"insideOf": "App",
+						"config": {
+							"stylesExtension": "none",
+							"viewEncapsulation": "None",
+							"selector": "generated",
+							"changeDetectionStrategy": "OnPush"
+						}
+					},
+					{
+						"id": "directive",
+						"suffix": "Directive",
+						"folder": "directives/$name$",
+						"type": "ANGULAR_DIRECTIVE",
+						"insideOf": "App"
+					},
+					{
+						"id": "queryModel",
+						"suffix": "QueryModel",
+						"folder": "query-models",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					},
+					{
+						"id": "service",
+						"suffix": "Service",
+						"folder": "services",
+						"type": "ANGULAR_SERVICE",
+						"insideOf": "App",
+						"config": {
+							"provideStrategy": "root"
+						}
+					},
+					{
+						"id": "guard",
+						"suffix": "Guard",
+						"folder": "guards",
+						"type": "ANGULAR_GUARD",
+						"insideOf": "App",
+						"config": {
+							"provideStrategy": "root"
+						}
+					},
+					{
+						"id": "pipe",
+						"suffix": "Pipe",
+						"folder": "pipes",
+						"type": "ANGULAR_PIPE",
+						"insideOf": "App"
+					},
+					{
+						"id": "model",
+						"suffix": "Model",
+						"folder": "models",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					},
+					{
+						"id": "context",
+						"suffix": "Context",
+						"folder": "contexts",
+						"type": "DATA_STRUCTURE",
+						"insideOf": "App"
+					}
+				],
+				"extraOptions": [],
+				"property": "id",
+				"canBeEmpty": false
+			}
+		],
+		"request": {}
+	},
+	"level": "info",
+	"message": "[CLI] Called Query entity/create/flow"
+}
+[info] [CLI] Calling Query angular-pipe/create/flow: {
+	"funcParams": {
+		"entityId": "pipe"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Query angular-pipe/create/flow"
+}
+[info] [CLI] Called Query angular-pipe/create/flow: {
+	"result": {
+		"context": {
+			"entity": {
+				"id": "pipe"
+			}
+		},
+		"steps": [
+			{
+				"contextId": "name",
+				"title": "What is the pipe name?",
+				"subtitle": "e.g. user",
+				"type": "text-input",
+				"canBeEmpty": false
+			}
+		],
+		"request": {
+			"config": {
+				"url": "angular-pipe/create",
+				"payload": {
+					"name": "name.value",
+					"entityId": "entity.id"
+				}
+			}
+		}
+	},
+	"level": "info",
+	"message": "[CLI] Called Query angular-pipe/create/flow"
+}
+[info] [CLI] Calling Command angular-pipe/create: {
+	"funcParams": {
+		"name": "averageValue",
+		"entityId": "pipe"
+	},
+	"level": "info",
+	"message": "[CLI] Calling Command angular-pipe/create"
+}
+[info] [CommandBus]: Dispatching command CreatePipe: {
+	"commandName": "CreatePipe",
+	"payload": {
+		"name": "averageValue",
+		"suffix": "Pipe",
+		"absoluteFolderPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Dispatching command CreatePipe"
+}
+[info] [EventBus]: Broadcasting event PIPE_CREATED_EVENT: {
+	"type": "PIPE_CREATED_EVENT",
+	"payload": {
+		"createdFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasting event PIPE_CREATED_EVENT"
+}
+[info] [EventBus]: Broadcasted PIPE_CREATED_EVENT: {
+	"event": {
+		"createdFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasted PIPE_CREATED_EVENT"
+}
+[info] [CommandBus]: Dispatching command MODULE_CREATE_MODULE: {
+	"commandName": "MODULE_CREATE_MODULE",
+	"payload": {
+		"filePath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe.ts",
+		"entityType": "ANGULAR_PIPE"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Dispatching command MODULE_CREATE_MODULE"
+}
+[info] [EventBus]: Broadcasting event MODULE_MODULE_CREATED: {
+	"type": "MODULE_MODULE_CREATED",
+	"payload": {
+		"moduleFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe-module.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasting event MODULE_MODULE_CREATED"
+}
+[info] [EventBus]: Broadcasted MODULE_MODULE_CREATED: {
+	"event": {
+		"moduleFile": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe-module.ts"
+	},
+	"level": "info",
+	"message": "[EventBus]: Broadcasted MODULE_MODULE_CREATED"
+}
+[info] [CommandBus]: Handled  MODULE_CREATE_MODULE: {
+	"commandName": "MODULE_CREATE_MODULE",
+	"payload": {
+		"filePath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes/average-value.pipe.ts",
+		"entityType": "ANGULAR_PIPE"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Handled  MODULE_CREATE_MODULE"
+}
+[info] [CommandBus]: Handled  CreatePipe: {
+	"commandName": "CreatePipe",
+	"payload": {
+		"name": "averageValue",
+		"suffix": "Pipe",
+		"absoluteFolderPath": "/Users/skulimowskim/Desktop/Programming/weightliftingTrainingOnline/Training/Training/src/app/pipes"
+	},
+	"level": "info",
+	"message": "[CommandBus]: Handled  CreatePipe"
+}
+[info] [CLI] Called Command angular-pipe/create: {
+	"message": "[CLI] Called Command angular-pipe/create",
+	"level": "info"
+}
