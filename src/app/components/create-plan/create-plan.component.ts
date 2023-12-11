@@ -27,7 +27,6 @@ import { TrainingElementModel } from '../../models/training-element.model';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { UserModel } from 'src/app/models/user.model';
 import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
-
 @Component({
   selector: 'app-create-plan',
   templateUrl: './create-plan.component.html',
@@ -37,6 +36,7 @@ import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/traini
 export class CreatePlanComponent implements OnDestroy, OnInit {
   readonly planForm: FormGroup = new FormGroup({
     trainingWeek: new FormControl(),
+    trainingDate: new FormControl(),
     exercise: new FormControl(''),
     comment: new FormControl(''),
     autocompleteControl: new FormControl(''),
@@ -90,9 +90,15 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
                     this._trainingService.setTrainingWeekOnSubject(
                       training.trainingWeek
                     );
-                    this._trainingService.setTrainingWeekOnSubject(
-                      training.trainingWeek
+                    this.planForm
+                      .get('trainingDate')
+                      ?.patchValue(training.trainingDate);
+                    this._trainingService.setTrainingDateOnSubject(
+                      training.trainingDate
                     );
+                    // this._trainingService.setTrainingWeekOnSubject(
+                    //   training.trainingWeek
+                    // );
                   } else {
                     this.planForm
                       .get('trainingWeek')
@@ -291,6 +297,13 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
     this.planForm.get('trainingWeek')?.patchValue(trainingWeek);
     this._trainingService.isEdit();
     this._trainingService.setTrainingWeekOnSubject(trainingWeek).subscribe();
+  }
+
+  setTrainingDate(event: any) {
+    // console.log(typeof event.target.value);
+    this._trainingService
+      .setTrainingDateOnSubject(event.target.value)
+      .subscribe();
   }
   deleteExercise(index: number) {
     this._trainingService.deleteExercise(index).subscribe();

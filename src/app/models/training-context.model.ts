@@ -5,4 +5,5 @@ export interface TrainingContextModel {
   readonly trainingElements: TrainingElementModel[];
   readonly trainingWeek: number;
   readonly isDone: boolean;
+  readonly trainingDate: string;
 }

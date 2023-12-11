@@ -11,4 +11,5 @@ export interface TrainingModel {
   raitingValueTraining: number;
   readonly isDone: boolean;
   readonly hasFill: boolean;
+  readonly trainingDate: string;
 }

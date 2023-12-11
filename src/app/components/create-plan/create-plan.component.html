@@ -1,14 +1,10 @@
 <ng-container>
   <div class="container mt-5" *ngIf="user$ | async as user">
     <div class="row justify-content-center">
-      <div class="col-md-7">
-        <h1 class="text-center text-ghostwhite ms-md-5 ps-md-5">TRENING</h1>
-      </div>
-
       <div class="col-md-2 text-end">
         <button
           type="button"
-          class="btn btn-block sd-bg-color text-ghostwhite mb-2"
+          class="btn btn-block sd-bg-color text-ghostwhite mb-2 font-size"
           (click)="back(user.userId)"
         >
           Wróć
@@ -17,9 +13,9 @@
     </div>
     <form [formGroup]="planForm">
       <div class="row justify-content-center">
-        <div class="col-md-6 col-5">
+        <div class="col-md-3 col-4">
           <select
-            class="form-control mb-2 mb-md-3"
+            class="form-control mb-2 mb-md-3 font-size"
             formControlName="trainingWeek"
             (change)="setTrainingWeek($event)"
           >
@@ -31,13 +27,21 @@
             </option>
           </select>
         </div>
+        <div class="col-3 px-0">
+          <input
+            type="date"
+            class="form-control font-size"
+            formControlName="trainingDate"
+            (change)="setTrainingDate($event)"
+          />
+        </div>
         <div class="col-md-3 col text-end mb-2 mb-md-3">
           <button
             type="button"
-            class="btn btn-block sd-bg-color text-ghostwhite"
+            class="btn btn-block sd-bg-color text-ghostwhite font-size"
             (click)="addWeeksToConception(user, 1)"
           >
-            Dodaj nowy tydzień
+            Nowy tydzień
           </button>
         </div>
       </div>
@@ -46,7 +50,7 @@
         <div class="col-md-7">
           <div *ngIf="isAutocomplete$ | async; else noTemplate">
             <textarea
-              class="form-control"
+              class="form-control font-size"
               placeholder="Wybierz z szablonu"
               aria-label="Number"
               matInput
@@ -57,6 +61,7 @@
 
             <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption>
               <mat-option
+                class="font-size"
                 *ngFor="let option of filteredOptions$ | async"
                 [value]="option"
                 (onSelectionChange)="deactivationTemplate(option)"
@@ -67,7 +72,7 @@
           </div>
           <ng-template #noTemplate>
             <textarea
-              class="form-control mb-2"
+              class="form-control mb-2 font-size"
               placeholder="Ćwiczenie"
               id="exerciseName"
               formControlName="exercise"
@@ -78,7 +83,7 @@
         <div class="col-md-2 text-end">
           <button
             type="button"
-            class="btn btn-block sd-bg-color text-ghostwhite"
+            class="btn btn-block sd-bg-color text-ghostwhite font-size"
             (click)="activeTemplate()"
           >
             Szablon
@@ -88,7 +93,7 @@
       <div class="row justify-content-center">
         <div class="col-md-9">
           <textarea
-            class="form-control mt-2"
+            class="form-control mt-2 font-size"
             placeholder="Komentarz"
             id="comment"
             rows="4"
@@ -109,7 +114,7 @@
                 <div class="col-md-3">
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control font-size"
                     id="sets"
                     placeholder="Serie"
                     formControlName="set"
@@ -118,7 +123,7 @@
                 <div class="col-md-3">
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control font-size"
                     id="repetitions"
                     placeholder="Powtórzenia"
                     formControlName="rep"
@@ -128,7 +133,7 @@
                 <div class="col-md-3">
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control font-size"
                     id="value"
                     placeholder="Obciążenie"
                     formControlName="value"
@@ -137,7 +142,7 @@
                 <div class="col-md-3">
                   <button
                     type="button"
-                    class="btn btn-block sd-bg-color text-ghostwhite"
+                    class="btn btn-block sd-bg-color text-ghostwhite font-size"
                     (click)="deleteQuantity(i)"
                   >
                     -
@@ -152,7 +157,7 @@
             <div class="col d-inline-flex justify-content-center mb-2 mb-md-3">
               <button
                 type="button"
-                class="btn btn-block sd-bg-color text-ghostwhite"
+                class="btn btn-block sd-bg-color text-ghostwhite font-size"
                 (click)="addQuantity('add')"
               >
                 +
@@ -161,7 +166,7 @@
             <div class="col">
               <button
                 type="button"
-                class="btn btn-block sd-bg-color text-ghostwhite"
+                class="btn btn-block sd-bg-color text-ghostwhite font-size"
                 (click)="addTrainingExercise(planForm)"
               >
                 Dodaj
@@ -175,7 +180,7 @@
       <div class="col d-inline-flex justify-content-end">
         <button
           type="button"
-          class="btn btn-block sd-bg-color text-ghostwhite"
+          class="btn btn-block sd-bg-color text-ghostwhite font-size"
           (click)="onPlanFormSubmitted(user.userId, user.isEdit, user.isDone)"
         >
           Zatwierdź
@@ -208,12 +213,12 @@
                       >
                         <div class="align-items-center">
                           <div class="mb-1 pt-3 ps-2 text-title">
-                            <span class="d-inline-flex bg-white"
+                            <span class="d-inline-flex bg-white font-size"
                               >Ćwiczenie</span
                             >
                           </div>
                         </div>
-                        <p class="mx-3">{{ training.exercise }}</p>
+                        <p class="mx-3 font-size">{{ training.exercise }}</p>
                       </div>
                     </div>
 
@@ -221,12 +226,12 @@
                       <div class="border rounded p-0 mb-3 text-height-min">
                         <div class="align-items-center">
                           <div class="mb-1 pt-3 ps-2 text-title">
-                            <span class="d-inline-flex bg-white"
+                            <span class="d-inline-flex bg-white font-size"
                               >Komentarz ćwiczenia
                             </span>
                           </div>
                         </div>
-                        <p class="mx-3">
+                        <p class="mx-3 font-size">
                           {{ training.comment }}
                         </p>
                       </div>
@@ -237,7 +242,7 @@
                       <div class="col-md-3 mb-2 text-end">
                         <button
                           type="button"
-                          class="btn btn-block sd-bg-color text-ghostwhite"
+                          class="btn btn-block sd-bg-color text-ghostwhite font-size"
                           (click)="onEditForms(i, training)"
                         >
                           Edytuj
@@ -246,10 +251,12 @@
                       <div class="col-md-2 text-end">
                         <button
                           type="button"
-                          class="btn btn-block bg-danger text-ghostwhite m-0"
+                          class="btn btn-block bg-danger text-ghostwhite m-0 font-size"
                           (click)="deleteExercise(i)"
                         >
-                          <mat-icon class="d-flex">delete_outline</mat-icon>
+                          <mat-icon class="d-flex fs-5"
+                            >delete_outline</mat-icon
+                          >
                         </button>
                       </div>
                     </div>
@@ -258,13 +265,19 @@
                 <div class="row">
                   <div class="col-md-3 col-sm-3 col-6 border-right mb-3">
                     <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Obciazenie</p>
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                        Obciazenie
+                      </p>
                     </div>
                     <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Serie</p>
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                        Serie
+                      </p>
                     </div>
                     <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex">Powtórzenia</p>
+                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                        Powtórzenia
+                      </p>
                     </div>
                   </div>
                   <div
@@ -272,17 +285,17 @@
                     *ngFor="let exerciseValue of training.quantity"
                   >
                     <div class="row">
-                      <p class="mb-0 px-0 text-center">
+                      <p class="mb-0 px-0 text-center font-size">
                         {{ exerciseValue.value }}
                       </p>
                     </div>
                     <div class="row">
-                      <p class="mb-0 px-0 text-center">
+                      <p class="mb-0 px-0 text-center font-size">
                         {{ exerciseValue.set }}
                       </p>
                     </div>
                     <div class="row">
-                      <p class="mb-0 px-0 text-center">
+                      <p class="mb-0 px-0 text-center font-size">
                         {{ exerciseValue.rep }}
                       </p>
                     </div>
@@ -291,12 +304,12 @@
               </ng-container>
               <ng-template #isEditForm>
                 <div class="row">
-                  <div class="col-1">{{ training.index }}</div>
+                  <div class="col-1 font-size">{{ training.index }}</div>
                   <div class="col text-start">
                     <div class="row">
-                      <span class="my-2"><b>Exercise</b></span>
+                      <span class="my-2 font-size"><b>Exercise</b></span>
                       <textarea
-                        class="form-control font-size"
+                        class="form-control font-size font-size"
                         placeholder="Ćwiczenie"
                         id="exerciseName"
                         formControlName="exercise"
@@ -305,10 +318,10 @@
                     </div>
 
                     <div class="row mb-3">
-                      <span class="mt-2"><b>Komentarz</b></span>
+                      <span class="mt-2 font-size"><b>Komentarz</b></span>
 
                       <textarea
-                        class="form-control mt-3 font-size"
+                        class="form-control mt-3 font-size font-size"
                         placeholder="Komentarz"
                         id="comment"
                         rows="4"
@@ -318,15 +331,19 @@
                     <div class="row">
                       <div class="col-md-4 border-right mb-3 border-md-none-sd">
                         <div class="d-flex">
-                          <p class="mb-0 pe-2 ps-0 text-md-end d-flex">
+                          <p
+                            class="mb-0 pe-2 ps-0 text-md-end d-flex font-size"
+                          >
                             Obciazenie
                           </p>
                         </div>
                         <div>
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex">Serie</p>
+                          <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                            Serie
+                          </p>
                         </div>
                         <div>
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex">
+                          <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
                             Powtórzenia
                           </p>
                         </div>
@@ -380,7 +397,7 @@
                                 <div class="col-2">
                                   <button
                                     type="button"
-                                    class="btn btn-block sd-bg-color text-ghostwhite"
+                                    class="btn btn-block sd-bg-color font-size text-ghostwhite"
                                     (click)="deleteQuantityEdit(j)"
                                   >
                                     -
@@ -393,7 +410,7 @@
                         <div class="col-2 justify-content-center">
                           <button
                             type="button"
-                            class="btn btn-block sd-bg-color text-ghostwhite"
+                            class="btn btn-block sd-bg-color font-size text-ghostwhite"
                             (click)="addQuantity('edit')"
                           >
                             +
@@ -408,7 +425,7 @@
                       <div class="col text-end">
                         <button
                           type="button"
-                          class="btn btn-block sd-bg-color text-ghostwhite"
+                          class="btn btn-block sd-bg-color font-size text-ghostwhite"
                           (click)="editSubmit(editForm, i)"
                         >
                           Zakończ edycję

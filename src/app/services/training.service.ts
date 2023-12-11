@@ -20,6 +20,7 @@ export class TrainingService {
         isEdit: false,
         trainingElements: [],
         trainingWeek: 0,
+        trainingDate: Date(),
         isDone: false,
         hasFill: false,
       }
@@ -121,6 +122,7 @@ export class TrainingService {
       isEdit: true,
       trainingElements: training.trainingElements,
       trainingWeek: training.trainingWeek,
+      trainingDate: training.trainingDate,
       isDone: training.isDone,
     };
     this._traningSubject.next(trainingContext);
@@ -163,6 +165,7 @@ export class TrainingService {
         trainingWeek: this._traningSubject.value.trainingWeek,
         isEdit: this._traningSubject.value.isEdit,
         trainingElements: currentValue,
+        trainingDate: this._traningSubject.value.trainingDate,
         isDone: this._traningSubject.value.isDone,
       };
       this._traningSubject.next(trainingContext);
@@ -223,12 +226,19 @@ export class TrainingService {
     return of(void 0);
   }
 
+  private _todaySubject: BehaviorSubject<string> = new BehaviorSubject<string>(
+    `${new Date().getFullYear()}-${
+      new Date().getMonth() + 1
+    }-${new Date().getDate()}`
+  );
+
   destroyTrainingContext(): Observable<void> {
     localStorage.removeItem('trainingContext');
     this._traningSubject.next({
       isEdit: false,
       trainingElements: [],
       trainingWeek: 0,
+      trainingDate: this._todaySubject.value,
       isDone: false,
     });
     return of(void 0);
@@ -251,6 +261,21 @@ export class TrainingService {
 
     return of(void 0);
   }
+  setTrainingDateOnSubject(trainingDate: string): Observable<void> {
+    if (this._traningSubject.value?.trainingDate === trainingDate) {
+      return of(void 0);
+    }
+    if (this._traningSubject.value) {
+      const trainingContext = {
+        ...this._traningSubject.value,
+        trainingDate: trainingDate,
+      };
+      this._traningSubject.next(trainingContext);
+      localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
+    }
+    return of(void 0);
+  }
+
   deleteExercise(index: number): Observable<void> {
     if (this._traningSubject.value) {
       this._traningSubject.value.trainingElements.splice(index, 1);
