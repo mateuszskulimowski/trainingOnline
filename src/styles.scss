@@ -41,6 +41,19 @@ body {
 }
 body {
   background-color: #f0f8ff;
+  font-family: Garamond, serif !important;
+}
+.mat-expansion-panel-header {
+  font-family: Garamond, serif !important;
+}
+.mat-expansion-panel-body {
+  font-family: Garamond, serif !important;
+}
+h2 {
+  font-family: Garamond, serif !important;
+}
+button {
+  font-family: Garamond, serif !important;
 }
 .dimgray-color {
   color: #696969;
@@ -66,9 +79,9 @@ body {
 .bg-lightgray {
   background-color: #d3d3d3;
 }
-.font-family {
-  font-family: "Poppins", sans-serif !important;
-}
+// .font-family {
+//   font-family: Verdana, sans-serif !important;
+// }
 .mat-column-index {
   width: 40px;
 }
@@ -223,5 +236,10 @@ table.rounded-corners {
 .border-md-none-sd {
   @media (max-width: 767px) {
     border: none !important;
+  }
+}
+.mt-0-sd {
+  @media (min-width: 767px) {
+    margin-top: 0 !important;
   }
 }

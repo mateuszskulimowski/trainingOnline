@@ -5,7 +5,9 @@
       class="mb-2"
     >
       <div class="container">
-        <div class="row m-3">Tydzień {{ trainingData.week.number }}</div>
+        <div class="row m-3 ms-0 mb-0">
+          <p class="fs-5 mb-4 ms-1">Tydzień {{ trainingData.week.number }}</p>
+        </div>
         <div class="row px-4">
           <div class="col-md p-0 border rounded mb-3 text-height-min">
             <div class="align-items-center">
@@ -20,7 +22,7 @@
       <mat-accordion>
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title class="dimgray-color">
+            <mat-panel-title class="dimgray-color font-size">
               Wykonane treningi {{ trainingData.training.length }}
             </mat-panel-title>
           </mat-expansion-panel-header>
@@ -38,149 +40,157 @@
 
                 <div
                   class="row my-2 d-flex justify-content-center mx-4"
-                  *ngFor="let trainingElement of training.trainingElements"
+                  *ngFor="
+                    let trainingElement of training.trainingElements;
+                    let i = index
+                  "
                 >
                   <div class="col-1 dimgray-color">
                     {{ trainingElement.index }}
                   </div>
-
                   <div class="col">
-                    <div class="row p-0">
-                      <div class="col-md-1 p-0 mx-1"></div>
-                      <div class="col mx-1">
+                    <div class="row">
+                      <div class="col-md">
                         <div class="row">
-                          <div class="border rounded mb-3 p-0 text-height-min">
-                            <div class="align-items-center">
-                              <div class="mb-1 pt-3 ps-2 text-title">
-                                <span class="d-inline-flex bg-white"
+                          <div class="border rounded mb-3">
+                            <div class="row align-items-center">
+                              <div class="pt-3 ps-4 text-title">
+                                <span class="text-title-without-btn bg-white"
                                   >Ćwiczenie</span
                                 >
                               </div>
                             </div>
-                            <p class="mx-3 dimgray-color">
+                            <p class="mx-1 mb-1 dimgray-color font-size">
                               {{ trainingElement.exercise }}
                             </p>
                           </div>
                         </div>
                         <div class="row">
-                          <div class="border rounded p-0 mb-3 text-height-min">
-                            <div class="align-items-center">
-                              <div class="mb-1 pt-3 ps-2 text-title">
-                                <span class="d-inline-flex bg-white"
-                                  >Komentarz ćwiczenia
-                                </span>
+                          <div class="border rounded mb-3">
+                            <div class="row align-items-center">
+                              <div class="pt-3 ps-4 text-title">
+                                <span class="text-title-without-btn bg-white"
+                                  >Komentarz ćwiczenia</span
+                                >
                               </div>
                             </div>
-                            <p class="mx-3 dimgray-color">
+                            <p class="mx-1 mb-1 dimgray-color font-size">
                               {{ trainingElement.raitingCommentExercise }}
                             </p>
                           </div>
                         </div>
-                      </div>
-                      <div class="col-md-1 p-0 mx-1"></div>
-                    </div>
-                    <div class="row d-flex justify-content-center">
-                      <div class="col-md mx-1">
-                        <div
-                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
-                        >
-                          <div class="align-items-center">
-                            <div class="mb-1 pt-3 ps-2 text-title">
-                              <span class="d-inline-flex bg-white">
-                                Liczba powtórzeń
-                              </span>
+                        <div class="row font-size">
+                          <div
+                            class="col-3 ps-2 col-md-3 col-sm-3 border-right"
+                          >
+                            <div class="row">
+                              <p
+                                class="mb-0 p-0 text-center bg-success text-white"
+                              >
+                                Obciazenie
+                              </p>
+                            </div>
+                            <div class="row">
+                              <p class="mb-0 p-0 text-center bg-info">Serie</p>
+                            </div>
+                            <div class="row">
+                              <p class="mb-0 p-0 text-center bg-warning">
+                                Powtórzenia
+                              </p>
                             </div>
                           </div>
-                          <p class="mx-3 dimgray-color">
-                            {{ trainingElement.exerciseValue | allReps }}
-                          </p>
-                        </div>
-                      </div>
-                      <div class="col-md mx-1">
-                        <div
-                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
-                        >
-                          <div class="align-items-center">
-                            <div class="mb-1 pt-3 ps-2 text-title">
-                              <span class="d-inline-flex bg-white">
-                                Objętość
-                              </span>
+                          <div class="col ps-0 d-flex flex-wrap">
+                            <div
+                              class="border-right"
+                              *ngFor="
+                                let exerciseValue of trainingElement.exerciseValue
+                              "
+                            >
+                              <div class="container">
+                                <div class="row">
+                                  <p
+                                    class="mb-0 px-1 text-center bg-success text-white"
+                                  >
+                                    {{ exerciseValue.value }}
+                                  </p>
+                                </div>
+                                <div class="row">
+                                  <p class="mb-0 px-1 bg-info text-center">
+                                    {{ exerciseValue.set }}
+                                  </p>
+                                </div>
+                                <div class="row">
+                                  <p class="mb-0 px-1 bg-warning text-center">
+                                    {{ exerciseValue.rep }}
+                                  </p>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                          <p class="mx-3 dimgray-color">
-                            {{
-                              trainingElement.exerciseValue
-                                | summaryExerciseValues
-                            }}
-                            kg
-                          </p>
                         </div>
                       </div>
-                      <div class="col-md mx-1">
-                        <div
-                          class="border rounded p-0 mb-3 text-height-min w-60-md row"
-                        >
-                          <div class="align-items-center">
-                            <div class="mb-1 pt-3 ps-2 text-title">
-                              <span class="d-inline-flex bg-white">
-                                Średni cięzar
-                              </span>
+                      <div class="col-md-4 mx-md-3 w-60-md">
+                        <div class="row">
+                          <div class="border rounded my-3 mb-md-3 mt-0-sd">
+                            <div class="row align-items-center">
+                              <div class="pt-3 ps-4 text-title">
+                                <span class="text-title-without-btn bg-white">
+                                  Liczba powtórzeń</span
+                                >
+                              </div>
                             </div>
+                            <p class="mx-1 mb-1 dimgray-color font-size">
+                              {{ trainingElement.exerciseValue | allReps }}
+                            </p>
                           </div>
-                          <p class="mx-3 dimgray-color">
-                            {{
-                              (trainingElement.exerciseValue
-                                | summaryExerciseValues) /
-                                (trainingElement.exerciseValue | allReps)
-                                | number : "1.1-1"
-                            }}
-                            kg
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row dimgray-color">
-                      <div class="col-5 col-md-3 border-right mb-3">
-                        <div class="d-flex flex-row-reverse">
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex">
-                            Obciazenie
-                          </p>
-                        </div>
-                        <div class="d-flex flex-row-reverse">
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex">Serie</p>
-                        </div>
-                        <div class="d-flex flex-row-reverse">
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex">
-                            Powtórzenia
-                          </p>
-                        </div>
-                      </div>
-                      <div
-                        class="col-5 col-md-3 border-right mb-3"
-                        *ngFor="
-                          let exerciseValue of trainingElement.exerciseValue
-                        "
-                      >
-                        <div class="row">
-                          <p class="mb-0 px-0 text-center">
-                            {{ exerciseValue.value }}
-                          </p>
                         </div>
                         <div class="row">
-                          <p class="mb-0 px-0 text-center">
-                            {{ exerciseValue.set }}
-                          </p>
+                          <div class="border rounded mb-3">
+                            <div class="row align-items-center">
+                              <div class="pt-3 ps-4 text-title">
+                                <span class="text-title-without-btn bg-white">
+                                  Objętość</span
+                                >
+                              </div>
+                            </div>
+                            <p class="mx-1 mb-1 dimgray-color font-size">
+                              {{
+                                trainingElement.exerciseValue
+                                  | summaryExerciseValues
+                              }}
+                              kg
+                            </p>
+                          </div>
                         </div>
                         <div class="row">
-                          <p class="mb-0 px-0 text-center">
-                            {{ exerciseValue.rep }}
-                          </p>
+                          <div class="border rounded">
+                            <div class="row align-items-center">
+                              <div class="pt-3 ps-4 text-title">
+                                <span class="text-title-without-btn bg-white">
+                                  Średni cięzar</span
+                                >
+                              </div>
+                            </div>
+                            <p class="mx-1 mb-1 dimgray-color font-size">
+                              {{
+                                (trainingElement.exerciseValue
+                                  | summaryExerciseValues) /
+                                  (trainingElement.exerciseValue | allReps)
+                                  | number : "1.1-1"
+                              }}
+                              kg
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  <span class="px-3 mb-3"><mat-divider></mat-divider></span>
+                  <span
+                    *ngIf="i != training.trainingElements.length - 1"
+                    class="px-3 my-3"
+                    ><mat-divider></mat-divider
+                  ></span>
                 </div>
                 <div></div>
               </div>

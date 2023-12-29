@@ -187,260 +187,280 @@
         </button>
       </div>
     </div>
-
-    <div class="mt-2 card p-2">
-      <form [formGroup]="editForm">
-        <div
-          class="container-cdk"
-          cdkDropList
-          (cdkDropListDropped)="onDrop($event, user.trainingElements)"
+    <mat-accordion
+      ><mat-expansion-panel
+        ><mat-expansion-panel-header
+          >Aktualny trening</mat-expansion-panel-header
         >
+        <form [formGroup]="editForm">
           <div
-            class="container hover bg-white item p-3"
-            *ngFor="let training of user.trainingElements; let i = index"
+            class="container-cdk"
+            cdkDropList
+            (cdkDropListDropped)="onDrop($event, user.trainingElements)"
           >
-            <ng-container *ngIf="isEditForm$ | async as edit">
-              <ng-container
-                *ngIf="!edit.isEdit || edit.index !== i; else isEditForm"
-              >
-                <div class="row">
-                  <div class="col-1">{{ training.index }}</div>
-                  <div class="col text-start">
-                    <div class="row">
-                      <div
-                        cdkDrag
-                        class="border rounded mb-3 p-0 text-height-min"
-                      >
-                        <div class="align-items-center">
-                          <div class="mb-1 pt-3 ps-2 text-title">
-                            <span class="d-inline-flex bg-white font-size"
-                              >Ćwiczenie</span
-                            >
+            <div
+              class="container hover bg-white item p-3"
+              *ngFor="let training of user.trainingElements; let i = index"
+            >
+              <ng-container *ngIf="isEditForm$ | async as edit">
+                <ng-container
+                  *ngIf="!edit.isEdit || edit.index !== i; else isEditForm"
+                >
+                  <div class="row">
+                    <div class="col-1">{{ training.index }}</div>
+                    <div class="col text-start">
+                      <div class="row">
+                        <div
+                          cdkDrag
+                          class="border rounded mb-3 p-0 text-height-min"
+                        >
+                          <div class="align-items-center">
+                            <div class="mb-1 pt-3 ps-2 text-title">
+                              <span class="d-inline-flex bg-white font-size"
+                                >Ćwiczenie</span
+                              >
+                            </div>
                           </div>
+                          <p class="mx-3 font-size">{{ training.exercise }}</p>
                         </div>
-                        <p class="mx-3 font-size">{{ training.exercise }}</p>
+                      </div>
+
+                      <div class="row">
+                        <div class="border rounded p-0 mb-3 text-height-min">
+                          <div class="align-items-center">
+                            <div class="mb-1 pt-3 ps-2 text-title">
+                              <span class="d-inline-flex bg-white font-size"
+                                >Komentarz ćwiczenia
+                              </span>
+                            </div>
+                          </div>
+                          <p class="mx-3 font-size">
+                            {{ training.comment }}
+                          </p>
+                        </div>
                       </div>
                     </div>
-
-                    <div class="row">
-                      <div class="border rounded p-0 mb-3 text-height-min">
-                        <div class="align-items-center">
-                          <div class="mb-1 pt-3 ps-2 text-title">
-                            <span class="d-inline-flex bg-white font-size"
-                              >Komentarz ćwiczenia
-                            </span>
-                          </div>
+                    <div class="col">
+                      <div class="row d-flex flex-row-reverse">
+                        <div class="col-md-3 mb-2 text-end">
+                          <button
+                            type="button"
+                            class="btn btn-block sd-bg-color text-ghostwhite font-size"
+                            (click)="onEditForms(i, training)"
+                          >
+                            Edytuj
+                          </button>
                         </div>
-                        <p class="mx-3 font-size">
-                          {{ training.comment }}
+                        <div class="col-md-2 text-end">
+                          <button
+                            type="button"
+                            class="btn btn-block bg-danger text-ghostwhite m-0 font-size"
+                            (click)="deleteExercise(i)"
+                          >
+                            <mat-icon class="d-flex fs-5"
+                              >delete_outline</mat-icon
+                            >
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 col-sm-3 col-6 border-right mb-3">
+                      <div class="d-flex flex-row-reverse">
+                        <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                          Obciazenie
+                        </p>
+                      </div>
+                      <div class="d-flex flex-row-reverse">
+                        <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                          Serie
+                        </p>
+                      </div>
+                      <div class="d-flex flex-row-reverse">
+                        <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                          Powtórzenia
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="col-3 border-right mb-3"
+                      *ngFor="let exerciseValue of training.quantity"
+                    >
+                      <div class="row">
+                        <p class="mb-0 px-0 text-center font-size">
+                          {{ exerciseValue.value }}
+                        </p>
+                      </div>
+                      <div class="row">
+                        <p class="mb-0 px-0 text-center font-size">
+                          {{ exerciseValue.set }}
+                        </p>
+                      </div>
+                      <div class="row">
+                        <p class="mb-0 px-0 text-center font-size">
+                          {{ exerciseValue.rep }}
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div class="col">
-                    <div class="row d-flex flex-row-reverse">
-                      <div class="col-md-3 mb-2 text-end">
-                        <button
-                          type="button"
-                          class="btn btn-block sd-bg-color text-ghostwhite font-size"
-                          (click)="onEditForms(i, training)"
-                        >
-                          Edytuj
-                        </button>
+                </ng-container>
+                <ng-template #isEditForm>
+                  <div class="row">
+                    <div class="col-1 font-size">{{ training.index }}</div>
+                    <div class="col text-start">
+                      <div class="row">
+                        <span class="my-2 font-size"><b>Exercise</b></span>
+                        <textarea
+                          class="form-control font-size font-size"
+                          placeholder="Ćwiczenie"
+                          id="exerciseName"
+                          formControlName="exercise"
+                          rows="2"
+                        ></textarea>
                       </div>
-                      <div class="col-md-2 text-end">
-                        <button
-                          type="button"
-                          class="btn btn-block bg-danger text-ghostwhite m-0 font-size"
-                          (click)="deleteExercise(i)"
-                        >
-                          <mat-icon class="d-flex fs-5"
-                            >delete_outline</mat-icon
-                          >
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-md-3 col-sm-3 col-6 border-right mb-3">
-                    <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
-                        Obciazenie
-                      </p>
-                    </div>
-                    <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
-                        Serie
-                      </p>
-                    </div>
-                    <div class="d-flex flex-row-reverse">
-                      <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
-                        Powtórzenia
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    class="col-3 border-right mb-3"
-                    *ngFor="let exerciseValue of training.quantity"
-                  >
-                    <div class="row">
-                      <p class="mb-0 px-0 text-center font-size">
-                        {{ exerciseValue.value }}
-                      </p>
-                    </div>
-                    <div class="row">
-                      <p class="mb-0 px-0 text-center font-size">
-                        {{ exerciseValue.set }}
-                      </p>
-                    </div>
-                    <div class="row">
-                      <p class="mb-0 px-0 text-center font-size">
-                        {{ exerciseValue.rep }}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-              <ng-template #isEditForm>
-                <div class="row">
-                  <div class="col-1 font-size">{{ training.index }}</div>
-                  <div class="col text-start">
-                    <div class="row">
-                      <span class="my-2 font-size"><b>Exercise</b></span>
-                      <textarea
-                        class="form-control font-size font-size"
-                        placeholder="Ćwiczenie"
-                        id="exerciseName"
-                        formControlName="exercise"
-                        rows="2"
-                      ></textarea>
-                    </div>
 
-                    <div class="row mb-3">
-                      <span class="mt-2 font-size"><b>Komentarz</b></span>
+                      <div class="row mb-3">
+                        <span class="mt-2 font-size"><b>Komentarz</b></span>
 
-                      <textarea
-                        class="form-control mt-3 font-size font-size"
-                        placeholder="Komentarz"
-                        id="comment"
-                        rows="4"
-                        formControlName="comment"
-                      ></textarea>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-4 border-right mb-3 border-md-none-sd">
-                        <div class="d-flex">
-                          <p
-                            class="mb-0 pe-2 ps-0 text-md-end d-flex font-size"
-                          >
-                            Obciazenie
-                          </p>
-                        </div>
-                        <div>
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
-                            Serie
-                          </p>
-                        </div>
-                        <div>
-                          <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
-                            Powtórzenia
-                          </p>
-                        </div>
+                        <textarea
+                          class="form-control mt-3 font-size font-size"
+                          placeholder="Komentarz"
+                          id="comment"
+                          rows="4"
+                          formControlName="comment"
+                        ></textarea>
                       </div>
-                      <ng-container formArrayName="quantityExercise">
+                      <div class="row">
                         <div
                           class="col-md-4 border-right mb-3 border-md-none-sd"
-                          *ngFor="
-                            let quantityExerciseEdit of quantityExerciseEdit.controls;
-                            let j = index
-                          "
                         >
-                          <div class="container">
-                            <div class="row">
-                              <div class="col">
-                                <div [formGroupName]="j">
-                                  <div class="row">
-                                    <div class="mb-0 px-0 text-center">
-                                      <input
-                                        type="text"
-                                        class="form-control font-size"
-                                        id="load"
-                                        formControlName="value"
-                                      />
+                          <div class="d-flex">
+                            <p
+                              class="mb-0 pe-2 ps-0 text-md-end d-flex font-size"
+                            >
+                              Obciazenie
+                            </p>
+                          </div>
+                          <div>
+                            <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                              Serie
+                            </p>
+                          </div>
+                          <div>
+                            <p class="mb-0 pe-2 ps-0 text-end d-flex font-size">
+                              Powtórzenia
+                            </p>
+                          </div>
+                        </div>
+                        <ng-container formArrayName="quantityExercise">
+                          <div
+                            class="col-md-4 border-right mb-3 border-md-none-sd"
+                            *ngFor="
+                              let quantityExerciseEdit of quantityExerciseEdit.controls;
+                              let j = index
+                            "
+                          >
+                            <div class="container">
+                              <div class="row">
+                                <div class="col">
+                                  <div [formGroupName]="j">
+                                    <div class="row">
+                                      <div class="mb-0 px-0 text-center">
+                                        <input
+                                          type="text"
+                                          class="form-control font-size"
+                                          id="load"
+                                          formControlName="value"
+                                        />
+                                      </div>
+                                    </div>
+                                    <div class="row">
+                                      <p class="mb-0 px-0 text-center">
+                                        <input
+                                          type="text"
+                                          class="form-control font-size"
+                                          id="rep"
+                                          formControlName="rep"
+                                        />
+                                      </p>
+                                    </div>
+                                    <div class="row">
+                                      <p class="mb-0 px-0 text-center">
+                                        <input
+                                          size="1"
+                                          type="text"
+                                          class="form-control font-size"
+                                          id="sets"
+                                          formControlName="set"
+                                        />
+                                      </p>
                                     </div>
                                   </div>
-                                  <div class="row">
-                                    <p class="mb-0 px-0 text-center">
-                                      <input
-                                        type="text"
-                                        class="form-control font-size"
-                                        id="rep"
-                                        formControlName="rep"
-                                      />
-                                    </p>
-                                  </div>
-                                  <div class="row">
-                                    <p class="mb-0 px-0 text-center">
-                                      <input
-                                        size="1"
-                                        type="text"
-                                        class="form-control font-size"
-                                        id="sets"
-                                        formControlName="set"
-                                      />
-                                    </p>
-                                  </div>
                                 </div>
-                              </div>
-                              <div class="col">
-                                <div class="col-2">
-                                  <button
-                                    type="button"
-                                    class="btn btn-block sd-bg-color font-size text-ghostwhite"
-                                    (click)="deleteQuantityEdit(j)"
-                                  >
-                                    -
-                                  </button>
+                                <div class="col">
+                                  <div class="col-2">
+                                    <button
+                                      type="button"
+                                      class="btn btn-block sd-bg-color font-size text-ghostwhite"
+                                      (click)="deleteQuantityEdit(j)"
+                                    >
+                                      -
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div class="col-2 justify-content-center">
+                          <div class="col-2 justify-content-center">
+                            <button
+                              type="button"
+                              class="btn btn-block sd-bg-color font-size text-ghostwhite"
+                              (click)="addQuantity('edit')"
+                            >
+                              +
+                            </button>
+                          </div></ng-container
+                        >
+                      </div>
+                    </div>
+
+                    <div class="col-3">
+                      <div class="row">
+                        <div class="col text-end">
                           <button
                             type="button"
                             class="btn btn-block sd-bg-color font-size text-ghostwhite"
-                            (click)="addQuantity('edit')"
+                            (click)="editSubmit(editForm, i)"
                           >
-                            +
+                            Zakończ edycję
                           </button>
-                        </div></ng-container
-                      >
-                    </div>
-                  </div>
-
-                  <div class="col-3">
-                    <div class="row">
-                      <div class="col text-end">
-                        <button
-                          type="button"
-                          class="btn btn-block sd-bg-color font-size text-ghostwhite"
-                          (click)="editSubmit(editForm, i)"
-                        >
-                          Zakończ edycję
-                        </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div></ng-template
-              >
-            </ng-container>
+                  </div></ng-template
+                >
+              </ng-container>
 
-            <span class="px-3"><mat-divider></mat-divider></span>
-          </div>
-        </div>
-      </form>
-    </div>
+              <span class="px-3"><mat-divider></mat-divider></span>
+            </div>
+          </div></form></mat-expansion-panel
+    ></mat-accordion>
+    <mat-accordion
+      ><mat-expansion-panel
+        ><mat-expansion-panel-header>Treningi</mat-expansion-panel-header>
+        <mat-accordion
+          ><mat-expansion-panel
+            ><mat-expansion-panel-header
+              >Treningi</mat-expansion-panel-header
+            ></mat-expansion-panel
+          ></mat-accordion
+        ></mat-expansion-panel
+      ></mat-accordion
+    >
+
+    <!-- <div class="mt-2 card p-2">
+    
+    </div> -->
   </div>
 </ng-container>
