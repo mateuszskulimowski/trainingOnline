@@ -21,9 +21,13 @@
       </div>
       <mat-accordion>
         <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title class="dimgray-color font-size">
-              Wykonane treningi {{ trainingData.training.length }}
+          <mat-expansion-panel-header class="px-0">
+            <mat-panel-title class="dimgray-color font-size me-0">
+              <div class="container">
+                <div class="row px-4">
+                  Wykonane treningi {{ trainingData.training.length }}
+                </div>
+              </div>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div class="container">
