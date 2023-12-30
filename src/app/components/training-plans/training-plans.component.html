@@ -23,37 +23,42 @@
               class="pointer border rounded mb-3"
               (click)="onClickTraining(training)"
             >
-              <div class="row align-items-center">
+              <div class="row">
                 <div class="col text-title">
-                  <span class="mb-2 d-inline-flex bg-white"
+                  <span class="mb-2 mt-3 d-inline-flex bg-white"
                     >Trening {{ i + 1 }}</span
                   >
                 </div>
-
-                <div
-                  class="col d-flex justify-content-end"
-                  *ngIf="!trainingReport"
-                >
-                  <button
-                    mat-button
-                    *hasAdminRole
-                    type="button mat-button-hover"
-                    class="p-0"
-                    (click)="
-                      openRemoveTrainingModal(training.id);
-                      $event.stopPropagation()
-                    "
-                  >
-                    <mat-icon class="m-0">delete_outline</mat-icon>
-                  </button>
+                <div class="row">
+                  <div class="col">
+                    <ol class="mb-2">
+                      <li
+                        *ngFor="
+                          let trainingElement of training.trainingElements
+                        "
+                      >
+                        {{ trainingElement.exercise }}
+                      </li>
+                    </ol>
+                  </div>
+                  <div class="col-1" *ngIf="!trainingReport">
+                    <button
+                      mat-button
+                      *hasAdminRole
+                      type="button mat-button-hover"
+                      class="p-0"
+                      (click)="
+                        openRemoveTrainingModal(training.id);
+                        $event.stopPropagation()
+                      "
+                    >
+                      <mat-icon class="m-0">delete_outline</mat-icon>
+                    </button>
+                  </div>
                 </div>
-              </div>
 
-              <ol class="mb-2">
-                <li *ngFor="let trainingElement of training.trainingElements">
-                  {{ trainingElement.exercise }}
-                </li>
-              </ol>
+                <!-- <div class="col d-flex justify-content-end"></div> -->
+              </div>
             </div>
           </div>
         </div>

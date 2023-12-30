@@ -6,7 +6,9 @@
     >
       <div class="container">
         <div class="row m-3 ms-0 mb-0">
-          <p class="fs-5 mb-4 ms-1">Tydzień {{ trainingData.week.number }}</p>
+          <p class="font-size-title mb-4 ms-1">
+            Tydzień {{ trainingData.week.number }}
+          </p>
         </div>
         <div class="row px-4">
           <div class="col-md p-0 border rounded mb-3 text-height-min">
@@ -38,7 +40,7 @@
               <div class="card-body">
                 <div class="row ms-4 dimgray-color">
                   <div class="col">
-                    <h2>Trening {{ i + 1 }}</h2>
+                    <p class="font-size-title">Trening {{ i + 1 }}</p>
                   </div>
                 </div>
 
@@ -50,7 +52,7 @@
                   "
                 >
                   <div class="col-1 dimgray-color">
-                    {{ trainingElement.index }}
+                    <p>{{ trainingElement.index }}</p>
                   </div>
                   <div class="col">
                     <div class="row">
@@ -69,7 +71,10 @@
                             </p>
                           </div>
                         </div>
-                        <div class="row">
+                        <div
+                          class="row"
+                          *ngIf="trainingElement.raitingCommentExercise"
+                        >
                           <div class="border rounded mb-3">
                             <div class="row align-items-center">
                               <div class="pt-3 ps-4 text-title">

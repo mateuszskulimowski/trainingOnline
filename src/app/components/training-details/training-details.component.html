@@ -4,7 +4,7 @@
       <mat-card-title class="text-end m-3 mb-0">
         <div class="container">
           <div class="row flex-row-reverse">
-            <div class="col-md-2 col-sm-3 col-4 p-0">
+            <div class="col-md-2 col-sm-2 col-3 p-0">
               <button
                 class="btn btn-block button-font p-1 sd-bg-color text-ghostwhite"
                 (click)="
@@ -38,7 +38,9 @@
         *ngFor="let training of trainingDetails.trainingElements; let i = index"
       >
         <div class="row d-flex justify-content-center">
-          <div class="col-1 d-inline-flex p-0">{{ i + 1 }}.</div>
+          <div class="col-1 p-0 text-center">
+            <span>{{ i + 1 }}.</span>
+          </div>
           <div class="col">
             <div class="row">
               <div class="border rounded mb-3">
