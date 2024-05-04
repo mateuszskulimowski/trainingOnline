@@ -5,8 +5,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 @Pipe({ name: 'allReps' })
 export class AllRepsPipe implements PipeTransform {
   transform(value: QuantityExerciseModel[]): number {
-    // ['2(1 +1  +1)', '2(2+2+1)'].replace()
-    // console.log(value);
+
 
     const result: number = value
       .map((data) => {
@@ -64,13 +63,11 @@ export class AllRepsPipe implements PipeTransform {
               .filter((data) => typeof data === 'number')
               .shift()
           );
-          // console.log();
-          // console.log();
+   
           return Number(data.set) * summary * multiplicand;
         } else {
           const summary: number = Number(tokens.shift());
-          // console.log(valueSet);
-          // console.log();
+   
           return summary * Number(data.set);
         }
       })
@@ -78,7 +75,7 @@ export class AllRepsPipe implements PipeTransform {
         return a + c;
       }, 0) as number;
 
-    // console.log(result);
+
 
     return result;
   }

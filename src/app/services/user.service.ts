@@ -22,13 +22,13 @@ export class UserService {
       .pipe(shareReplay(1));
   }
   getOneUser(id: string): Observable<UserModel> {
-    console.log('wpada grt one');
+
     return this._angularFirestore
       .collection<UserModel>('users')
       .valueChanges({ idField: 'id' })
       .pipe(
         map((users) => {
-          console.log('mapuje', users);
+ 
           return users.filter((user) => user.id === id).shift() as UserModel;
         }),
         shareReplay(1)
@@ -78,18 +78,14 @@ export class UserService {
     index: number,
     comment: string
   ): Observable<void> {
-    console.log(index);
+
     const docRef = this._angularFirestore.collection('users').doc(userId);
-    // console.log(docRef.get());
+
     return docRef.get().pipe(
       switchMap((doc) => {
         if (doc.exists) {
           const data = doc.data() as UserModel;
-          console.log(
-            data.trainingWeeks.sort((a, b) => {
-              return b.number - a.number;
-            })
-          );
+   
           data.trainingWeeks[index].comment = comment;
           return from(docRef.update({ trainingWeeks: data.trainingWeeks }));
         } else {

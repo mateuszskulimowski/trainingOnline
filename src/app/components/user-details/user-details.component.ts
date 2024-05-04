@@ -28,11 +28,9 @@ export class UserDetailsComponent implements OnInit {
               const trainersMap = trainers.reduce((a, c) => {
                 return { ...a, [c.trainerId]: c.name };
               }, {} as Record<string, string>);
-              console.log(user.driveLink);
+        
               this.userDetailsForm.get('driveLink')?.patchValue(user.driveLink);
-              // console.log('pierwszy upadek', trainersMap);
-              // console.log(user);
-              // console.log(trainersMap[user.trainerId]);
+
               this.userDetailsForm
                 .get('addTrainer')
                 ?.patchValue(trainersMap[user.trainerId]);
@@ -83,7 +81,7 @@ export class UserDetailsComponent implements OnInit {
     paidTrainingForm.get('paidTraining')?.reset();
   }
   choseTrainer(userId: string, trainerId: string): void {
-    console.log(userId);
+
     this._userService.setTrainerIdForUser(userId, trainerId).subscribe();
   }
 

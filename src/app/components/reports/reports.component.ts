@@ -42,11 +42,11 @@ export class ReportsComponent {
                         (training) => training.authId === params['authId']
                       );
                     const isToCheck = weekTraining.some((training) => {
-                      // console.log(training);
+                  
                       return training.hasFill;
                     });
-                    console.log(isToCheck);
-                    // console.log(weekTraining);
+        
+          
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,
@@ -81,7 +81,6 @@ export class ReportsComponent {
     index: number,
     week: { number: number; comment: string }
   ): void {
-    console.log(week);
     let dialogRef = this.dialog.open(RatingModalComponent, {
       width: '360px',
       data: {

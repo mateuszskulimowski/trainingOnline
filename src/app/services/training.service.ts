@@ -256,7 +256,7 @@ export class TrainingService {
       this._traningSubject.next(trainingContext);
 
       localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
-      console.log(this._traningSubject.value);
+
     }
 
     return of(void 0);

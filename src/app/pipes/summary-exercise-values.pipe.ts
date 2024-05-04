@@ -60,13 +60,11 @@ export class SummaryExerciseValuesPipe implements PipeTransform {
               .filter((data) => typeof data === 'number')
               .shift()
           );
-          // console.log();
-          // console.log();
+   
           return Number(data.set) * summary * multiplicand * Number(data.value);
         } else {
           const summary: number = Number(tokens.shift());
-          // console.log(valueSet);
-          // console.log();
+
           return summary * Number(data.set) * Number(data.value);
         }
       })
