@@ -256,7 +256,6 @@ export class TrainingService {
       this._traningSubject.next(trainingContext);
 
       localStorage.setItem('trainingContext', JSON.stringify(trainingContext));
-
     }
 
     return of(void 0);
@@ -350,5 +349,29 @@ export class TrainingService {
         hasFill: hasFill,
       })
     );
+  }
+  updateExerciseAdminComment(
+    trainingId: string,
+    comment: string,
+    index: number
+  ): Observable<void> {
+    console.log(index);
+    console.log(comment);
+    console.log(trainingId);
+    const docRef = this._client.collection('plans').doc(trainingId);
+    console.log(docRef);
+    docRef
+      .get()
+      .pipe(
+        switchMap((doc) => {
+          console.log('dupa');
+          const data = doc.data() as TrainingModel;
+          data.trainingElements[index].commentAdmin = comment;
+          console.log(data.trainingElements);
+          return docRef.update({ trainingElements: data.trainingElements });
+        })
+      )
+      .subscribe();
+    return of(void 0);
   }
 }

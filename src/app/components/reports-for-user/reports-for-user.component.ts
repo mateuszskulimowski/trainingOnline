@@ -34,11 +34,10 @@ export class ReportsForUserComponent {
                         (training) => training.authId === userContext.authId
                       );
                     const isToCheck = weekTraining.some((training) => {
-                    
                       return training.hasFill;
                     });
+                    console.log(weekTraining);
 
-                
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,

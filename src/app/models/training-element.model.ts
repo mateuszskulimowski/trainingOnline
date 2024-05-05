@@ -8,4 +8,5 @@ export interface TrainingElementModel {
   raitingCommentExercise: string;
   raitingValueExercise: number;
   exerciseValue: QuantityExerciseModel[];
+  commentAdmin: string;
 }

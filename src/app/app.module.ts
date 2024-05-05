@@ -19,6 +19,7 @@ import { BehaviorSubject, Observable, of, switchMap, tap } from 'rxjs';
 import { LoadUserContextServiceModule } from './resolvers/load-user-context.service-module';
 import { InMemoryUserContextStorageModule } from './storages/in-memory-user-context.storage-module';
 import { HasAdminDirective } from './directives/has-admin/has-admin.directive';
+import { CommentExerciseModalComponentModule } from './components/comment-exercise-modal/comment-exercise-modal.component-module';
 export const contextLoaded$: BehaviorSubject<boolean> =
   new BehaviorSubject<boolean>(false);
 const contextLoadedForInitialize$: Observable<boolean> =
@@ -55,6 +56,7 @@ function initializeAppFactory(
     DragDropModule,
     LoadUserContextServiceModule,
     InMemoryUserContextStorageModule,
+    CommentExerciseModalComponentModule,
   ],
   providers: [
     {

@@ -1,0 +1,41 @@
+<mat-dialog-content>
+  <div class="container">
+    <div class="d-flex justify-content-end">
+      <button
+        (click)="closeDialog()"
+        class="font-size"
+        mat-button
+        [autofocus]="false"
+      >
+        x
+      </button>
+    </div>
+    <form
+      [formGroup]="exerciseCommentForm"
+      (submit)="
+        addExerciseComment(
+          exerciseCommentForm,
+          data.trainingId,
+          data.exerciseIndex
+        )
+      "
+    >
+      <div class="d-flex flex-column">
+        <label>Komentarz cwiczenia</label>
+        <textarea
+          class="form-control mt-2"
+          formControlName="comment"
+          rows="5"
+        ></textarea>
+        <div class="text-end mt-2">
+          <button
+            class="btn btn-block sd-bg-color text-ghostwhite font-size"
+            type="submit"
+          >
+            Zatwierdź
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

@@ -78,7 +78,6 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
       // ,
       .pipe(
         switchMap((params) => {
-   
           return this._userService.getOneUserByAuth(params['authId']).pipe(
             switchMap((user) => {
               return this.trainingExercises$.pipe(
@@ -205,6 +204,7 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
         raitingCommentExercise: '',
         raitingValueExercise: 0,
         exerciseValue: [],
+        commentAdmin: '',
       })
       .subscribe(() => {
         planForm.get('exercise')?.reset();
@@ -269,7 +269,6 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
     },
     trainingOrder: number
   ) {
-
     if (user.trainingWeeks.length <= 0) {
       const newArray = Array.from({ length: 1 }, (_, index) => ({
         number: index + 1,
@@ -293,14 +292,13 @@ export class CreatePlanComponent implements OnDestroy, OnInit {
 
   setTrainingWeek(event: any): void {
     const trainingWeek = parseInt(event.target.value);
-  
+
     this.planForm.get('trainingWeek')?.patchValue(trainingWeek);
     this._trainingService.isEdit();
     this._trainingService.setTrainingWeekOnSubject(trainingWeek).subscribe();
   }
 
   setTrainingDate(event: any) {
-
     this._trainingService
       .setTrainingDateOnSubject(event.target.value)
       .subscribe();

@@ -12,6 +12,7 @@ import { TrainingService } from '../../services/training.service';
 import { UserService } from '../../services/user.service';
 import { MatDialog } from '@angular/material/dialog';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
+import { CommentExerciseModalComponent } from '../comment-exercise-modal/comment-exercise-modal.component';
 
 @Component({
   selector: 'app-reports',
@@ -42,11 +43,9 @@ export class ReportsComponent {
                         (training) => training.authId === params['authId']
                       );
                     const isToCheck = weekTraining.some((training) => {
-                  
                       return training.hasFill;
                     });
-        
-          
+
                     return new TrainingListWithUsersWeekQueryModel(
                       user.id,
                       week,
@@ -91,5 +90,21 @@ export class ReportsComponent {
       },
     });
     // this._userService.setCommentForWeek(userId, index, 'undefined').subscribe();
+  }
+  openCommentExerciseModal(
+    trainingId: string,
+    exerciseIndex: number,
+    comment: string
+  ) {
+    let dialogRef = this.dialog.open(CommentExerciseModalComponent, {
+      width: '380px',
+      height: '280px',
+      data: {
+        trainingId: trainingId,
+        exerciseIndex: exerciseIndex,
+        currentComment: comment,
+      },
+      autoFocus: false,
+    });
   }
 }
