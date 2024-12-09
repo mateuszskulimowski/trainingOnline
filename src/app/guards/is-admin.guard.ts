@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, filter, from, map, of, switchMap } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
@@ -15,7 +9,7 @@ import { LoadUserContextService } from '../resolvers/load-user-context.service';
 import { contextLoaded$ } from '../app.module';
 
 @Injectable()
-export class IsAdminGuard implements CanActivate {
+export class IsAdminGuard  {
   constructor(
     private _userService: UserService,
     private _authService: AuthService,

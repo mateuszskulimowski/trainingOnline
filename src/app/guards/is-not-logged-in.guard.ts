@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable, catchError, map, of, tap } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { InMemoryUserContextStorage } from '../storages/in-memory-user-context.storage';
 import { LoadUserContextService } from '../resolvers/load-user-context.service';
 
 @Injectable()
-export class IsNotLoggedInGuard implements CanActivate {
+export class IsNotLoggedInGuard  {
   constructor(
     private _authService: AuthService,
     private _router: Router,
