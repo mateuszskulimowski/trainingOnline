@@ -20,6 +20,7 @@ import { LoadUserContextServiceModule } from './resolvers/load-user-context.serv
 import { InMemoryUserContextStorageModule } from './storages/in-memory-user-context.storage-module';
 import { HasAdminDirective } from './directives/has-admin/has-admin.directive';
 import { CommentExerciseModalComponentModule } from './components/comment-exercise-modal/comment-exercise-modal.component-module';
+import { StoreModule } from '@ngrx/store';
 export const contextLoaded$: BehaviorSubject<boolean> =
   new BehaviorSubject<boolean>(false);
 const contextLoadedForInitialize$: Observable<boolean> =
@@ -57,6 +58,7 @@ function initializeAppFactory(
     LoadUserContextServiceModule,
     InMemoryUserContextStorageModule,
     CommentExerciseModalComponentModule,
+    StoreModule.forRoot({}, {}),
   ],
   providers: [
     {
