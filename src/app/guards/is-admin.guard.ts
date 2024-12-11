@@ -1,26 +1,32 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
 import { Observable, filter, from, map, of, switchMap } from 'rxjs';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { InMemoryUserContextStorage } from '../storages/in-memory-user-context.storage';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { LoadUserContextService } from '../resolvers/load-user-context.service';
-import { contextLoaded$ } from '../app.module';
+import { contextLoaded$ } from '../app.component';
+// import { contextLoaded$ } from '../app.module';
 
 @Injectable()
-export class IsAdminGuard  {
+export class IsAdminGuard {
   constructor(
     private _userService: UserService,
     private _authService: AuthService,
     private _router: Router,
     private _inMemoryUserContextStorage: InMemoryUserContextStorage,
     private _authClient: AngularFireAuth,
-    private _loadUserContextService: LoadUserContextService
+    private _loadUserContextService: LoadUserContextService,
   ) {}
   canActivate(
     activatedRoute: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
+    state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> {
     return contextLoaded$.pipe(
       filter((loaded) => {
@@ -31,9 +37,9 @@ export class IsAdminGuard  {
           filter((user) => !!user.authId === true),
           map((user) => {
             return user.role === 'admin' ? true : false;
-          })
-        )
-      )
+          }),
+        ),
+      ),
     );
 
     // return this._loadUserContextService.load().pipe(

@@ -4,7 +4,7 @@ import {
   Component,
   ViewEncapsulation,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { TrainingModel } from '../../models/training.model';
@@ -12,19 +12,50 @@ import { AuthService } from '../../services/auth.service';
 import { TrainingService } from '../../services/training.service';
 import { UserService } from '../../services/user.service';
 import { TrainingListWithUsersWeekQueryModel } from 'src/app/query-models/training-list-with-users-week.query-model';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { RatingModalComponent } from '../rating-modal/rating-modal.component';
 import { UserContextModel } from 'src/app/models/user-context.model';
 import { TrainingWithUserQueryModel } from 'src/app/query-models/training-with-user.query-model';
 import { UserContext } from 'src/app/contexts/user.context';
 import { InMemoryUserContextStorage } from 'src/app/storages/in-memory-user-context.storage';
 import { RemoveTrainingModalComponent } from '../remove-training-modal/remove-training-modal.component';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatListModule } from '@angular/material/list';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { RemoveTrainingModalComponentModule } from '../remove-training-modal/remove-training-modal.component-module';
+import { MatIconModule } from '@angular/material/icon';
+import { HasAdminDirectiveModule } from 'src/app/directives/has-admin/has-admin.directive-module';
+import { RatingModalComponentModule } from '../rating-modal/rating-modal.component-module';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-training-plans',
   templateUrl: './training-plans.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    MatOptionModule,
+    MatListModule,
+    MatExpansionModule,
+    RouterModule,
+    MatDialogModule,
+    RemoveTrainingModalComponentModule,
+    MatIconModule,
+    HasAdminDirectiveModule,
+    RatingModalComponentModule,
+    MatButtonModule,
+    MatCardModule,
+  ],
 })
 export class TrainingPlansComponent implements AfterContentInit {
   trainingReport: boolean = false;
@@ -55,22 +86,22 @@ export class TrainingPlansComponent implements AfterContentInit {
             .map((week) => {
               const weekTraining: TrainingModel[] =
                 trainingData.training.filter(
-                  (training) => week.number == training.trainingWeek
+                  (training) => week.number == training.trainingWeek,
                 );
 
               return new TrainingListWithUsersWeekQueryModel(
                 user.id,
                 week,
                 weekTraining.reverse(),
-                false //to jest tu zbedne
+                false, //to jest tu zbedne
               );
             })
             .sort((a, b) => {
               return b.week.number - a.week.number;
-            })
-        )
+            }),
+        ),
       );
-    })
+    }),
   );
 
   constructor(
@@ -80,7 +111,7 @@ export class TrainingPlansComponent implements AfterContentInit {
     public dialog: MatDialog,
     private _activatedRoute: ActivatedRoute,
     private _userService: UserService,
-    private _inMemoryUserContextStorage: InMemoryUserContextStorage
+    private _inMemoryUserContextStorage: InMemoryUserContextStorage,
   ) {}
   ngAfterContentInit(): void {
     // this._authService.load().subscribe();
@@ -103,7 +134,7 @@ export class TrainingPlansComponent implements AfterContentInit {
           } else {
             this._openTrainingDetails(training);
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -117,11 +148,11 @@ export class TrainingPlansComponent implements AfterContentInit {
 
   private _getTrainingWithUser(
     trainings: TrainingModel[],
-    authId: string
+    authId: string,
   ): TrainingWithUserQueryModel {
     return {
       training: trainings.filter(
-        (training) => training.authId && training.authId.includes(authId)
+        (training) => training.authId && training.authId.includes(authId),
       ),
       authId: authId,
     };
@@ -137,9 +168,9 @@ export class TrainingPlansComponent implements AfterContentInit {
               this._router.navigate([
                 `edit-plan/${params['authId']}/${training.id}`,
               ]);
-            })
-          )
-        )
+            }),
+          ),
+        ),
       )
       .subscribe();
   }

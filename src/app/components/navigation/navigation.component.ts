@@ -30,7 +30,7 @@ export class NavigationComponent {
     private _authService: AuthService,
     private _router: Router,
     private _inMemoryUserContextStorage: InMemoryUserContextStorage,
-    private _cdr: ChangeDetectorRef
+    private _cdr: ChangeDetectorRef,
   ) {}
 
   logOut(): void {
@@ -43,8 +43,8 @@ export class NavigationComponent {
             email: '',
             role: '',
             driveLink: '',
-          })
-        )
+          }),
+        ),
       )
       .subscribe({
         next: () => {

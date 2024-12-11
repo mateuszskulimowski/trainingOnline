@@ -13,6 +13,16 @@ export const environment = {
     authDomain: 'trainingonline-d1364.firebaseapp.com',
     messagingSenderId: '726344567352',
   },
+  firebaseConfig: {
+    apiKey: 'AIzaSyCbca-F_ZLetGyP8fsdiKbUu3n-AIb3hbU',
+    authDomain: 'trainingonline-d1364.firebaseapp.com',
+    databaseURL:
+      'https://trainingonline-d1364-default-rtdb.europe-west1.firebasedatabase.app',
+    projectId: 'trainingonline-d1364',
+    storageBucket: 'trainingonline-d1364.appspot.com',
+    messagingSenderId: '726344567352',
+    appId: '1:726344567352:web:f90df18691dad74b3274cd',
+  },
   production: false,
 };
 
