@@ -1,9 +1,12 @@
-# TEST VARIANT – scenario 1 for support-ai Building (pull_request only).
+# TEST VARIANT – scenario 2 for support-ai Building (push filtered by paths).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
-  pull_request:
+  push:
+    branches: ['**']
+    paths: ['src/environments/**']
+  workflow_dispatch:
 
 jobs:
   build:
