@@ -1,10 +1,10 @@
-# TEST VARIANT – scenario 10 for support-ai Building (tags only).
+# TEST VARIANT – scenario 4 for support-ai Building (no workflow_dispatch).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
   push:
-    tags: ['v*']
+    branches: ['**']
 
 jobs:
   build:
