@@ -1,6 +1,7 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use "@angular/material" as mat;
+@use "./theme" as theme;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -11,7 +12,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$app-primary: mat.define-palette(mat.$teal-palette, 800);
+$app-primary: theme.$app-primary;
 $app-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -209,7 +210,7 @@ legend {
   transition: all 1s linear;
 }
 .mat-button-hover:hover {
-  background-color: #45818e;
+  background-color: #1e23a4;
 }
 table.rounded-corners {
   border-spacing: 0;
