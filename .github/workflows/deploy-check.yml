@@ -1,0 +1,13 @@
+# TEST VARIANT – scenario 6 for support-ai Building (a second workflow that always fails).
+# Remove after the test.
+name: Deploy check
+
+on:
+  push:
+    branches: ['**']
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "missing DEPLOY_TOKEN" && exit 1
