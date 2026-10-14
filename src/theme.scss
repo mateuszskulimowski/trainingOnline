@@ -1,6 +1,41 @@
-// @import "../node_modules/@angular/material/theming";
-// @include mat-core();
+// Define button color variables
+$button-primary-color: #1e23a4;
+$button-text-color: white;
 
-// $my-primary: mat-palette($mat-teal, 500);
-// $my-theme: mat-light-theme($my-primary);
-// @include angular-material-theme($my-theme);
+// Mixin to apply custom button colors
+@mixin apply-custom-button-colors {
+  // Filled buttons (mat-primary)
+  .mat-mdc-button.mat-primary {
+    background-color: $button-primary-color;
+    color: $button-text-color;
+  }
+
+  // Raised buttons (mat-primary)
+  .mat-mdc-raised-button.mat-primary {
+    background-color: $button-primary-color;
+    color: $button-text-color;
+  }
+
+  // FAB buttons
+  .mat-mdc-fab,
+  .mat-mdc-mini-fab {
+    background-color: $button-primary-color;
+    color: $button-text-color;
+  }
+
+  // Text buttons (non-raised variants)
+  .mat-mdc-button:not(.mat-mdc-raised-button) {
+    color: $button-primary-color;
+  }
+
+  // Stroked buttons
+  .mat-stroked-button {
+    color: $button-primary-color;
+    border-color: $button-primary-color;
+  }
+
+  // Icon buttons
+  .mat-icon-button {
+    color: $button-primary-color;
+  }
+}
