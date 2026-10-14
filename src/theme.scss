@@ -1,6 +1,37 @@
-// @import "../node_modules/@angular/material/theming";
-// @include mat-core();
+@use "@angular/material" as mat;
 
-// $my-primary: mat-palette($mat-teal, 500);
-// $my-theme: mat-light-theme($my-primary);
-// @include angular-material-theme($my-theme);
+// Primary palette built around #1e23a4.
+$app-primary-palette: (
+  50: #e8e9f4,
+  100: #c5c7e4,
+  200: #9ea1d2,
+  300: #777bc0,
+  400: #595eb3,
+  500: #1e23a4,
+  600: #1b1f94,
+  700: #171a80,
+  800: #13166c,
+  900: #0c0e4b,
+  A100: #b0b2ff,
+  A200: #7d80ff,
+  A400: #4a4eff,
+  A700: #3034ff,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  ),
+);
+
+$app-primary: mat.define-palette($app-primary-palette, 500, 300, 800);
