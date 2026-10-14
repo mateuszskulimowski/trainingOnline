@@ -209,7 +209,26 @@ legend {
   transition: all 1s linear;
 }
 .mat-button-hover:hover {
-  background-color: #45818e;
+  background-color: #1e23a4;
+}
+.mat-button:not([disabled]),
+.mat-raised-button:not([disabled]),
+.mat-flat-button:not([disabled]),
+.mat-stroked-button:not([disabled]),
+.mat-mdc-button:not([disabled]),
+.mat-mdc-raised-button:not([disabled]),
+.mat-mdc-flat-button:not([disabled]),
+.mat-mdc-stroked-button:not([disabled]),
+[mat-button]:not([disabled]),
+[mat-raised-button]:not([disabled]),
+[mat-flat-button]:not([disabled]),
+[mat-stroked-button]:not([disabled]),
+[mat-mdc-button]:not([disabled]),
+[mat-mdc-raised-button]:not([disabled]),
+[mat-mdc-flat-button]:not([disabled]),
+[mat-mdc-stroked-button]:not([disabled]) {
+  background-color: #1e23a4 !important;
+  color: white !important;
 }
 table.rounded-corners {
   border-spacing: 0;
