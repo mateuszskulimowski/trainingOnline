@@ -32,7 +32,7 @@
         (click)="logOut()"
         *ngIf="userContext.authId; else noLogin"
       >
-        <mat-icon>login</mat-icon> Log out
+        <mat-icon>login</mat-icon> Wyloguj
       </button>
       <ng-template #noLogin>
         <button class="mx-2" mat-button [routerLink]="'/login'">
@@ -103,7 +103,7 @@
           (click)="onToggleClicked()"
           *ngIf="userContext.authId; else noLogin"
         >
-          <mat-icon>login</mat-icon> Log out
+          <mat-icon>login</mat-icon> Wyloguj
         </button>
         <ng-template #noLogin>
           <button
