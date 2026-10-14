@@ -1,11 +1,10 @@
-# TEST VARIANT – scenario 9 for support-ai Building (build longer than the run window).
+# TEST VARIANT – scenario 10 for support-ai Building (tags only).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
   push:
-    branches: ['**']
-  workflow_dispatch:
+    tags: ['v*']
 
 jobs:
   build:
@@ -19,7 +18,5 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - run: sleep 150
 
       - run: npx ng build
