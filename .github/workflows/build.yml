@@ -1,6 +1,5 @@
-# Builds every branch on push (not only pull requests): support-ai builds a
-# request's branch before any pull request exists, and reads the result of the
-# `build` job. It can also start this workflow through the API (workflow_dispatch).
+# TEST VARIANT – scenario 3 for support-ai Building (job runs only for pull requests).
+# Restore the normal build.yml after the test.
 name: Build
 
 on:
@@ -10,6 +9,7 @@ on:
 
 jobs:
   build:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
