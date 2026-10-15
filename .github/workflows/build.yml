@@ -1,24 +1,20 @@
-# TEST VARIANT – scenario 7 for support-ai Building (matrix job names).
+# TEST VARIANT – scenario 10 for support-ai Building (tags only).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
   push:
-    branches: ['**']
-  workflow_dispatch:
+    tags: ['v*']
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
           cache: npm
 
       - run: npm ci
