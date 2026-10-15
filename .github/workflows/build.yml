@@ -1,4 +1,4 @@
-# TEST VARIANT – scenario 8 for support-ai Building (job-level continue-on-error that fails).
+# TEST VARIANT – scenario 9 for support-ai Building (build longer than the run window).
 # Restore the normal build.yml after the test.
 name: Build
 
@@ -20,10 +20,6 @@ jobs:
 
       - run: npm ci
 
-      - run: npx ng build
+      - run: sleep 150
 
-  lint:
-    runs-on: ubuntu-latest
-    continue-on-error: true
-    steps:
-      - run: echo "lint is allowed to fail" && exit 1
+      - run: npx ng build
