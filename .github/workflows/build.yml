@@ -1,4 +1,4 @@
-# TEST VARIANT – scenario 5 for support-ai Building (environment gate).
+# TEST VARIANT – scenario 8 for support-ai Building (job-level continue-on-error that fails).
 # Restore the normal build.yml after the test.
 name: Build
 
@@ -10,7 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: build-approval
     steps:
       - uses: actions/checkout@v4
 
@@ -22,3 +21,9 @@ jobs:
       - run: npm ci
 
       - run: npx ng build
+
+  lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - run: echo "lint is allowed to fail" && exit 1
