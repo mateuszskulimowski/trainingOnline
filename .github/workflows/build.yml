@@ -1,10 +1,12 @@
-# TEST VARIANT – scenario 4 for support-ai Building (no workflow_dispatch).
-# Restore the normal build.yml after the test.
+# Builds every branch on push (not only pull requests): support-ai builds a
+# request's branch before any pull request exists, and reads the result of the
+# `build` job. It can also start this workflow through the API (workflow_dispatch).
 name: Build
 
 on:
   push:
     branches: ['**']
+  workflow_dispatch:
 
 jobs:
   build:
