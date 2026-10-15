@@ -1,15 +1,15 @@
-# TEST VARIANT – scenario 2 for support-ai Building (push filtered by paths).
+# TEST VARIANT – scenario 3 for support-ai Building (job runs only for pull requests).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
   push:
     branches: ['**']
-    paths: ['src/environments/**']
   workflow_dispatch:
 
 jobs:
   build:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
