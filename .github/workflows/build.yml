@@ -1,4 +1,4 @@
-# TEST VARIANT – scenario 7 for support-ai Building (matrix job names).
+# TEST VARIANT – scenario 8 for support-ai Building (job-level continue-on-error that fails).
 # Restore the normal build.yml after the test.
 name: Build
 
@@ -10,17 +10,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18, 20]
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
           cache: npm
 
       - run: npm ci
 
       - run: npx ng build
+
+  lint:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - run: echo "lint is allowed to fail" && exit 1
