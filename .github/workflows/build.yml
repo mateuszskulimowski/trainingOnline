@@ -1,15 +1,13 @@
-# TEST VARIANT – scenario 3 for support-ai Building (job runs only for pull requests).
+# TEST VARIANT – scenario 4 for support-ai Building (no workflow_dispatch).
 # Restore the normal build.yml after the test.
 name: Build
 
 on:
   push:
     branches: ['**']
-  workflow_dispatch:
 
 jobs:
   build:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
