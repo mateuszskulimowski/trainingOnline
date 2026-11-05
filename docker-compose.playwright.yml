@@ -1,0 +1,17 @@
+# E2E tests of the application, run by Support AI on its VM (E19). Laid over docker-compose.yml:
+#   docker compose -f docker-compose.yml -f docker-compose.playwright.yml up \
+#     --abort-on-container-exit --exit-code-from playwright
+# The "web" service of docker-compose.yml needs a healthcheck: the tests start once it is healthy.
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: docker/playwright.Dockerfile
+    depends_on:
+      web:
+        condition: service_healthy
+    environment:
+      BASE_URL: "http://web:80"
+    volumes:
+      - ./e2e/playwright-report:/e2e/playwright-report
+      - ./e2e/test-results:/e2e/test-results
