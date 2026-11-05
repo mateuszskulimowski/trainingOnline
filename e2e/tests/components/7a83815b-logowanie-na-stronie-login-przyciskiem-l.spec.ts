@@ -7,7 +7,7 @@ test("Logowanie na stronie /login przyciskiem 'Logowanie' @E2E-7A83815B-1 @modul
   const loginButton = page.getByRole('button', { name: 'Logowanie' });
 
   // Step 1 expects: Wyświetla się formularz logowania z przyciskiem o etykiecie 'Logowanie' (przycisk nie zawiera już tekstu 'Zaloguj')
-  await expect(page.getByLabel('Login')).toBeVisible();
+  await expect(page.getByLabel('Dane użytkownika')).toBeVisible();
   await expect(page.getByLabel('Hasło')).toBeVisible();
   await expect(loginButton).toBeVisible();
   await expect(loginButton).toHaveText(/Logowanie/);
@@ -34,7 +34,7 @@ test("Logowanie na stronie /login przyciskiem 'Logowanie' @E2E-7A83815B-1 @modul
     }
     await route.fallback();
   });
-  await page.getByLabel('Login').fill('e2e-user@example.test');
+  await page.getByLabel('Dane użytkownika').fill('e2e-user@example.test');
   await page.getByLabel('Hasło').fill(`e2e-${Date.now()}`);
   await loginButton.click();
 
